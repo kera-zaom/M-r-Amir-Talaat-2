@@ -7,232 +7,172 @@
 
 <title>الخوارزمي | إدارة الاختبارات</title>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Arial,Tahoma,sans-serif;
+    font-family:Tahoma,Arial,sans-serif;
 }
 
 body{
     min-height:100vh;
-    color:#fff;
     background:
-        radial-gradient(
-            circle at 50% -20%,
-            rgba(255,255,255,.08),
-            transparent 35%
-        ),
+        radial-gradient(circle at 80% -10%,rgba(255,255,255,.08),transparent 30%),
+        radial-gradient(circle at 10% 100%,rgba(255,255,255,.035),transparent 35%),
         #020202;
-    overflow-x:hidden;
+    color:#fff;
 }
 
 .background{
     position:fixed;
     inset:0;
-    z-index:-5;
+    z-index:-1;
     pointer-events:none;
 }
 
 .grid{
     position:absolute;
     inset:0;
+
     background-image:
-        linear-gradient(
-            rgba(255,255,255,.015) 1px,
-            transparent 1px
-        ),
-        linear-gradient(
-            90deg,
-            rgba(255,255,255,.015) 1px,
-            transparent 1px
-        );
+        linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);
+
     background-size:55px 55px;
 }
 
 .glow{
     position:absolute;
-    width:430px;
-    height:430px;
+    width:450px;
+    height:450px;
     border-radius:50%;
     background:rgba(255,255,255,.035);
-    filter:blur(120px);
+    filter:blur(130px);
 }
 
 .glow.one{
-    top:-250px;
-    right:-170px;
+    top:-240px;
+    right:-160px;
 }
 
 .glow.two{
-    bottom:-250px;
-    left:-170px;
+    bottom:-260px;
+    left:-150px;
 }
 
 
-/* =========================
-   LAYOUT
-========================= */
-
-.layout{
-    width:min(
-        1250px,
-        calc(100% - 30px)
-    );
-
-    min-height:100vh;
-
-    margin:auto;
-
-    display:grid;
-
-    grid-template-columns:
-        245px 1fr;
-
-    gap:20px;
-
-    padding:20px 0;
-}
-
-
-/* =========================
-   SIDEBAR
-========================= */
+/* SIDEBAR */
 
 .sidebar{
-    min-height:
-        calc(100vh - 40px);
+    position:fixed;
+    top:0;
+    right:0;
+
+    width:255px;
+    height:100vh;
 
     padding:22px 16px;
 
-    border-radius:24px;
+    background:rgba(5,5,5,.9);
 
-    background:
-        rgba(8,8,8,.84);
+    border-left:1px solid rgba(255,255,255,.07);
 
-    border:
-        1px solid
-        rgba(255,255,255,.08);
+    backdrop-filter:blur(22px);
 
-    backdrop-filter:blur(20px);
-
-    position:sticky;
-
-    top:20px;
+    z-index:100;
 }
 
-.logo{
+.sidebar-brand{
     display:flex;
-
     align-items:center;
-
     gap:11px;
 
-    padding:
-        5px 7px 22px;
+    padding:7px 5px 23px;
 
-    border-bottom:
-        1px solid
-        rgba(255,255,255,.06);
+    border-bottom:1px solid rgba(255,255,255,.06);
 
-    text-decoration:none;
-
-    color:white;
+    margin-bottom:20px;
 }
 
-.logo-img{
-    width:45px;
-    height:45px;
+.brand-logo{
+    width:44px;
+    height:44px;
+
+    border-radius:13px;
 
     overflow:hidden;
 
-    border-radius:14px;
+    background:#111;
 
-    background:
-        linear-gradient(
-            145deg,
-            #fff,
-            #777
-        );
-
-    animation:
-        floatLogo 3.5s ease-in-out infinite;
+    border:1px solid rgba(255,255,255,.14);
 }
 
-.logo-img img{
+.brand-logo img{
     width:100%;
     height:100%;
     object-fit:cover;
 }
 
-@keyframes floatLogo{
-
-    0%,100%{
-        transform:translateY(0);
-    }
-
-    50%{
-        transform:translateY(-4px);
-    }
-
+.brand-info h2{
+    font-size:14px;
+    margin-bottom:4px;
 }
 
-.logo-text strong{
-    display:block;
-    font-size:15px;
-}
-
-.logo-text span{
-    display:block;
+.brand-info span{
     color:#555;
-    font-size:9px;
-    margin-top:4px;
+    font-size:7px;
 }
 
-.menu-title{
+.nav-title{
     color:#444;
-    font-size:8px;
-    margin:25px 8px 10px;
+    font-size:7px;
+
+    padding:0 10px;
+
+    margin:17px 0 8px;
 }
 
-.menu{
-    display:grid;
-    gap:6px;
-}
+.nav-link{
+    width:100%;
+    min-height:44px;
 
-.menu a{
+    padding:0 12px;
+
     display:flex;
     align-items:center;
-    gap:12px;
-    padding:12px;
-    border-radius:12px;
+    gap:10px;
+
+    border-radius:11px;
+
+    color:#666;
+
     text-decoration:none;
-    color:#777;
-    font-size:11px;
-    transition:.3s;
+
+    font-size:9px;
+
+    transition:.25s;
+
+    margin-bottom:4px;
 }
 
-.menu a:hover{
-    color:white;
-    background:
-        rgba(255,255,255,.045);
+.nav-link:hover{
+    color:#fff;
+    background:rgba(255,255,255,.04);
 }
 
-.menu a.active{
-    color:white;
-    background:
-        rgba(255,255,255,.07);
-
-    border:
-        1px solid
-        rgba(255,255,255,.06);
+.nav-link.active{
+    color:#fff;
+    background:rgba(255,255,255,.07);
+    border:1px solid rgba(255,255,255,.06);
 }
 
-.menu-icon{
-    width:25px;
-    height:25px;
+.nav-icon{
+    width:28px;
+    height:28px;
 
     display:flex;
     align-items:center;
@@ -240,437 +180,429 @@ body{
 
     border-radius:8px;
 
-    background:
-        rgba(255,255,255,.045);
+    background:rgba(255,255,255,.035);
+
+    font-size:11px;
+}
+
+.sidebar-footer{
+    position:absolute;
+
+    bottom:20px;
+    right:16px;
+    left:16px;
+}
+
+.admin-box{
+    padding:12px;
+
+    border-radius:13px;
+
+    background:rgba(255,255,255,.025);
+
+    border:1px solid rgba(255,255,255,.06);
+
+    margin-bottom:8px;
+}
+
+.admin-label{
+    color:#444;
+    font-size:7px;
+    margin-bottom:5px;
+}
+
+.admin-email{
+    color:#888;
+    font-size:8px;
+
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+}
+
+.logout-btn{
+    width:100%;
+    height:39px;
+
+    border-radius:10px;
+
+    border:1px solid rgba(255,255,255,.06);
+
+    background:rgba(255,255,255,.025);
+
+    color:#666;
+
+    cursor:pointer;
+
+    font-size:8px;
+}
+
+.logout-btn:hover{
+    color:#fff;
 }
 
 
-/* =========================
-   CONTENT
-========================= */
+/* MAIN */
 
-.content{
-    min-width:0;
+.main{
+    width:calc(100% - 255px);
+
+    margin-right:255px;
+
+    min-height:100vh;
+
+    padding:25px 30px 60px;
 }
 
 .topbar{
-    min-height:70px;
-
-    padding:0 20px;
-
     display:flex;
 
     align-items:center;
-
     justify-content:space-between;
 
-    border-radius:20px;
+    gap:15px;
 
-    background:
-        rgba(8,8,8,.84);
-
-    border:
-        1px solid
-        rgba(255,255,255,.08);
-
-    backdrop-filter:blur(20px);
-
-    margin-bottom:20px;
+    margin-bottom:25px;
 }
 
-.topbar h1{
-    font-size:18px;
+.page-title h1{
+    font-size:clamp(22px,4vw,31px);
+
+    margin-bottom:6px;
 }
 
-.topbar p{
+.page-title p{
     color:#555;
-    font-size:9px;
-    margin-top:5px;
+    font-size:8px;
 }
 
-.add-btn{
-    color:#050505;
+.top-actions{
+    display:flex;
+    gap:8px;
+}
+
+.btn{
+    height:42px;
+
+    padding:0 17px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    font-size:8px;
 
     text-decoration:none;
 
-    padding:11px 15px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 
-    border-radius:11px;
+    transition:.25s;
+}
 
-    background:
-        linear-gradient(
-            135deg,
-            #fff,
-            #aaa
-        );
+.btn-primary{
+    background:linear-gradient(135deg,#fff,#aaa);
 
-    font-size:10px;
+    color:#050505;
+
+    border:0;
 
     font-weight:bold;
 }
 
+.btn-primary:hover{
+    transform:translateY(-2px);
 
-/* =========================
-   TOOLBAR
-========================= */
+    box-shadow:0 12px 30px rgba(255,255,255,.08);
+}
 
-.toolbar{
-    padding:17px;
+.btn-secondary{
+    background:rgba(255,255,255,.025);
 
-    border-radius:18px;
+    border:1px solid rgba(255,255,255,.07);
 
-    background:
-        rgba(255,255,255,.025);
+    color:#777;
+}
 
-    border:
-        1px solid
-        rgba(255,255,255,.07);
+
+/* STATS */
+
+.stats{
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:12px;
 
     margin-bottom:18px;
+}
 
+.stat{
+    padding:17px;
+
+    border-radius:15px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.045),
+            rgba(255,255,255,.012)
+        );
+
+    border:1px solid rgba(255,255,255,.06);
+}
+
+.stat-label{
+    color:#555;
+    font-size:7px;
+
+    margin-bottom:8px;
+}
+
+.stat-value{
+    font-size:23px;
+}
+
+
+/* TOOLBAR */
+
+.toolbar{
     display:flex;
 
     gap:10px;
 
-    align-items:center;
+    margin-bottom:14px;
 }
 
 .search{
     flex:1;
 
-    height:43px;
-
-    padding:0 14px;
-
-    color:white;
-
-    outline:none;
+    height:45px;
 
     border-radius:11px;
 
-    border:
-        1px solid
-        rgba(255,255,255,.07);
+    border:1px solid rgba(255,255,255,.07);
 
-    background:
-        rgba(0,0,0,.25);
+    outline:none;
 
-    font-size:10px;
+    background:rgba(0,0,0,.35);
+
+    color:#fff;
+
+    padding:0 14px;
+
+    font-size:8px;
 }
 
-.search:focus{
-    border-color:
-        rgba(255,255,255,.2);
+.search::placeholder{
+    color:#333;
 }
 
 .filter{
-    height:43px;
+    width:150px;
 
-    padding:0 14px;
+    height:45px;
 
     border-radius:11px;
 
+    border:1px solid rgba(255,255,255,.07);
+
+    background:#080808;
+
     color:#777;
 
-    border:
-        1px solid
-        rgba(255,255,255,.07);
+    padding:0 10px;
 
-    background:
-        rgba(0,0,0,.25);
+    font-size:8px;
 
     outline:none;
-
-    font-size:10px;
-}
-
-.filter option{
-    background:#111;
-    color:white;
 }
 
 
-/* =========================
-   COUNT
-========================= */
+/* TABLE */
 
-.count{
-    color:#555;
+.table-card{
+    overflow:hidden;
 
+    border-radius:18px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.045),
+            rgba(255,255,255,.012)
+        );
+
+    border:1px solid rgba(255,255,255,.07);
+}
+
+.table-wrap{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+
+    border-collapse:collapse;
+
+    min-width:750px;
+}
+
+thead{
+    background:rgba(255,255,255,.025);
+}
+
+th{
+    color:#444;
+
+    font-size:7px;
+
+    font-weight:normal;
+
+    padding:15px 13px;
+
+    text-align:right;
+}
+
+td{
+    padding:15px 13px;
+
+    border-top:1px solid rgba(255,255,255,.045);
+
+    color:#888;
+
+    font-size:8px;
+}
+
+tr:hover td{
+    background:rgba(255,255,255,.015);
+}
+
+.exam-name{
+    color:#ddd;
     font-size:9px;
-
-    margin:
-        0 3px 12px;
-}
-
-
-/* =========================
-   EXAMS
-========================= */
-
-.exam-list{
-    display:grid;
-
-    gap:13px;
-}
-
-.exam-card{
-    padding:20px;
-
-    border-radius:19px;
-
-    background:
-        rgba(255,255,255,.03);
-
-    border:
-        1px solid
-        rgba(255,255,255,.07);
-
-    transition:.3s;
-}
-
-.exam-card:hover{
-    background:
-        rgba(255,255,255,.05);
-
-    border-color:
-        rgba(255,255,255,.12);
-
-    transform:
-        translateY(-2px);
-}
-
-.exam-top{
-    display:flex;
-
-    align-items:flex-start;
-
-    justify-content:space-between;
-
-    gap:15px;
-}
-
-.exam-info{
-    min-width:0;
-}
-
-.exam-title{
-    font-size:14px;
-
-    margin-bottom:7px;
-
-    word-break:break-word;
 }
 
 .exam-description{
-    color:#555;
+    color:#444;
 
-    font-size:9px;
+    font-size:7px;
 
-    line-height:1.8;
+    margin-top:4px;
 
-    max-width:650px;
+    max-width:260px;
+
+    overflow:hidden;
+
+    white-space:nowrap;
+
+    text-overflow:ellipsis;
 }
 
-.status{
-    flex-shrink:0;
+.badge{
+    display:inline-flex;
+
+    align-items:center;
 
     padding:6px 9px;
 
     border-radius:20px;
 
-    font-size:8px;
-
-    border:
-        1px solid
-        rgba(255,255,255,.07);
+    font-size:7px;
 }
 
-.status.active{
-    color:#aaa;
+.badge.active{
+    color:#ccc;
 
-    background:
-        rgba(255,255,255,.045);
+    background:rgba(255,255,255,.08);
+
+    border:1px solid rgba(255,255,255,.08);
 }
 
-.status.inactive{
-    color:#444;
+.badge.draft{
+    color:#555;
 
-    background:
-        rgba(255,255,255,.015);
+    background:rgba(255,255,255,.025);
+
+    border:1px solid rgba(255,255,255,.05);
 }
 
-
-/* =========================
-   META
-========================= */
-
-.meta{
+.actions{
     display:flex;
 
-    flex-wrap:wrap;
-
-    gap:8px;
-
-    margin-top:16px;
-
-    padding-top:15px;
-
-    border-top:
-        1px solid
-        rgba(255,255,255,.05);
+    gap:5px;
 }
 
-.meta-item{
-    padding:7px 10px;
+.action{
+    width:32px;
+    height:32px;
 
-    border-radius:9px;
+    border-radius:8px;
 
-    background:
-        rgba(255,255,255,.025);
+    border:1px solid rgba(255,255,255,.06);
+
+    background:rgba(255,255,255,.025);
 
     color:#666;
 
-    font-size:8px;
+    cursor:pointer;
 }
 
-.meta-item strong{
+.action:hover{
+    color:#fff;
+}
+
+.action.delete:hover{
     color:#aaa;
 }
 
 
-/* =========================
-   ACTIONS
-========================= */
+/* EMPTY / LOADING */
 
-.exam-actions{
-    display:flex;
-
-    flex-wrap:wrap;
-
-    gap:8px;
-
-    margin-top:15px;
-}
-
-.action-btn{
-    padding:9px 12px;
-
-    border-radius:9px;
-
-    color:#777;
-
-    text-decoration:none;
-
-    border:
-        1px solid
-        rgba(255,255,255,.06);
-
-    background:
-        rgba(255,255,255,.025);
-
-    font-size:8px;
-
-    cursor:pointer;
-
-    transition:.25s;
-}
-
-.action-btn:hover{
-    color:white;
-
-    background:
-        rgba(255,255,255,.06);
-}
-
-.action-btn.primary{
-    color:#050505;
-
-    background:
-        linear-gradient(
-            135deg,
-            #fff,
-            #aaa
-        );
-
-    border:none;
-}
-
-.action-btn.danger:hover{
-    color:#ddd;
-    border-color:
-        rgba(255,255,255,.2);
-}
-
-
-/* =========================
-   EMPTY
-========================= */
-
-.empty{
-    padding:65px 20px;
+.state{
+    padding:60px 20px;
 
     text-align:center;
 
-    border-radius:22px;
-
-    border:
-        1px dashed
-        rgba(255,255,255,.09);
-
-    background:
-        rgba(255,255,255,.015);
-
     color:#444;
-}
 
-.empty-icon{
-    width:60px;
-    height:60px;
-
-    margin:
-        0 auto 15px;
-
-    display:flex;
-
-    align-items:center;
-    justify-content:center;
-
-    border-radius:18px;
-
-    background:
-        rgba(255,255,255,.035);
-
-    color:#666;
-
-    font-size:20px;
-}
-
-.empty strong{
-    display:block;
-
-    color:#666;
-
-    font-size:12px;
-
-    margin-bottom:7px;
-}
-
-.empty span{
     font-size:9px;
 }
 
+.loader{
+    width:25px;
+    height:25px;
 
-/* =========================
-   MODAL
-========================= */
+    border-radius:50%;
+
+    border:2px solid #222;
+
+    border-top-color:#888;
+
+    animation:spin .8s linear infinite;
+
+    margin:0 auto 12px;
+}
+
+@keyframes spin{
+    to{
+        transform:rotate(360deg);
+    }
+}
+
+
+/* MODAL */
 
 .modal{
     position:fixed;
 
     inset:0;
 
-    z-index:100;
+    background:rgba(0,0,0,.75);
+
+    backdrop-filter:blur(8px);
 
     display:none;
 
@@ -679,10 +611,7 @@ body{
 
     padding:20px;
 
-    background:
-        rgba(0,0,0,.78);
-
-    backdrop-filter:blur(8px);
+    z-index:300;
 }
 
 .modal.show{
@@ -690,58 +619,33 @@ body{
 }
 
 .modal-card{
-    width:min(
-        430px,
-        100%
-    );
+    width:min(500px,100%);
 
-    padding:27px;
+    padding:23px;
 
-    border-radius:23px;
+    border-radius:18px;
 
-    background:
-        #090909;
+    background:#090909;
 
-    border:
-        1px solid
-        rgba(255,255,255,.1);
+    border:1px solid rgba(255,255,255,.08);
 
-    box-shadow:
-        0 30px 100px
-        rgba(0,0,0,.8);
-
-    animation:
-        modalShow .25s ease;
+    box-shadow:0 30px 100px rgba(0,0,0,.7);
 }
 
-@keyframes modalShow{
-
-    from{
-        opacity:0;
-        transform:scale(.96);
-    }
-
-    to{
-        opacity:1;
-        transform:scale(1);
-    }
-
-}
-
-.modal-card h2{
-    font-size:17px;
+.modal-title{
+    font-size:13px;
 
     margin-bottom:10px;
 }
 
-.modal-card p{
+.modal-text{
     color:#555;
 
-    font-size:10px;
+    font-size:8px;
 
-    line-height:1.8;
+    line-height:1.9;
 
-    margin-bottom:22px;
+    margin-bottom:20px;
 }
 
 .modal-actions{
@@ -752,101 +656,72 @@ body{
 
 .modal-actions button{
     flex:1;
-
-    padding:12px;
-
-    border-radius:11px;
-
-    font-size:10px;
 }
 
-.confirm-delete{
-    color:#050505;
 
-    background:
-        linear-gradient(
-            135deg,
-            #fff,
-            #aaa
-        );
-}
+/* MOBILE */
 
-.cancel-delete{
+.mobile-menu{
+    display:none;
+
+    width:40px;
+    height:40px;
+
+    border-radius:10px;
+
+    border:1px solid rgba(255,255,255,.08);
+
+    background:rgba(255,255,255,.025);
+
     color:#777;
 
-    background:
-        rgba(255,255,255,.04);
-
-    border:
-        1px solid
-        rgba(255,255,255,.07);
+    cursor:pointer;
 }
 
 
-/* =========================
-   MOBILE
-========================= */
-
-@media(max-width:950px){
-
-    .layout{
-        grid-template-columns:1fr;
-    }
+@media(max-width:800px){
 
     .sidebar{
-        position:relative;
-        top:auto;
-        min-height:auto;
+        transform:translateX(100%);
+        transition:.3s ease;
     }
 
-    .menu{
-        grid-template-columns:
-            repeat(3,1fr);
+    .sidebar.open{
+        transform:translateX(0);
     }
 
-}
+    .main{
+        width:100%;
+        margin-right:0;
+        padding:20px 15px 50px;
+    }
 
-@media(max-width:600px){
-
-    .layout{
-        width:
-            calc(100% - 20px);
-
-        padding:10px 0;
+    .mobile-menu{
+        display:block;
     }
 
     .topbar{
-        padding:0 14px;
+        align-items:flex-start;
     }
 
-    .topbar h1{
-        font-size:15px;
-    }
+}
 
-    .add-btn{
-        padding:9px;
-        font-size:8px;
-    }
+@media(max-width:650px){
 
-    .menu{
-        grid-template-columns:
-            repeat(2,1fr);
-    }
-
-    .menu a{
-        justify-content:center;
-        flex-direction:column;
-        gap:6px;
-        font-size:9px;
+    .stats{
+        grid-template-columns:1fr;
     }
 
     .toolbar{
         flex-direction:column;
-        align-items:stretch;
     }
 
-    .exam-top{
-        flex-direction:column;
+    .filter{
+        width:100%;
+    }
+
+    .top-actions .btn-secondary{
+        display:none;
     }
 
 }
@@ -860,31 +735,19 @@ body{
 
 
 <div class="background">
-
     <div class="grid"></div>
-
     <div class="glow one"></div>
-
     <div class="glow two"></div>
-
 </div>
 
 
-<div class="layout">
+<!-- SIDEBAR -->
 
+<aside id="sidebar" class="sidebar">
 
-<!-- =========================
-     SIDEBAR
-========================= -->
+    <div class="sidebar-brand">
 
-<aside class="sidebar">
-
-    <a
-        href="index.html"
-        class="logo"
-    >
-
-        <div class="logo-img">
+        <div class="brand-logo">
 
             <img
                 src="../teacher.png"
@@ -893,120 +756,188 @@ body{
 
         </div>
 
-        <div class="logo-text">
+        <div class="brand-info">
 
-            <strong>
-                الخوارزمي
-            </strong>
+            <h2>الخوارزمي</h2>
 
-            <span>
-                لوحة الإدارة
-            </span>
+            <span>لوحة إدارة الاختبارات</span>
 
         </div>
 
-    </a>
+    </div>
 
 
-    <div class="menu-title">
+    <div class="nav-title">
         الإدارة
     </div>
 
 
-    <nav class="menu">
+    <a href="index.html" class="nav-link">
 
-        <a href="index.html">
+        <span class="nav-icon">◈</span>
 
-            <div class="menu-icon">
-                ◈
+        لوحة التحكم
+
+    </a>
+
+
+    <a href="add-exam.html" class="nav-link">
+
+        <span class="nav-icon">＋</span>
+
+        إنشاء اختبار
+
+    </a>
+
+
+    <a href="exams.html" class="nav-link active">
+
+        <span class="nav-icon">▤</span>
+
+        الاختبارات
+
+    </a>
+
+
+    <a href="questions.html" class="nav-link">
+
+        <span class="nav-icon">?</span>
+
+        الأسئلة
+
+    </a>
+
+
+    <a href="students.html" class="nav-link">
+
+        <span class="nav-icon">♙</span>
+
+        الطلاب
+
+    </a>
+
+
+    <div class="nav-title">
+        المنصة
+    </div>
+
+
+    <a href="../home.html" class="nav-link">
+
+        <span class="nav-icon">⌂</span>
+
+        عرض المنصة
+
+    </a>
+
+
+    <div class="sidebar-footer">
+
+        <div class="admin-box">
+
+            <div class="admin-label">
+                حساب المسؤول
             </div>
 
-            الرئيسية
-
-        </a>
-
-
-        <a href="add-exam.html">
-
-            <div class="menu-icon">
-                ＋
+            <div id="adminEmail" class="admin-email">
+                جاري التحميل...
             </div>
 
-            إضافة اختبار
-
-        </a>
+        </div>
 
 
-        <a
-            href="exams.html"
-            class="active"
-        >
+        <button id="logoutBtn" class="logout-btn">
+            تسجيل الخروج
+        </button>
 
-            <div class="menu-icon">
-                □
-            </div>
-
-            الاختبارات
-
-        </a>
-
-
-        <a href="questions.html">
-
-            <div class="menu-icon">
-                ?
-            </div>
-
-            الأسئلة
-
-        </a>
-
-
-        <a href="students.html">
-
-            <div class="menu-icon">
-                ◉
-            </div>
-
-            الطلاب
-
-        </a>
-
-    </nav>
+    </div>
 
 </aside>
 
 
-<!-- =========================
-     CONTENT
-========================= -->
+<!-- MAIN -->
 
-<section class="content">
+<main class="main">
 
 
     <div class="topbar">
 
-        <div>
+        <button id="mobileMenu" class="mobile-menu">
+            ☰
+        </button>
+
+
+        <div class="page-title">
 
             <h1>
                 إدارة الاختبارات
             </h1>
 
             <p>
-                جميع الاختبارات التي تم إنشاؤها
+                جميع الاختبارات الموجودة في المنصة.
             </p>
 
         </div>
 
 
-        <a
-            href="add-exam.html"
-            class="add-btn"
-        >
-            ＋ اختبار جديد
-        </a>
+        <div class="top-actions">
+
+            <a href="index.html" class="btn btn-secondary">
+                لوحة التحكم
+            </a>
+
+            <a href="add-exam.html" class="btn btn-primary">
+                ＋ اختبار جديد
+            </a>
+
+        </div>
 
     </div>
+
+
+    <!-- STATS -->
+
+    <section class="stats">
+
+        <div class="stat">
+
+            <div class="stat-label">
+                إجمالي الاختبارات
+            </div>
+
+            <div id="totalCount" class="stat-value">
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-label">
+                الاختبارات المنشورة
+            </div>
+
+            <div id="activeCount" class="stat-value">
+                0
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-label">
+                المسودات
+            </div>
+
+            <div id="draftCount" class="stat-value">
+                0
+            </div>
+
+        </div>
+
+    </section>
 
 
     <!-- TOOLBAR -->
@@ -1014,28 +945,25 @@ body{
     <div class="toolbar">
 
         <input
-            type="search"
-            id="search"
+            id="searchInput"
             class="search"
+            type="search"
             placeholder="ابحث عن اختبار..."
         >
 
 
-        <select
-            id="filter"
-            class="filter"
-        >
+        <select id="filterSelect" class="filter">
 
             <option value="all">
-                الكل
+                كل الاختبارات
             </option>
 
             <option value="active">
                 المنشورة
             </option>
 
-            <option value="inactive">
-                غير المنشورة
+            <option value="draft">
+                المسودات
             </option>
 
         </select>
@@ -1043,59 +971,105 @@ body{
     </div>
 
 
-    <div
-        class="count"
-        id="count"
-    >
-        0 اختبار
-    </div>
+    <!-- TABLE -->
+
+    <section class="table-card">
+
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            الاختبار
+                        </th>
+
+                        <th>
+                            المدة
+                        </th>
+
+                        <th>
+                            الدرجة
+                        </th>
+
+                        <th>
+                            الحالة
+                        </th>
+
+                        <th>
+                            التاريخ
+                        </th>
+
+                        <th>
+                            الإجراءات
+                        </th>
+
+                    </tr>
+
+                </thead>
 
 
-    <div
-        class="exam-list"
-        id="examList"
-    ></div>
+                <tbody id="examsBody">
+
+                    <tr>
+
+                        <td colspan="6">
+
+                            <div class="state">
+
+                                <div class="loader"></div>
+
+                                جاري تحميل الاختبارات...
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
 
 
-</section>
+</main>
 
 
-</div>
+<!-- DELETE MODAL -->
 
-
-<!-- =========================
-     DELETE MODAL
-========================= -->
-
-<div
-    class="modal"
-    id="deleteModal"
->
+<div id="deleteModal" class="modal">
 
     <div class="modal-card">
 
-        <h2>
-            حذف الاختبار؟
-        </h2>
+        <div class="modal-title">
+            حذف الاختبار
+        </div>
 
-        <p id="deleteText">
-            هل أنت متأكد من حذف هذا الاختبار؟
-        </p>
+        <div id="deleteText" class="modal-text">
+            هل أنت متأكد من حذف الاختبار؟
+        </div>
 
         <div class="modal-actions">
 
             <button
-                class="confirm-delete"
-                id="confirmDelete"
+                id="cancelDelete"
+                class="btn btn-secondary"
             >
-                نعم، حذف
+                إلغاء
             </button>
 
             <button
-                class="cancel-delete"
-                onclick="closeDelete()"
+                id="confirmDelete"
+                class="btn btn-primary"
             >
-                إلغاء
+                حذف الاختبار
             </button>
 
         </div>
@@ -1107,109 +1081,274 @@ body{
 
 <script>
 
-/* =========================
-   DATA
-========================= */
+/* =====================================================
+   SUPABASE
+===================================================== */
 
-let tests = [];
+const SUPABASE_URL =
+    "https://cuygojzrgpposlcpthjw.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_ySp8SmV4CDZaOojNnkNMPA_5S5s_Ia5";
+
+const {
+    createClient
+} = window.supabase;
+
+const supabase =
+    createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const sidebar =
+    document.getElementById("sidebar");
+
+const mobileMenu =
+    document.getElementById("mobileMenu");
+
+const adminEmail =
+    document.getElementById("adminEmail");
+
+const logoutBtn =
+    document.getElementById("logoutBtn");
+
+const examsBody =
+    document.getElementById("examsBody");
+
+const searchInput =
+    document.getElementById("searchInput");
+
+const filterSelect =
+    document.getElementById("filterSelect");
+
+const totalCount =
+    document.getElementById("totalCount");
+
+const activeCount =
+    document.getElementById("activeCount");
+
+const draftCount =
+    document.getElementById("draftCount");
+
+const deleteModal =
+    document.getElementById("deleteModal");
+
+const deleteText =
+    document.getElementById("deleteText");
+
+const cancelDelete =
+    document.getElementById("cancelDelete");
+
+const confirmDelete =
+    document.getElementById("confirmDelete");
+
+
+let exams = [];
 
 let deleteId = null;
 
 
-/* =========================
-   LOAD TESTS
-========================= */
+/* =====================================================
+   MOBILE MENU
+===================================================== */
 
-function loadTests(){
+mobileMenu.addEventListener(
+    "click",
+    () => {
 
-    try{
+        sidebar.classList.toggle("open");
 
-        tests =
-            JSON.parse(
-                localStorage.getItem(
-                    "tests"
-                ) || "[]"
-            );
+    }
+);
 
-    }catch{
 
-        tests = [];
+/* =====================================================
+   AUTH
+===================================================== */
+
+async function checkAuth(){
+
+    const {
+        data,
+        error
+    } =
+        await supabase.auth.getSession();
+
+
+    if(
+        error ||
+        !data ||
+        !data.session
+    ){
+
+        window.location.href =
+            "login.html";
+
+        return false;
 
     }
 
-    if(!Array.isArray(tests)){
-        tests = [];
-    }
 
-    renderTests();
+    const user =
+        data.session.user;
+
+
+    adminEmail.textContent =
+        user.email ||
+        user.phone ||
+        "حساب المسؤول";
+
+
+    return true;
 
 }
 
 
-/* =========================
-   RENDER
-========================= */
+/* =====================================================
+   LOAD EXAMS
+===================================================== */
 
-function renderTests(){
+async function loadExams(){
 
-    const list =
-        document.getElementById(
-            "examList"
+    examsBody.innerHTML = `
+        <tr>
+            <td colspan="6">
+                <div class="state">
+                    <div class="loader"></div>
+                    جاري تحميل الاختبارات...
+                </div>
+            </td>
+        </tr>
+    `;
+
+
+    const {
+        data,
+        error
+    } =
+        await supabase
+        .from("exams")
+        .select("*")
+        .order(
+            "created_at",
+            {
+                ascending:false
+            }
         );
 
+
+    if(error){
+
+        console.error(error);
+
+        examsBody.innerHTML = `
+            <tr>
+                <td colspan="6">
+                    <div class="state">
+                        تعذر تحميل الاختبارات من قاعدة البيانات.
+                    </div>
+                </td>
+            </tr>
+        `;
+
+        return;
+
+    }
+
+
+    exams =
+        data || [];
+
+
+    updateStats();
+
+    renderExams();
+
+}
+
+
+/* =====================================================
+   STATS
+===================================================== */
+
+function updateStats(){
+
+    const total =
+        exams.length;
+
+    const active =
+        exams.filter(
+            exam => exam.active === true
+        ).length;
+
+    const draft =
+        total - active;
+
+
+    totalCount.textContent =
+        total;
+
+    activeCount.textContent =
+        active;
+
+    draftCount.textContent =
+        draft;
+
+}
+
+
+/* =====================================================
+   RENDER
+===================================================== */
+
+function renderExams(){
+
     const search =
-        document.getElementById(
-            "search"
-        )
-        .value
+        searchInput.value
         .trim()
         .toLowerCase();
 
 
     const filter =
-        document.getElementById(
-            "filter"
-        )
-        .value;
+        filterSelect.value;
 
 
     const filtered =
-        tests.filter(
-            function(test){
+        exams.filter(
+            exam => {
 
                 const title =
                     String(
-                        test.title || ""
-                    )
-                    .toLowerCase();
+                        exam.title || ""
+                    ).toLowerCase();
 
-
-                const subject =
+                const description =
                     String(
-                        test.subject || ""
-                    )
-                    .toLowerCase();
+                        exam.description || ""
+                    ).toLowerCase();
 
 
                 const matchesSearch =
                     !search ||
                     title.includes(search) ||
-                    subject.includes(search);
+                    description.includes(search);
 
 
                 const matchesFilter =
-                    filter === "all"
-                    ||
+                    filter === "all" ||
                     (
-                        filter === "active"
-                        &&
-                        test.active === true
-                    )
-                    ||
+                        filter === "active" &&
+                        exam.active === true
+                    ) ||
                     (
-                        filter === "inactive"
-                        &&
-                        test.active !== true
+                        filter === "draft" &&
+                        exam.active !== true
                     );
 
 
@@ -1222,37 +1361,16 @@ function renderTests(){
         );
 
 
-    document.getElementById(
-        "count"
-    ).textContent =
-        filtered.length +
-        (
-            filtered.length === 1
-            ? " اختبار"
-            : " اختبارات"
-        );
+    if(!filtered.length){
 
-
-    if(filtered.length === 0){
-
-        list.innerHTML = `
-
-            <div class="empty">
-
-                <div class="empty-icon">
-                    □
-                </div>
-
-                <strong>
-                    لا توجد اختبارات
-                </strong>
-
-                <span>
-                    لم يتم العثور على اختبارات مطابقة.
-                </span>
-
-            </div>
-
+        examsBody.innerHTML = `
+            <tr>
+                <td colspan="6">
+                    <div class="state">
+                        لا توجد اختبارات مطابقة.
+                    </div>
+                </td>
+            </tr>
         `;
 
         return;
@@ -1260,339 +1378,124 @@ function renderTests(){
     }
 
 
-    list.innerHTML = "";
+    examsBody.innerHTML =
+        filtered
+        .map(
+            exam => {
+
+                const date =
+                    formatDate(
+                        exam.created_at
+                    );
 
 
-    filtered
-        .slice()
-        .reverse()
-        .forEach(
-            function(test){
+                return `
+                    <tr>
 
-                list.appendChild(
-                    createExamCard(test)
-                );
+                        <td>
+
+                            <div class="exam-name">
+                                ${escapeHTML(
+                                    exam.title || "بدون اسم"
+                                )}
+                            </div>
+
+                            <div class="exam-description">
+                                ${escapeHTML(
+                                    exam.description || "لا يوجد وصف"
+                                )}
+                            </div>
+
+                        </td>
+
+
+                        <td>
+                            ${Number(
+                                exam.duration || 0
+                            )} دقيقة
+                        </td>
+
+
+                        <td>
+                            ${Number(
+                                exam.total_marks || 0
+                            )}
+                        </td>
+
+
+                        <td>
+
+                            ${
+                                exam.active === true
+
+                                ?
+
+                                `<span class="badge active">
+                                    منشور
+                                </span>`
+
+                                :
+
+                                `<span class="badge draft">
+                                    مسودة
+                                </span>`
+                            }
+
+                        </td>
+
+
+                        <td>
+                            ${date}
+                        </td>
+
+
+                        <td>
+
+                            <div class="actions">
+
+                                <button
+                                    class="action"
+                                    title="تبديل الحالة"
+                                    onclick="toggleExam('${exam.id}', ${exam.active === true})"
+                                >
+                                    ${exam.active === true ? "◐" : "●"}
+                                </button>
+
+
+                                <button
+                                    class="action"
+                                    title="تعديل"
+                                    onclick="editExam('${exam.id}')"
+                                >
+                                    ✎
+                                </button>
+
+
+                                <button
+                                    class="action delete"
+                                    title="حذف"
+                                    onclick="askDelete('${exam.id}')"
+                                >
+                                    ×
+                                </button>
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+                `;
 
             }
-        );
-
-}
-
-
-/* =========================
-   CREATE CARD
-========================= */
-
-function createExamCard(test){
-
-    const card =
-        document.createElement(
-            "article"
-        );
-
-    card.className =
-        "exam-card";
-
-
-    const questions =
-        Array.isArray(
-            test.questions
         )
-        ? test.questions.length
-        : Array.isArray(
-            test.questionsList
-        )
-        ? test.questionsList.length
-        : 0;
-
-
-    const status =
-        test.active === true
-        ? `
-            <span class="status active">
-                منشور
-            </span>
-          `
-        : `
-            <span class="status inactive">
-                غير منشور
-            </span>
-          `;
-
-
-    card.innerHTML = `
-
-        <div class="exam-top">
-
-            <div class="exam-info">
-
-                <div class="exam-title">
-
-                    ${escapeHTML(
-                        test.title ||
-                        "اختبار بدون اسم"
-                    )}
-
-                </div>
-
-                <div class="exam-description">
-
-                    ${escapeHTML(
-                        test.description ||
-                        "لا يوجد وصف للاختبار."
-                    )}
-
-                </div>
-
-            </div>
-
-            ${status}
-
-        </div>
-
-
-        <div class="meta">
-
-            <div class="meta-item">
-                المادة:
-                <strong>
-                    ${escapeHTML(
-                        test.subject ||
-                        "غير محددة"
-                    )}
-                </strong>
-            </div>
-
-
-            <div class="meta-item">
-                الصف:
-                <strong>
-                    ${escapeHTML(
-                        test.grade ||
-                        "غير محدد"
-                    )}
-                </strong>
-            </div>
-
-
-            <div class="meta-item">
-                الأسئلة:
-                <strong>
-                    ${questions}
-                </strong>
-            </div>
-
-
-            <div class="meta-item">
-                المدة:
-                <strong>
-                    ${
-                        Number(test.duration || 0) > 0
-                        ? Number(test.duration) + " دقيقة"
-                        : "بدون مؤقت"
-                    }
-                </strong>
-            </div>
-
-
-            <div class="meta-item">
-                النجاح:
-                <strong>
-                    ${Number(test.pass || 0)}%
-                </strong>
-            </div>
-
-        </div>
-
-
-        <div class="exam-actions">
-
-            <a
-                class="action-btn primary"
-                href="questions.html?exam=${encodeURIComponent(test.id)}"
-            >
-                إدارة الأسئلة
-            </a>
-
-
-            <button
-                class="action-btn"
-                onclick="toggleActive('${escapeAttribute(test.id)}')"
-            >
-                ${
-                    test.active === true
-                    ? "إلغاء النشر"
-                    : "نشر الاختبار"
-                }
-            </button>
-
-
-            <button
-                class="action-btn danger"
-                onclick="askDelete('${escapeAttribute(test.id)}')"
-            >
-                حذف
-            </button>
-
-        </div>
-
-    `;
-
-
-    return card;
+        .join("");
 
 }
 
 
-/* =========================
-   TOGGLE ACTIVE
-========================= */
-
-function toggleActive(id){
-
-    const index =
-        tests.findIndex(
-            function(test){
-
-                return String(test.id) ===
-                    String(id);
-
-            }
-        );
-
-
-    if(index === -1){
-        return;
-    }
-
-
-    tests[index].active =
-        tests[index].active !== true;
-
-
-    localStorage.setItem(
-        "tests",
-        JSON.stringify(tests)
-    );
-
-
-    renderTests();
-
-}
-
-
-/* =========================
-   DELETE
-========================= */
-
-function askDelete(id){
-
-    deleteId = id;
-
-
-    const test =
-        tests.find(
-            function(item){
-
-                return String(item.id) ===
-                    String(id);
-
-            }
-        );
-
-
-    if(!test){
-        return;
-    }
-
-
-    document.getElementById(
-        "deleteText"
-    ).textContent =
-        `هل أنت متأكد من حذف "${test.title || "هذا الاختبار"}"؟`;
-
-
-    document.getElementById(
-        "deleteModal"
-    ).classList.add(
-        "show"
-    );
-
-}
-
-
-function closeDelete(){
-
-    deleteId = null;
-
-    document.getElementById(
-        "deleteModal"
-    ).classList.remove(
-        "show"
-    );
-
-}
-
-
-document.getElementById(
-    "confirmDelete"
-).addEventListener(
-    "click",
-    function(){
-
-        if(deleteId === null){
-            return;
-        }
-
-
-        tests =
-            tests.filter(
-                function(test){
-
-                    return String(test.id) !==
-                        String(deleteId);
-
-                }
-            );
-
-
-        localStorage.setItem(
-            "tests",
-            JSON.stringify(tests)
-        );
-
-
-        closeDelete();
-
-        renderTests();
-
-    }
-);
-
-
-/* =========================
-   SEARCH
-========================= */
-
-document.getElementById(
-    "search"
-).addEventListener(
-    "input",
-    renderTests
-);
-
-
-document.getElementById(
-    "filter"
-).addEventListener(
-    "change",
-    renderTests
-);
-
-
-/* =========================
-   ESCAPE
-========================= */
+/* =====================================================
+   ESCAPE HTML
+===================================================== */
 
 function escapeHTML(value){
 
@@ -1606,23 +1509,305 @@ function escapeHTML(value){
 }
 
 
-function escapeAttribute(value){
+/* =====================================================
+   DATE
+===================================================== */
 
-    return String(value)
-        .replaceAll("\\","\\\\")
-        .replaceAll("'","\\'");
+function formatDate(value){
+
+    if(!value){
+        return "—";
+    }
+
+
+    const date =
+        new Date(value);
+
+
+    if(
+        Number.isNaN(
+            date.getTime()
+        )
+    ){
+
+        return "—";
+
+    }
+
+
+    return date.toLocaleDateString(
+        "ar-EG",
+        {
+            year:"numeric",
+            month:"short",
+            day:"numeric"
+        }
+    );
 
 }
 
 
-/* =========================
-   START
-========================= */
+/* =====================================================
+   TOGGLE ACTIVE
+===================================================== */
 
-loadTests();
+async function toggleExam(
+    id,
+    currentStatus
+){
+
+    const newStatus =
+        !currentStatus;
+
+
+    const {
+        error
+    } =
+        await supabase
+        .from("exams")
+        .update({
+            active:newStatus
+        })
+        .eq(
+            "id",
+            id
+        );
+
+
+    if(error){
+
+        console.error(error);
+
+        alert(
+            "تعذر تغيير حالة الاختبار."
+        );
+
+        return;
+
+    }
+
+
+    await loadExams();
+
+}
+
+
+/* =====================================================
+   EDIT
+===================================================== */
+
+function editExam(id){
+
+    /*
+     * هنستخدم نفس صفحة إنشاء الاختبار
+     * في المرحلة التالية لتعديل البيانات.
+     */
+
+    window.location.href =
+        "add-exam.html?edit=" +
+        encodeURIComponent(id);
+
+}
+
+
+/* =====================================================
+   DELETE
+===================================================== */
+
+function askDelete(id){
+
+    const exam =
+        exams.find(
+            item =>
+                String(item.id) ===
+                String(id)
+        );
+
+
+    if(!exam){
+        return;
+    }
+
+
+    deleteId =
+        id;
+
+
+    deleteText.textContent =
+        `هل أنت متأكد من حذف اختبار "${exam.title}"؟ سيتم حذف الاختبار نهائيًا.`;
+
+
+    deleteModal.classList.add(
+        "show"
+    );
+
+}
+
+
+cancelDelete.addEventListener(
+    "click",
+    () => {
+
+        deleteId =
+            null;
+
+        deleteModal.classList.remove(
+            "show"
+        );
+
+    }
+);
+
+
+/* =====================================================
+   CONFIRM DELETE
+===================================================== */
+
+confirmDelete.addEventListener(
+    "click",
+    async () => {
+
+        if(!deleteId){
+            return;
+        }
+
+
+        confirmDelete.disabled =
+            true;
+
+        confirmDelete.textContent =
+            "جاري الحذف...";
+
+
+        const {
+            error
+        } =
+            await supabase
+            .from("exams")
+            .delete()
+            .eq(
+                "id",
+                deleteId
+            );
+
+
+        if(error){
+
+            console.error(error);
+
+            alert(
+                "تعذر حذف الاختبار. قد تكون هناك أسئلة مرتبطة به."
+            );
+
+        }else{
+
+            deleteModal.classList.remove(
+                "show"
+            );
+
+            deleteId =
+                null;
+
+            await loadExams();
+
+        }
+
+
+        confirmDelete.disabled =
+            false;
+
+        confirmDelete.textContent =
+            "حذف الاختبار";
+
+    }
+);
+
+
+/* =====================================================
+   SEARCH
+===================================================== */
+
+searchInput.addEventListener(
+    "input",
+    renderExams
+);
+
+filterSelect.addEventListener(
+    "change",
+    renderExams
+);
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+logoutBtn.addEventListener(
+    "click",
+    async () => {
+
+        logoutBtn.disabled =
+            true;
+
+        logoutBtn.textContent =
+            "جاري تسجيل الخروج...";
+
+
+        await supabase.auth
+            .signOut();
+
+
+        window.location.href =
+            "login.html";
+
+    }
+);
+
+
+/* =====================================================
+   AUTH STATE
+===================================================== */
+
+supabase.auth.onAuthStateChange(
+    (
+        event,
+        session
+    ) => {
+
+        if(
+            event ===
+            "SIGNED_OUT"
+        ){
+
+            window.location.href =
+                "login.html";
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   START
+===================================================== */
+
+(async function(){
+
+    const authenticated =
+        await checkAuth();
+
+
+    if(authenticated){
+
+        await loadExams();
+
+    }
+
+})();
 
 </script>
 
-
 </body>
+
 </html>
