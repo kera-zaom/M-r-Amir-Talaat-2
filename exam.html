@@ -12,58 +12,81 @@
 
 <title>الخوارزمي | الاختبار</title>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Arial,Tahoma,sans-serif;
+    font-family:Tahoma,Arial,sans-serif;
 }
 
 body{
+
     min-height:100vh;
-    color:#fff;
+
     background:
         radial-gradient(
-            circle at 50% -20%,
-            rgba(255,255,255,.08),
+            circle at 50% -10%,
+            rgba(255,255,255,.10),
             transparent 35%
         ),
         #020202;
+
+    color:#fff;
+
     overflow-x:hidden;
 }
+
 
 /* =========================
    BACKGROUND
 ========================= */
 
 .background{
+
     position:fixed;
+
     inset:0;
+
     z-index:-5;
+
     pointer-events:none;
 }
 
 .grid{
+
     position:absolute;
+
     inset:0;
 
     background-image:
+
         linear-gradient(
-            rgba(255,255,255,.015) 1px,
+            rgba(255,255,255,.018) 1px,
             transparent 1px
         ),
+
         linear-gradient(
             90deg,
-            rgba(255,255,255,.015) 1px,
+            rgba(255,255,255,.018) 1px,
             transparent 1px
         );
 
     background-size:55px 55px;
+
+    mask-image:
+        radial-gradient(
+            circle,
+            black,
+            transparent 90%
+        );
 }
 
 .glow{
+
     position:absolute;
 
     width:420px;
@@ -74,256 +97,284 @@ body{
     background:
         rgba(255,255,255,.035);
 
-    filter:blur(110px);
+    filter:blur(130px);
 }
 
 .glow.one{
-    top:-250px;
-    right:-150px;
+
+    top:-220px;
+    right:-120px;
+
 }
 
 .glow.two{
+
     bottom:-250px;
-    left:-150px;
+    left:-140px;
+
 }
+
 
 /* =========================
    HEADER
 ========================= */
 
 header{
-    width:min(
-        1180px,
-        calc(100% - 32px)
-    );
 
-    height:76px;
+    position:sticky;
 
-    margin:18px auto;
+    top:0;
 
-    padding:0 20px;
+    z-index:100;
+
+    padding:
+        16px 5%;
 
     display:flex;
+
     align-items:center;
+
     justify-content:space-between;
 
     background:
-        rgba(9,9,9,.84);
+        rgba(2,2,2,.82);
 
-    border:
+    border-bottom:
         1px solid
-        rgba(255,255,255,.09);
+        rgba(255,255,255,.06);
 
-    border-radius:20px;
+    backdrop-filter:
+        blur(18px);
+}
 
-    backdrop-filter:blur(20px);
+.brand{
 
-    position:relative;
-    z-index:10;
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
 }
 
 .logo{
-    display:flex;
-    align-items:center;
-    gap:12px;
 
-    color:white;
-    text-decoration:none;
-}
+    width:43px;
+    height:43px;
 
-.logo-icon{
-    width:46px;
-    height:46px;
+    border-radius:13px;
 
     overflow:hidden;
 
-    border-radius:14px;
-
-    background:
-        linear-gradient(
-            145deg,
-            #fff,
-            #888
-        );
-
-    animation:
-        logoFloat 3.5s ease-in-out infinite;
+    border:
+        1px solid
+        rgba(255,255,255,.14);
 }
 
-.logo-icon img{
+.logo img{
+
     width:100%;
     height:100%;
+
     object-fit:cover;
-    display:block;
 }
 
-@keyframes logoFloat{
+.brand-text h2{
 
-    0%,100%{
-        transform:
-            translateY(0)
-            rotate(0deg);
-    }
-
-    50%{
-        transform:
-            translateY(-4px)
-            rotate(2deg);
-    }
-
+    font-size:14px;
 }
 
-.logo-text strong{
+.brand-text span{
+
     display:block;
-    font-size:17px;
+
+    margin-top:3px;
+
+    color:#555;
+
+    font-size:7px;
 }
 
-.logo-text span{
-    display:block;
 
-    color:#666;
+/* =========================
+   TIMER
+========================= */
+
+.timer{
+
+    min-width:105px;
+
+    height:42px;
+
+    padding:
+        0 12px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:7px;
+
+    border-radius:12px;
+
+    background:
+        rgba(255,255,255,.035);
+
+    border:
+        1px solid
+        rgba(255,255,255,.08);
+
+    color:#aaa;
 
     font-size:10px;
 
-    margin-top:3px;
+    font-weight:bold;
 }
 
-.back-btn{
-    color:#aaa;
+.timer.warning{
 
-    text-decoration:none;
+    border-color:
+        rgba(255,255,255,.25);
 
-    padding:10px 15px;
+    color:#fff;
+}
 
-    border-radius:11px;
+.timer.danger{
+
+    border-color:
+        rgba(255,255,255,.45);
+
+    color:#fff;
+
+    animation:
+        pulse 1s infinite;
+}
+
+@keyframes pulse{
+
+    50%{
+        opacity:.5;
+    }
+
+}
+
+
+/* =========================
+   CONTAINER
+========================= */
+
+.container{
+
+    width:min(
+        900px,
+        calc(100% - 25px)
+    );
+
+    margin:
+        30px auto
+        70px;
+}
+
+
+/* =========================
+   EXAM HEADER
+========================= */
+
+.exam-header{
+
+    padding:25px;
+
+    border-radius:22px;
 
     border:
         1px solid
         rgba(255,255,255,.08);
 
     background:
-        rgba(255,255,255,.035);
-
-    font-size:11px;
-
-    transition:.3s;
-}
-
-.back-btn:hover{
-    color:white;
-    background:
-        rgba(255,255,255,.07);
-}
-
-/* =========================
-   MAIN
-========================= */
-
-main{
-    width:min(
-        900px,
-        calc(100% - 32px)
-    );
-
-    margin:auto;
-
-    padding:35px 0 80px;
-}
-
-/* =========================
-   EXAM TOP
-========================= */
-
-.exam-header{
-    padding:28px;
-
-    border-radius:24px;
-
-    background:
         linear-gradient(
             145deg,
-            rgba(255,255,255,.065),
-            rgba(255,255,255,.018)
+            rgba(255,255,255,.045),
+            rgba(255,255,255,.012)
         );
 
-    border:
-        1px solid
-        rgba(255,255,255,.09);
-
-    margin-bottom:20px;
+    margin-bottom:18px;
 }
 
 .exam-label{
-    display:inline-block;
 
-    padding:7px 11px;
+    color:#555;
 
-    border-radius:30px;
+    font-size:8px;
 
-    color:#888;
+    margin-bottom:8px;
+}
 
-    background:
-        rgba(255,255,255,.035);
+.exam-title{
 
-    border:
-        1px solid
-        rgba(255,255,255,.07);
+    font-size:
+        clamp(
+            21px,
+            5vw,
+            30px
+        );
+
+    margin-bottom:8px;
+}
+
+.exam-description{
+
+    color:#5e5e5e;
 
     font-size:9px;
 
-    margin-bottom:13px;
+    line-height:1.8;
 }
 
-.exam-header h1{
-    font-size:
-        clamp(25px,5vw,40px);
-
-    margin-bottom:10px;
-}
-
-.exam-header p{
-    color:#666;
-
-    font-size:12px;
-
-    line-height:1.9;
-}
 
 /* =========================
    PROGRESS
 ========================= */
 
-.progress-area{
-    margin-top:25px;
+.progress-box{
+
+    margin-top:20px;
 }
 
-.progress-info{
+.progress-top{
+
     display:flex;
 
     justify-content:space-between;
 
-    color:#777;
-
-    font-size:10px;
-
     margin-bottom:8px;
+
+    color:#555;
+
+    font-size:8px;
 }
 
 .progress{
+
     width:100%;
+
     height:5px;
 
-    background:
-        rgba(255,255,255,.07);
-
     border-radius:20px;
+
+    background:
+        rgba(255,255,255,.06);
 
     overflow:hidden;
 }
 
 .progress-bar{
-    height:100%;
+
     width:0%;
+
+    height:100%;
+
+    border-radius:20px;
 
     background:
         linear-gradient(
@@ -332,97 +383,75 @@ main{
             #fff
         );
 
-    border-radius:20px;
-
     transition:.3s;
 }
 
-/* =========================
-   TIMER
-========================= */
-
-.timer{
-    margin-top:18px;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    gap:10px;
-
-    padding:13px;
-
-    border-radius:14px;
-
-    background:
-        rgba(255,255,255,.025);
-
-    border:
-        1px solid
-        rgba(255,255,255,.06);
-
-    color:#aaa;
-
-    font-size:11px;
-}
-
-.timer strong{
-    color:white;
-
-    font-size:16px;
-
-    direction:ltr;
-}
 
 /* =========================
    QUESTION
 ========================= */
 
 .question-card{
-    padding:30px;
 
-    border-radius:24px;
+    padding:25px;
 
-    background:
-        rgba(255,255,255,.035);
+    border-radius:22px;
 
     border:
         1px solid
         rgba(255,255,255,.08);
 
-    margin-bottom:18px;
+    background:
+        rgba(255,255,255,.025);
+
+    margin-bottom:15px;
 }
 
 .question-number{
-    color:#666;
 
-    font-size:10px;
+    color:#555;
 
-    margin-bottom:14px;
+    font-size:8px;
+
+    margin-bottom:12px;
 }
 
 .question-text{
-    font-size:20px;
+
+    font-size:
+        clamp(
+            15px,
+            3vw,
+            20px
+        );
 
     line-height:1.8;
 
-    margin-bottom:25px;
+    margin-bottom:22px;
 }
+
 
 /* =========================
    OPTIONS
 ========================= */
 
 .options{
+
     display:grid;
 
-    gap:12px;
+    gap:10px;
 }
 
 .option{
+
     position:relative;
+
+    width:100%;
+
+    min-height:55px;
+
+    padding:
+        13px 15px;
 
     display:flex;
 
@@ -430,140 +459,146 @@ main{
 
     gap:12px;
 
-    padding:16px;
-
-    border-radius:15px;
-
-    background:
-        rgba(255,255,255,.025);
+    border-radius:14px;
 
     border:
         1px solid
         rgba(255,255,255,.07);
 
+    background:
+        rgba(255,255,255,.018);
+
+    color:#aaa;
+
     cursor:pointer;
 
-    transition:.25s;
+    transition:.2s;
 }
 
 .option:hover{
-    background:
-        rgba(255,255,255,.055);
 
     border-color:
-        rgba(255,255,255,.15);
-}
+        rgba(255,255,255,.18);
 
-.option input{
-    position:absolute;
-
-    opacity:0;
-}
-
-.radio{
-    width:20px;
-    height:20px;
-
-    flex-shrink:0;
-
-    border-radius:50%;
-
-    border:
-        1px solid
-        #555;
-
-    position:relative;
-}
-
-.option input:checked + .radio{
-    border-color:white;
-}
-
-.option input:checked + .radio::after{
-    content:"";
-
-    position:absolute;
-
-    width:9px;
-    height:9px;
-
-    border-radius:50%;
-
-    background:white;
-
-    top:50%;
-    left:50%;
-
-    transform:
-        translate(-50%,-50%);
+    color:#fff;
 }
 
 .option.selected{
+
     border-color:
-        rgba(255,255,255,.25);
+        rgba(255,255,255,.35);
 
     background:
-        rgba(255,255,255,.065);
+        rgba(255,255,255,.07);
+
+    color:#fff;
+}
+
+.option-letter{
+
+    width:31px;
+    height:31px;
+
+    flex-shrink:0;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:9px;
+
+    background:
+        rgba(255,255,255,.05);
+
+    color:#777;
+
+    font-size:9px;
+
+    font-weight:bold;
+}
+
+.option.selected .option-letter{
+
+    background:#fff;
+
+    color:#050505;
 }
 
 .option-text{
-    color:#aaa;
 
-    font-size:13px;
+    font-size:10px;
 
     line-height:1.7;
 }
+
 
 /* =========================
    NAVIGATION
 ========================= */
 
 .navigation{
-    display:flex;
 
-    align-items:center;
+    display:flex;
 
     justify-content:space-between;
 
-    gap:12px;
+    gap:10px;
 
-    margin-top:18px;
+    margin-top:15px;
 }
 
 .nav-btn{
+
     min-width:130px;
 
-    padding:13px 20px;
+    height:43px;
 
-    border-radius:12px;
+    padding:
+        0 15px;
+
+    border-radius:11px;
 
     border:
         1px solid
         rgba(255,255,255,.08);
 
     background:
-        rgba(255,255,255,.035);
+        rgba(255,255,255,.025);
 
-    color:#aaa;
+    color:#777;
 
     cursor:pointer;
 
-    font-size:11px;
+    font-size:9px;
 
-    transition:.3s;
+    transition:.25s;
 }
 
 .nav-btn:hover{
-    color:white;
 
-    background:
-        rgba(255,255,255,.07);
+    color:#fff;
+
+    border-color:
+        rgba(255,255,255,.18);
 }
 
-.nav-btn.primary{
-    border:none;
+.nav-btn:disabled{
 
-    color:#050505;
+    opacity:.3;
+
+    cursor:not-allowed;
+}
+
+.submit-btn{
+
+    min-width:150px;
+
+    height:43px;
+
+    border:0;
+
+    border-radius:11px;
 
     background:
         linear-gradient(
@@ -572,198 +607,235 @@ main{
             #aaa
         );
 
+    color:#050505;
+
+    font-size:9px;
+
     font-weight:bold;
+
+    cursor:pointer;
+
+    transition:.25s;
 }
 
-.nav-btn:disabled{
-    opacity:.3;
+.submit-btn:hover{
 
-    cursor:not-allowed;
+    transform:
+        translateY(-2px);
 }
+
+
+/* =========================
+   LOADING
+========================= */
+
+.loading{
+
+    padding:80px 20px;
+
+    text-align:center;
+
+    color:#555;
+
+    font-size:9px;
+}
+
+.loader{
+
+    width:30px;
+    height:30px;
+
+    margin:
+        0 auto 15px;
+
+    border-radius:50%;
+
+    border:
+        2px solid
+        rgba(255,255,255,.08);
+
+    border-top-color:#aaa;
+
+    animation:
+        spin .8s linear infinite;
+}
+
+@keyframes spin{
+
+    to{
+        transform:rotate(360deg);
+    }
+
+}
+
+
+/* =========================
+   ERROR
+========================= */
+
+.message{
+
+    padding:60px 20px;
+
+    text-align:center;
+
+    border-radius:20px;
+
+    border:
+        1px dashed
+        rgba(255,255,255,.08);
+
+    background:
+        rgba(255,255,255,.015);
+}
+
+.message-icon{
+
+    font-size:30px;
+
+    opacity:.35;
+
+    margin-bottom:12px;
+}
+
+.message h3{
+
+    color:#777;
+
+    font-size:12px;
+
+    margin-bottom:8px;
+}
+
+.message p{
+
+    color:#444;
+
+    font-size:8px;
+
+    line-height:1.8;
+}
+
 
 /* =========================
    RESULT
 ========================= */
 
 .result{
+
     display:none;
+
+    text-align:center;
 
     padding:40px 25px;
 
-    text-align:center;
-
     border-radius:25px;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(255,255,255,.08),
-            rgba(255,255,255,.02)
-        );
 
     border:
         1px solid
-        rgba(255,255,255,.12);
-}
-
-.result.show{
-    display:block;
-}
-
-.result-logo{
-    width:85px;
-    height:85px;
-
-    margin:0 auto 20px;
-
-    overflow:hidden;
-
-    border-radius:25px;
+        rgba(255,255,255,.09);
 
     background:
         linear-gradient(
             145deg,
-            #fff,
-            #777
+            rgba(255,255,255,.05),
+            rgba(255,255,255,.015)
         );
+}
+
+.result.show{
+
+    display:block;
 
     animation:
-        resultFloat 3s ease-in-out infinite;
+        resultIn .5s ease;
 }
 
-.result-logo img{
-    width:100%;
-    height:100%;
+@keyframes resultIn{
 
-    object-fit:cover;
+    from{
+
+        opacity:0;
+
+        transform:
+            translateY(15px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+            translateY(0);
+
+    }
+
 }
 
-@keyframes resultFloat{
+.result-icon{
 
-    0%,100%{
-        transform:translateY(0);
-    }
+    font-size:40px;
 
-    50%{
-        transform:translateY(-7px);
-    }
-
+    margin-bottom:15px;
 }
 
 .result h2{
-    font-size:27px;
 
-    margin-bottom:10px;
-}
-
-.result p{
-    color:#777;
-
-    font-size:12px;
-
-    margin-bottom:20px;
-}
-
-.score{
-    font-size:52px;
-
-    font-weight:bold;
-
-    background:
-        linear-gradient(
-            90deg,
-            white,
-            #777
-        );
-
-    -webkit-background-clip:text;
-
-    background-clip:text;
-
-    color:transparent;
-
-    margin-bottom:25px;
-}
-
-.result-buttons{
-    display:flex;
-
-    justify-content:center;
-
-    gap:10px;
-
-    flex-wrap:wrap;
-}
-
-.result-btn{
-    min-width:150px;
-
-    padding:12px 18px;
-
-    border-radius:12px;
-
-    text-decoration:none;
-
-    color:#050505;
-
-    background:
-        linear-gradient(
-            135deg,
-            white,
-            #aaa
-        );
-
-    font-size:11px;
-
-    font-weight:bold;
-}
-
-/* =========================
-   EMPTY
-========================= */
-
-.empty{
-    padding:70px 20px;
-
-    text-align:center;
-
-    border-radius:24px;
-
-    border:
-        1px dashed
-        rgba(255,255,255,.1);
-
-    color:#555;
-}
-
-.empty img{
-    width:70px;
-    height:70px;
-
-    object-fit:cover;
-
-    border-radius:20px;
-
-    opacity:.45;
-
-    margin-bottom:18px;
-}
-
-.empty strong{
-    display:block;
-
-    color:#777;
-
-    font-size:14px;
+    font-size:22px;
 
     margin-bottom:8px;
 }
 
-.empty span{
-    color:#444;
+.result p{
 
-    font-size:10px;
+    color:#555;
+
+    font-size:9px;
+
+    margin-bottom:25px;
 }
+
+.score{
+
+    font-size:55px;
+
+    font-weight:bold;
+
+    margin-bottom:5px;
+}
+
+.score-label{
+
+    color:#555;
+
+    font-size:8px;
+
+    margin-bottom:25px;
+}
+
+.result-btn{
+
+    height:43px;
+
+    padding:
+        0 25px;
+
+    border:0;
+
+    border-radius:11px;
+
+    background:#fff;
+
+    color:#050505;
+
+    cursor:pointer;
+
+    font-size:9px;
+
+    font-weight:bold;
+}
+
 
 /* =========================
    MOBILE
@@ -772,47 +844,56 @@ main{
 @media(max-width:600px){
 
     header{
+
+        padding:
+            13px 15px;
+
+    }
+
+    .brand-text{
+
+        display:none;
+
+    }
+
+    .container{
+
         width:
-            calc(100% - 20px);
+            calc(100% - 15px);
 
-        height:68px;
+        margin-top:18px;
 
-        margin-top:10px;
-
-        padding:0 13px;
-    }
-
-    .logo-icon{
-        width:40px;
-        height:40px;
-    }
-
-    .logo-text strong{
-        font-size:15px;
-    }
-
-    main{
-        width:
-            calc(100% - 20px);
-
-        padding-top:20px;
     }
 
     .exam-header,
     .question-card{
-        padding:22px 18px;
-    }
 
-    .question-text{
-        font-size:17px;
+        padding:20px;
+
     }
 
     .navigation{
-        flex-direction:column;
+
+        flex-wrap:wrap;
+
     }
 
-    .nav-btn{
-        width:100%;
+    .nav-btn,
+    .submit-btn{
+
+        flex:1;
+
+        min-width:
+            calc(50% - 5px);
+
+    }
+
+    .timer{
+
+        min-width:90px;
+
+        font-size:9px;
+
     }
 
 }
@@ -825,46 +906,37 @@ main{
 <body>
 
 
-<!-- =========================
-     BACKGROUND
-========================= -->
-
 <div class="background">
+
+    <div class="grid"></div>
 
     <div class="glow one"></div>
 
     <div class="glow two"></div>
 
-    <div class="grid"></div>
-
 </div>
 
 
-<!-- =========================
-     HEADER
-========================= -->
+<!-- HEADER -->
 
 <header>
 
-    <a
-        href="home.html"
-        class="logo"
-    >
+    <div class="brand">
 
-        <div class="logo-icon">
+        <div class="logo">
 
             <img
                 src="teacher.png"
-                alt="الماستر"
+                alt="الخوارزمي"
             >
 
         </div>
 
-        <div class="logo-text">
+        <div class="brand-text">
 
-            <strong>
+            <h2>
                 الخوارزمي
-            </strong>
+            </h2>
 
             <span>
                 منصة الاختبارات
@@ -872,36 +944,380 @@ main{
 
         </div>
 
-    </a>
+    </div>
 
 
-    <a
-        href="tests.html"
-        class="back-btn"
+    <div
+        id="timer"
+        class="timer"
     >
-        ← الاختبارات
-    </a>
+        ⏱
+        <span id="timerText">
+            —
+        </span>
+    </div>
 
 </header>
 
 
-<!-- =========================
-     MAIN
-========================= -->
-
-<main id="examApp">
+<main class="container">
 
 
-    <!-- سيتم إنشاء محتوى الاختبار هنا -->
+    <!-- LOADING -->
+
+    <div
+        id="loading"
+        class="loading"
+    >
+
+        <div class="loader"></div>
+
+        جاري تحميل الاختبار...
+
+    </div>
+
+
+    <!-- EXAM -->
+
+    <div
+        id="examContent"
+        style="display:none;"
+    >
+
+
+        <section class="exam-header">
+
+            <div class="exam-label">
+                اختبار إلكتروني
+            </div>
+
+            <h1
+                id="examTitle"
+                class="exam-title"
+            >
+                —
+            </h1>
+
+            <p
+                id="examDescription"
+                class="exam-description"
+            >
+                —
+            </p>
+
+
+            <div class="progress-box">
+
+                <div class="progress-top">
+
+                    <span>
+                        التقدم
+                    </span>
+
+                    <span id="progressText">
+                        0 / 0
+                    </span>
+
+                </div>
+
+                <div class="progress">
+
+                    <div
+                        id="progressBar"
+                        class="progress-bar"
+                    ></div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <section
+            id="questionCard"
+            class="question-card"
+        >
+
+            <div
+                id="questionNumber"
+                class="question-number"
+            >
+                السؤال 1
+            </div>
+
+            <div
+                id="questionText"
+                class="question-text"
+            >
+                —
+            </div>
+
+            <div
+                id="options"
+                class="options"
+            ></div>
+
+        </section>
+
+
+        <div class="navigation">
+
+            <button
+                id="previousBtn"
+                class="nav-btn"
+            >
+                ← السابق
+            </button>
+
+            <button
+                id="nextBtn"
+                class="nav-btn"
+            >
+                التالي →
+            </button>
+
+            <button
+                id="submitBtn"
+                class="submit-btn"
+                style="display:none;"
+            >
+                تسليم الاختبار
+            </button>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- MESSAGE -->
+
+    <div
+        id="message"
+        class="message"
+        style="display:none;"
+    >
+
+        <div
+            id="messageIcon"
+            class="message-icon"
+        >
+            ⚠
+        </div>
+
+        <h3
+            id="messageTitle"
+        >
+            حدث خطأ
+        </h3>
+
+        <p
+            id="messageText"
+        >
+            —
+        </p>
+
+    </div>
+
+
+    <!-- RESULT -->
+
+    <section
+        id="result"
+        class="result"
+    >
+
+        <div class="result-icon">
+            🏆
+        </div>
+
+        <h2>
+            تم تسليم الاختبار
+        </h2>
+
+        <p>
+            تم حفظ نتيجتك بنجاح.
+        </p>
+
+        <div
+            id="score"
+            class="score"
+        >
+            0%
+        </div>
+
+        <div class="score-label">
+            النتيجة
+        </div>
+
+        <button
+            class="result-btn"
+            onclick="
+                window.location.href='home.html'
+            "
+        >
+            العودة للرئيسية
+        </button>
+
+    </section>
+
 
 </main>
 
 
 <script>
 
-/* ==========================================
+/* =========================================
+   SUPABASE
+========================================= */
+
+const SUPABASE_URL =
+    "https://cuygojzrgpposlcpthjw.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_ySp8SmV4CDZaOojNnkNMPA_5S5s_Ia5";
+
+const {
+    createClient
+} = window.supabase;
+
+const supabase =
+    createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
+/* =========================================
+   ELEMENTS
+========================================= */
+
+const loading =
+    document.getElementById(
+        "loading"
+    );
+
+const examContent =
+    document.getElementById(
+        "examContent"
+    );
+
+const message =
+    document.getElementById(
+        "message"
+    );
+
+const messageIcon =
+    document.getElementById(
+        "messageIcon"
+    );
+
+const messageTitle =
+    document.getElementById(
+        "messageTitle"
+    );
+
+const messageText =
+    document.getElementById(
+        "messageText"
+    );
+
+const result =
+    document.getElementById(
+        "result"
+    );
+
+const examTitle =
+    document.getElementById(
+        "examTitle"
+    );
+
+const examDescription =
+    document.getElementById(
+        "examDescription"
+    );
+
+const questionNumber =
+    document.getElementById(
+        "questionNumber"
+    );
+
+const questionText =
+    document.getElementById(
+        "questionText"
+    );
+
+const options =
+    document.getElementById(
+        "options"
+    );
+
+const progressText =
+    document.getElementById(
+        "progressText"
+    );
+
+const progressBar =
+    document.getElementById(
+        "progressBar"
+    );
+
+const previousBtn =
+    document.getElementById(
+        "previousBtn"
+    );
+
+const nextBtn =
+    document.getElementById(
+        "nextBtn"
+    );
+
+const submitBtn =
+    document.getElementById(
+        "submitBtn"
+    );
+
+const timer =
+    document.getElementById(
+        "timer"
+    );
+
+const timerText =
+    document.getElementById(
+        "timerText"
+    );
+
+const score =
+    document.getElementById(
+        "score"
+    );
+
+
+/* =========================================
+   STATE
+========================================= */
+
+let currentUser = null;
+
+let exam = null;
+
+let questions = [];
+
+let currentIndex = 0;
+
+let answers = {};
+
+let timerInterval = null;
+
+let secondsLeft = 0;
+
+let submitted = false;
+
+
+/* =========================================
    GET EXAM ID
-========================================== */
+========================================= */
 
 const params =
     new URLSearchParams(
@@ -912,819 +1328,1267 @@ const examId =
     params.get("id");
 
 
-/* ==========================================
-   LOAD TESTS
-========================================== */
+/* =========================================
+   SHOW MESSAGE
+========================================= */
 
-let tests = [];
+function showMessage(
+    title,
+    text,
+    icon = "⚠"
+){
 
-try {
+    loading.style.display =
+        "none";
 
-    tests =
-        JSON.parse(
-            localStorage.getItem("tests") || "[]"
+    examContent.style.display =
+        "none";
+
+    message.style.display =
+        "block";
+
+    messageIcon.textContent =
+        icon;
+
+    messageTitle.textContent =
+        title;
+
+    messageText.textContent =
+        text;
+
+}
+
+
+/* =========================================
+   SESSION
+========================================= */
+
+async function getUser(){
+
+    const {
+        data,
+        error
+    } =
+        await supabase.auth
+        .getSession();
+
+
+    if(error){
+
+        showMessage(
+            "تعذر الاتصال",
+            "حدث خطأ أثناء التحقق من تسجيل الدخول."
         );
 
-} catch {
+        return null;
 
-    tests = [];
-
-}
+    }
 
 
-/* ==========================================
-   FIND EXAM
-========================================== */
+    if(
+        !data ||
+        !data.session
+    ){
 
-let exam =
-    tests.find(
-        function(test){
+        window.location.href =
+            "auth.html";
 
-            return String(test.id) ===
-                String(examId);
+        return null;
 
-        }
-    );
+    }
 
 
-const app =
-    document.getElementById(
-        "examApp"
-    );
-
-
-/* ==========================================
-   NO EXAM
-========================================== */
-
-if(!exam){
-
-    app.innerHTML = `
-
-        <div class="empty">
-
-            <img
-                src="teacher.png"
-                alt="الماستر"
-            >
-
-            <strong>
-                الاختبار غير موجود
-            </strong>
-
-            <span>
-                لم يتم العثور على الاختبار المطلوب.
-            </span>
-
-        </div>
-
-    `;
+    return data.session.user;
 
 }
 
 
-/* ==========================================
-   EXAM EXISTS
-========================================== */
+/* =========================================
+   LOAD EXAM
+========================================= */
 
-else{
+async function loadExam(){
 
-    startExam(exam);
+    if(!examId){
 
-}
-
-
-/* ==========================================
-   START EXAM
-========================================== */
-
-function startExam(exam){
-
-    const questions =
-        Array.isArray(exam.questionsList)
-            ? exam.questionsList
-            : Array.isArray(exam.questions)
-                ? exam.questions
-                : [];
-
-
-    /* لا توجد أسئلة */
-
-    if(questions.length === 0){
-
-        app.innerHTML = `
-
-            <div class="empty">
-
-                <img
-                    src="teacher.png"
-                    alt="الماستر"
-                >
-
-                <strong>
-                    الاختبار لا يحتوي على أسئلة
-                </strong>
-
-                <span>
-                    سيظهر الاختبار هنا بعد إضافة
-                    الأسئلة من لوحة الإدارة.
-                </span>
-
-            </div>
-
-        `;
+        showMessage(
+            "الاختبار غير موجود",
+            "لم يتم تحديد الاختبار المطلوب."
+        );
 
         return;
 
     }
 
 
-    let currentQuestion = 0;
-
-    let answers = [];
-
-    let seconds =
-        Number(exam.duration || 0) * 60;
-
-
-    let timerInterval;
-
-
-    /* ======================================
-       RENDER EXAM
-    ====================================== */
-
-    app.innerHTML = `
-
-        <section class="exam-header">
-
-            <span class="exam-label">
-                اختبار إلكتروني
-            </span>
-
-            <h1>
-                ${escapeHTML(
-                    exam.title || "اختبار"
-                )}
-            </h1>
-
-            <p>
-                ${escapeHTML(
-                    exam.description ||
-                    "أجب عن جميع الأسئلة ثم اضغط إنهاء الاختبار."
-                )}
-            </p>
-
-
-            <div class="progress-area">
-
-                <div class="progress-info">
-
-                    <span id="questionCounter">
-                        السؤال 1 من ${questions.length}
-                    </span>
-
-                    <span id="percentage">
-                        0%
-                    </span>
-
-                </div>
-
-                <div class="progress">
-
-                    <div
-                        class="progress-bar"
-                        id="progressBar"
-                    ></div>
-
-                </div>
-
-            </div>
-
-
-            ${
-                seconds > 0
-                ? `
-                    <div class="timer">
-
-                        الوقت المتبقي:
-
-                        <strong id="timer">
-                            ${formatTime(seconds)}
-                        </strong>
-
-                    </div>
-                `
-                : ""
-            }
-
-        </section>
-
-
-        <section
-            id="questionArea"
-        ></section>
-
-
-        <div
-            class="navigation"
-            id="navigation"
-        >
-
-            <button
-                class="nav-btn"
-                id="prevBtn"
-                onclick="previousQuestion()"
-            >
-                السابق
-            </button>
-
-
-            <button
-                class="nav-btn primary"
-                id="nextBtn"
-                onclick="nextQuestion()"
-            >
-                التالي
-            </button>
-
-        </div>
-
-
-        <section
-            class="result"
-            id="result"
-        >
-
-            <div class="result-logo">
-
-                <img
-                    src="teacher.png"
-                    alt="الماستر"
-                >
-
-            </div>
-
-            <h2>
-                انتهى الاختبار
-            </h2>
-
-            <p>
-                تم تسجيل نتيجتك بنجاح.
-            </p>
-
-            <div
-                class="score"
-                id="score"
-            >
-                0%
-            </div>
-
-            <div class="result-buttons">
-
-                <a
-                    href="tests.html"
-                    class="result-btn"
-                >
-                    الاختبارات
-                </a>
-
-                <a
-                    href="home.html"
-                    class="result-btn"
-                >
-                    الرئيسية
-                </a>
-
-            </div>
-
-        </section>
-
-    `;
-
-
-    renderQuestion();
-
-
-    /* ======================================
-       TIMER
-    ====================================== */
-
-    if(seconds > 0){
-
-        timerInterval =
-            setInterval(
-                function(){
-
-                    seconds--;
-
-                    const timer =
-                        document.getElementById(
-                            "timer"
-                        );
-
-                    if(timer){
-
-                        timer.textContent =
-                            formatTime(seconds);
-
-                    }
-
-
-                    if(seconds <= 0){
-
-                        clearInterval(
-                            timerInterval
-                        );
-
-                        finishExam();
-
-                    }
-
-                },
-                1000
-            );
+    const {
+        data,
+        error
+    } =
+        await supabase
+        .from("exams")
+        .select("*")
+        .eq(
+            "id",
+            examId
+        )
+        .eq(
+            "active",
+            true
+        )
+        .maybeSingle();
+
+
+    if(error){
+
+        console.error(
+            error
+        );
+
+        showMessage(
+            "تعذر تحميل الاختبار",
+            "حدث خطأ أثناء جلب بيانات الاختبار."
+        );
+
+        return;
 
     }
 
 
-    /* ======================================
-       RENDER QUESTION
-    ====================================== */
+    if(!data){
 
-    function renderQuestion(){
+        showMessage(
+            "الاختبار غير متاح",
+            "هذا الاختبار غير موجود أو لم يعد منشورًا."
+        );
 
-        const question =
-            questions[currentQuestion];
+        return;
 
-
-        const area =
-            document.getElementById(
-                "questionArea"
-            );
+    }
 
 
-        const options =
-            Array.isArray(question.options)
-                ? question.options
-                : [];
+    exam = data;
 
 
-        let optionsHTML = "";
+    examTitle.textContent =
+        exam.title ||
+        "اختبار";
 
 
-        options.forEach(
-            function(option,index){
-
-                const checked =
-                    answers[currentQuestion] ===
-                    index
-                        ? "checked"
-                        : "";
+    examDescription.textContent =
+        exam.description ||
+        "اختبار إلكتروني من منصة الخوارزمي.";
 
 
-                optionsHTML += `
+    await loadQuestions();
 
-                    <label
-                        class="option ${
-                            checked
-                            ? "selected"
-                            : ""
-                        }"
+}
+
+
+/* =========================================
+   LOAD QUESTIONS
+========================================= */
+
+async function loadQuestions(){
+
+    /*
+     * الترتيب حسب order_number
+     * وإذا لم يكن موجودًا نستخدم created_at
+     */
+
+    let query =
+        supabase
+        .from("questions")
+        .select("*")
+        .eq(
+            "exam_id",
+            examId
+        );
+
+
+    const {
+        data,
+        error
+    } =
+        await query;
+
+
+    if(error){
+
+        console.error(
+            error
+        );
+
+        showMessage(
+            "تعذر تحميل الأسئلة",
+            "تأكد من أن جدول questions يحتوي على أسئلة لهذا الاختبار."
+        );
+
+        return;
+
+    }
+
+
+    questions =
+        data || [];
+
+
+    /*
+     * ترتيب الأسئلة
+     */
+
+    questions.sort(
+        (
+            a,
+            b
+        ) => {
+
+            const aa =
+                Number(
+                    a.order_number ??
+                    a.question_order ??
+                    a.order ??
+                    0
+                );
+
+            const bb =
+                Number(
+                    b.order_number ??
+                    b.question_order ??
+                    b.order ??
+                    0
+                );
+
+            return aa - bb;
+
+        }
+    );
+
+
+    if(
+        questions.length === 0
+    ){
+
+        showMessage(
+            "لا توجد أسئلة",
+            "هذا الاختبار لا يحتوي على أسئلة حاليًا.",
+            "📝"
+        );
+
+        return;
+
+    }
+
+
+    loading.style.display =
+        "none";
+
+    examContent.style.display =
+        "block";
+
+
+    /*
+     * تشغيل المؤقت
+     */
+
+    startTimer();
+
+
+    /*
+     * عرض السؤال الأول
+     */
+
+    renderQuestion();
+
+}
+
+
+/* =========================================
+   GET QUESTION TEXT
+========================================= */
+
+function getQuestionText(
+    question
+){
+
+    return (
+        question.question ||
+        question.question_text ||
+        question.text ||
+        question.title ||
+        "السؤال"
+    );
+
+}
+
+
+/* =========================================
+   GET OPTIONS
+========================================= */
+
+function getOptions(
+    question
+){
+
+    /*
+     * دعم أكثر من شكل محتمل
+     */
+
+    if(
+        Array.isArray(
+            question.options
+        )
+    ){
+
+        return question.options;
+
+    }
+
+
+    if(
+        typeof question.options ===
+        "string"
+    ){
+
+        try{
+
+            const parsed =
+                JSON.parse(
+                    question.options
+                );
+
+            if(
+                Array.isArray(parsed)
+            ){
+
+                return parsed;
+
+            }
+
+        }catch{
+
+            return question.options
+                .split("|")
+                .map(
+                    x => x.trim()
+                )
+                .filter(Boolean);
+
+        }
+
+    }
+
+
+    const possible = [
+
+        question.option_a,
+
+        question.option_b,
+
+        question.option_c,
+
+        question.option_d
+
+    ];
+
+
+    return possible.filter(
+        x =>
+            x !== null &&
+            x !== undefined &&
+            String(x).trim() !== ""
+    );
+
+}
+
+
+/* =========================================
+   GET CORRECT ANSWER
+========================================= */
+
+function getCorrectAnswer(
+    question
+){
+
+    return (
+        question.correct_answer ??
+        question.answer ??
+        question.correct_option ??
+        question.correct
+    );
+
+}
+
+
+/* =========================================
+   RENDER QUESTION
+========================================= */
+
+function renderQuestion(){
+
+    const question =
+        questions[
+            currentIndex
+        ];
+
+
+    if(!question){
+
+        return;
+
+    }
+
+
+    const total =
+        questions.length;
+
+
+    questionNumber.textContent =
+        `السؤال ${
+            currentIndex + 1
+        } من ${total}`;
+
+
+    questionText.textContent =
+        getQuestionText(
+            question
+        );
+
+
+    progressText.textContent =
+        `${
+            currentIndex + 1
+        } / ${total}`;
+
+
+    progressBar.style.width =
+        (
+            (
+                currentIndex + 1
+            )
+            /
+            total
+            *
+            100
+        ) +
+        "%";
+
+
+    const questionOptions =
+        getOptions(
+            question
+        );
+
+
+    options.innerHTML = "";
+
+
+    if(
+        questionOptions.length === 0
+    ){
+
+        options.innerHTML = `
+
+            <div
+                style="
+                    color:#555;
+                    font-size:9px;
+                    padding:15px;
+                "
+            >
+                لا توجد اختيارات لهذا السؤال.
+            </div>
+
+        `;
+
+    }
+    else{
+
+        questionOptions.forEach(
+            (
+                option,
+                index
+            ) => {
+
+                const value =
+                    String(
+                        option
+                    );
+
+
+                const div =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                div.className =
+                    "option";
+
+
+                if(
+                    answers[
+                        question.id
+                    ] === value
+                ){
+
+                    div.classList.add(
+                        "selected"
+                    );
+
+                }
+
+
+                const letter =
+                    String.fromCharCode(
+                        65 + index
+                    );
+
+
+                div.innerHTML = `
+
+                    <div
+                        class="option-letter"
                     >
+                        ${letter}
+                    </div>
 
-                        <input
-                            type="radio"
-                            name="answer"
-                            value="${index}"
-                            ${checked}
-                        >
-
-                        <span class="radio"></span>
-
-                        <span class="option-text">
-                            ${escapeHTML(option)}
-                        </span>
-
-                    </label>
+                    <div
+                        class="option-text"
+                    >
+                        ${escapeHTML(value)}
+                    </div>
 
                 `;
+
+
+                div.addEventListener(
+                    "click",
+                    () => {
+
+                        selectAnswer(
+                            question,
+                            value
+                        );
+
+                    }
+                );
+
+
+                options.appendChild(
+                    div
+                );
 
             }
         );
 
-
-        area.innerHTML = `
-
-            <article class="question-card">
-
-                <div class="question-number">
-
-                    السؤال
-                    ${currentQuestion + 1}
-                    من
-                    ${questions.length}
-
-                </div>
-
-
-                <div class="question-text">
-
-                    ${escapeHTML(
-                        question.text ||
-                        question.question ||
-                        "السؤال"
-                    )}
-
-                </div>
-
-
-                <div class="options">
-
-                    ${optionsHTML}
-
-                </div>
-
-            </article>
-
-        `;
-
-
-        document
-            .querySelectorAll(".option")
-            .forEach(
-                function(option){
-
-                    option.addEventListener(
-                        "click",
-                        function(){
-
-                            document
-                                .querySelectorAll(
-                                    ".option"
-                                )
-                                .forEach(
-                                    o =>
-                                        o.classList.remove(
-                                            "selected"
-                                        )
-                                );
-
-
-                            this.classList.add(
-                                "selected"
-                            );
-
-                        }
-                    );
-
-                }
-            );
-
-
-        document
-            .querySelectorAll(
-                'input[name="answer"]'
-            )
-            .forEach(
-                function(input){
-
-                    input.addEventListener(
-                        "change",
-                        function(){
-
-                            answers[
-                                currentQuestion
-                            ] =
-                                Number(
-                                    this.value
-                                );
-
-                        }
-                    );
-
-                }
-            );
-
-
-        updateNavigation();
-
     }
 
 
-    /* ======================================
-       NAVIGATION
-    ====================================== */
-
-    window.nextQuestion =
-        function(){
-
-            const selected =
-                document.querySelector(
-                    'input[name="answer"]:checked'
-                );
+    previousBtn.disabled =
+        currentIndex === 0;
 
 
-            if(selected){
+    if(
+        currentIndex ===
+        questions.length - 1
+    ){
 
-                answers[
-                    currentQuestion
-                ] =
-                    Number(
-                        selected.value
-                    );
+        nextBtn.style.display =
+            "none";
 
-            }
+        submitBtn.style.display =
+            "block";
 
+    }
+    else{
 
-            if(
-                currentQuestion <
-                questions.length - 1
-            ){
+        nextBtn.style.display =
+            "block";
 
-                currentQuestion++;
+        submitBtn.style.display =
+            "none";
 
-                renderQuestion();
+    }
 
-            }
-
-            else{
-
-                finishExam();
-
-            }
-
-        };
+}
 
 
-    window.previousQuestion =
-        function(){
+/* =========================================
+   SELECT ANSWER
+========================================= */
 
-            if(currentQuestion > 0){
+function selectAnswer(
+    question,
+    value
+){
 
-                currentQuestion--;
-
-                renderQuestion();
-
-            }
-
-        };
-
-
-    function updateNavigation(){
-
-        const prev =
-            document.getElementById(
-                "prevBtn"
-            );
-
-        const next =
-            document.getElementById(
-                "nextBtn"
-            );
+    answers[
+        question.id
+    ] = value;
 
 
-        prev.disabled =
-            currentQuestion === 0;
+    renderQuestion();
 
+}
+
+
+/* =========================================
+   PREVIOUS
+========================================= */
+
+previousBtn.addEventListener(
+    "click",
+    function(){
 
         if(
-            currentQuestion ===
+            currentIndex > 0
+        ){
+
+            currentIndex--;
+
+            renderQuestion();
+
+            window.scrollTo(
+                {
+                    top:0,
+                    behavior:"smooth"
+                }
+            );
+
+        }
+
+    }
+);
+
+
+/* =========================================
+   NEXT
+========================================= */
+
+nextBtn.addEventListener(
+    "click",
+    function(){
+
+        if(
+            currentIndex <
             questions.length - 1
         ){
 
-            next.textContent =
-                "إنهاء الاختبار";
+            currentIndex++;
 
-        }
+            renderQuestion();
 
-        else{
-
-            next.textContent =
-                "التالي";
-
-        }
-
-
-        const percentage =
-            Math.round(
-                (
-                    (currentQuestion + 1)
-                    /
-                    questions.length
-                ) * 100
+            window.scrollTo(
+                {
+                    top:0,
+                    behavior:"smooth"
+                }
             );
 
+        }
 
-        document.getElementById(
-            "questionCounter"
-        ).textContent =
-            `السؤال ${
-                currentQuestion + 1
-            } من ${
-                questions.length
-            }`;
+    }
+);
 
 
-        document.getElementById(
-            "percentage"
-        ).textContent =
-            percentage + "%";
+/* =========================================
+   TIMER
+========================================= */
+
+function startTimer(){
+
+    const duration =
+        Number(
+            exam.duration ??
+            exam.time_limit ??
+            exam.duration_minutes ??
+            0
+        );
 
 
-        document.getElementById(
-            "progressBar"
-        ).style.width =
-            percentage + "%";
+    /*
+     * لا يوجد وقت
+     */
+
+    if(
+        !duration ||
+        duration <= 0
+    ){
+
+        timerText.textContent =
+            "بدون وقت";
+
+        return;
 
     }
 
 
-    /* ======================================
-       FINISH
-    ====================================== */
+    secondsLeft =
+        duration * 60;
 
-    function finishExam(){
+
+    updateTimer();
+
+
+    timerInterval =
+        setInterval(
+            () => {
+
+                secondsLeft--;
+
+                updateTimer();
+
+
+                if(
+                    secondsLeft <= 0
+                ){
+
+                    clearInterval(
+                        timerInterval
+                    );
+
+                    timerInterval =
+                        null;
+
+                    submitExam(
+                        true
+                    );
+
+                }
+
+            },
+            1000
+        );
+
+}
+
+
+/* =========================================
+   UPDATE TIMER
+========================================= */
+
+function updateTimer(){
+
+    const minutes =
+        Math.floor(
+            secondsLeft / 60
+        );
+
+    const seconds =
+        secondsLeft % 60;
+
+
+    timerText.textContent =
+        String(minutes)
+        .padStart(
+            2,
+            "0"
+        )
+        +
+        ":" +
+        String(seconds)
+        .padStart(
+            2,
+            "0"
+        );
+
+
+    timer.classList.remove(
+        "warning",
+        "danger"
+    );
+
+
+    if(
+        secondsLeft <= 60
+    ){
+
+        timer.classList.add(
+            "danger"
+        );
+
+    }
+    else if(
+        secondsLeft <= 300
+    ){
+
+        timer.classList.add(
+            "warning"
+        );
+
+    }
+
+}
+
+
+/* =========================================
+   ESCAPE HTML
+========================================= */
+
+function escapeHTML(
+    value
+){
+
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+/* =========================================
+   SUBMIT
+========================================= */
+
+submitBtn.addEventListener(
+    "click",
+    () => {
+
+        submitExam(
+            false
+        );
+
+    }
+);
+
+
+/* =========================================
+   SUBMIT EXAM
+========================================= */
+
+async function submitExam(
+    automatic = false
+){
+
+    if(submitted){
+
+        return;
+
+    }
+
+
+    /*
+     * تأكيد التسليم اليدوي
+     */
+
+    if(!automatic){
+
+        const unanswered =
+            questions.filter(
+                q =>
+                    answers[
+                        q.id
+                    ] === undefined
+            );
+
+
+        if(
+            unanswered.length > 0
+        ){
+
+            const confirmSubmit =
+                confirm(
+                    `لم تجب عن ${
+                        unanswered.length
+                    } سؤال. هل تريد تسليم الاختبار؟`
+                );
+
+
+            if(!confirmSubmit){
+
+                return;
+
+            }
+
+        }
+        else{
+
+            const confirmSubmit =
+                confirm(
+                    "هل تريد تسليم الاختبار؟"
+                );
+
+
+            if(!confirmSubmit){
+
+                return;
+
+            }
+
+        }
+
+    }
+
+
+    submitted = true;
+
+
+    submitBtn.disabled =
+        true;
+
+    submitBtn.textContent =
+        "جاري التسليم...";
+
+
+    if(timerInterval){
 
         clearInterval(
             timerInterval
         );
 
-
-        /* منع التكرار */
-
-        if(
-            document
-                .getElementById("result")
-                .classList
-                .contains("show")
-        ){
-
-            return;
-
-        }
-
-
-        let correct = 0;
-
-
-        questions.forEach(
-            function(question,index){
-
-                const correctAnswer =
-                    question.correctAnswer;
-
-
-                if(
-                    answers[index] !== undefined &&
-                    String(
-                        answers[index]
-                    ) === String(
-                        correctAnswer
-                    )
-                ){
-
-                    correct++;
-
-                }
-
-            }
-        );
-
-
-        const score =
-            Math.round(
-                (
-                    correct /
-                    questions.length
-                ) * 100
-            );
-
-
-        document.getElementById(
-            "score"
-        ).textContent =
-            score + "%";
-
-
-        document.getElementById(
-            "questionArea"
-        ).style.display =
-            "none";
-
-
-        document.getElementById(
-            "navigation"
-        ).style.display =
-            "none";
-
-
-        document.getElementById(
-            "result"
-        ).classList.add(
-            "show"
-        );
-
-
-        /* =========================
-           SAVE RESULT
-        ========================= */
-
-        let results = [];
-
-        try{
-
-            results =
-                JSON.parse(
-                    localStorage.getItem(
-                        "results"
-                    ) || "[]"
-                );
-
-        }catch{
-
-            results = [];
-
-        }
-
-
-        results.push({
-
-            examId:
-                exam.id,
-
-            examTitle:
-                exam.title || "اختبار",
-
-            score:
-                score,
-
-            correct:
-                correct,
-
-            total:
-                questions.length,
-
-            user:
-                localStorage.getItem(
-                    "userName"
-                ) || "الطالب",
-
-            date:
-                new Date().toISOString()
-
-        });
-
-
-        localStorage.setItem(
-            "results",
-            JSON.stringify(results)
-        );
+        timerInterval =
+            null;
 
     }
 
-}
+
+    /*
+     * حساب النتيجة
+     */
+
+    let correct = 0;
 
 
-/* ==========================================
-   FORMAT TIME
-========================================== */
+    questions.forEach(
+        question => {
 
-function formatTime(totalSeconds){
+            const userAnswer =
+                answers[
+                    question.id
+                ];
 
-    const minutes =
-        Math.floor(
-            totalSeconds / 60
+
+            const correctAnswer =
+                getCorrectAnswer(
+                    question
+                );
+
+
+            if(
+                userAnswer !== undefined &&
+                correctAnswer !== undefined &&
+                String(
+                    userAnswer
+                ).trim()
+                ===
+                String(
+                    correctAnswer
+                ).trim()
+            ){
+
+                correct++;
+
+            }
+
+        }
+    );
+
+
+    const total =
+        questions.length;
+
+
+    const percentage =
+        total > 0
+        ?
+        Math.round(
+            (
+                correct /
+                total
+            ) *
+            100
+        )
+        :
+        0;
+
+
+    /*
+     * حفظ النتيجة
+     */
+
+    const saved =
+        await saveResult(
+            correct,
+            total,
+            percentage
         );
 
-    const seconds =
-        totalSeconds % 60;
+
+    if(!saved){
+
+        submitted = false;
+
+        submitBtn.disabled =
+            false;
+
+        submitBtn.textContent =
+            "تسليم الاختبار";
+
+        return;
+
+    }
 
 
-    return String(minutes).padStart(2,"0")
-        + ":"
-        + String(seconds).padStart(2,"0");
+    showResult(
+        correct,
+        total,
+        percentage
+    );
+
+}
+
+
+/* =========================================
+   SAVE RESULT
+========================================= */
+
+async function saveResult(
+    correct,
+    total,
+    percentage
+){
+
+    /*
+     * نحاول استخدام الأعمدة الأساسية.
+     */
+
+    const payload = {
+
+        user_id:
+            currentUser.id,
+
+        exam_id:
+            examId,
+
+        score:
+            percentage,
+
+        correct_answers:
+            correct,
+
+        total_questions:
+            total
+
+    };
+
+
+    const {
+        error
+    } =
+        await supabase
+        .from("results")
+        .insert(
+            payload
+        );
+
+
+    if(error){
+
+        console.error(
+            "RESULT ERROR:",
+            error
+        );
+
+
+        /*
+         * لا نعرض نتيجة محفوظة
+         * إذا فشل الحفظ.
+         */
+
+        showMessage(
+            "تعذر حفظ النتيجة",
+            "تم حساب نتيجتك، لكن لم نتمكن من حفظها في قاعدة البيانات. راجع أعمدة جدول results."
+        );
+
+
+        return false;
+
+    }
+
+
+    /*
+     * تحديث أفضل نتيجة في profiles
+     */
+
+    await updateBestScore(
+        percentage
+    );
+
+
+    return true;
 
 }
 
 
-/* ==========================================
-   ESCAPE HTML
-========================================== */
+/* =========================================
+   UPDATE BEST SCORE
+========================================= */
 
-function escapeHTML(value){
+async function updateBestScore(
+    newScore
+){
 
-    return String(value)
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
+    /*
+     * نقرأ أفضل نتيجة حالية.
+     */
+
+    const {
+        data:
+        profile
+    } =
+        await supabase
+        .from("profiles")
+        .select(
+            "best_score"
+        )
+        .eq(
+            "id",
+            currentUser.id
+        )
+        .maybeSingle();
+
+
+    const oldScore =
+        Number(
+            profile?.best_score || 0
+        );
+
+
+    if(
+        newScore <= oldScore
+    ){
+
+        return;
+
+    }
+
+
+    await supabase
+        .from("profiles")
+        .update(
+            {
+                best_score:
+                    newScore
+            }
+        )
+        .eq(
+            "id",
+            currentUser.id
+        );
 
 }
+
+
+/* =========================================
+   SHOW RESULT
+========================================= */
+
+function showResult(
+    correct,
+    total,
+    percentage
+){
+
+    examContent.style.display =
+        "none";
+
+    message.style.display =
+        "none";
+
+    result.classList.add(
+        "show"
+    );
+
+
+    score.textContent =
+        percentage +
+        "%";
+
+
+    document.title =
+        "الخوارزمي | النتيجة";
+
+
+    window.scrollTo(
+        {
+            top:0,
+            behavior:"smooth"
+        }
+    );
+
+}
+
+
+/* =========================================
+   AUTH STATE
+========================================= */
+
+supabase.auth.onAuthStateChange(
+    (
+        event,
+        session
+    ) => {
+
+        if(
+            event ===
+            "SIGNED_OUT"
+        ){
+
+            window.location.href =
+                "auth.html";
+
+        }
+
+    }
+);
+
+
+/* =========================================
+   START
+========================================= */
+
+(async function(){
+
+    currentUser =
+        await getUser();
+
+
+    if(
+        !currentUser
+    ){
+
+        return;
+
+    }
+
+
+    await loadExam();
+
+})();
 
 </script>
 
-
 </body>
+
 </html>
