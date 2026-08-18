@@ -1,0 +1,1893 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>الخوارزمي | إدارة الطلاب</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,Tahoma,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    color:#fff;
+
+    background:
+        radial-gradient(
+            circle at 50% -20%,
+            rgba(255,255,255,.08),
+            transparent 35%
+        ),
+        #020202;
+
+    overflow-x:hidden;
+}
+
+.background{
+    position:fixed;
+    inset:0;
+    z-index:-5;
+    pointer-events:none;
+}
+
+.grid{
+    position:absolute;
+    inset:0;
+
+    background-image:
+        linear-gradient(
+            rgba(255,255,255,.015) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.015) 1px,
+            transparent 1px
+        );
+
+    background-size:55px 55px;
+}
+
+.glow{
+    position:absolute;
+
+    width:430px;
+    height:430px;
+
+    border-radius:50%;
+
+    background:
+        rgba(255,255,255,.035);
+
+    filter:blur(120px);
+}
+
+.glow.one{
+    top:-250px;
+    right:-170px;
+}
+
+.glow.two{
+    bottom:-250px;
+    left:-170px;
+}
+
+
+/* =========================
+   LAYOUT
+========================= */
+
+.layout{
+    width:min(
+        1250px,
+        calc(100% - 30px)
+    );
+
+    min-height:100vh;
+
+    margin:auto;
+
+    display:grid;
+
+    grid-template-columns:
+        245px 1fr;
+
+    gap:20px;
+
+    padding:20px 0;
+}
+
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar{
+    min-height:
+        calc(100vh - 40px);
+
+    padding:22px 16px;
+
+    border-radius:24px;
+
+    background:
+        rgba(8,8,8,.84);
+
+    border:
+        1px solid
+        rgba(255,255,255,.08);
+
+    backdrop-filter:blur(20px);
+
+    position:sticky;
+
+    top:20px;
+}
+
+.logo{
+    display:flex;
+
+    align-items:center;
+
+    gap:11px;
+
+    padding:
+        5px 7px 22px;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.06);
+
+    text-decoration:none;
+
+    color:white;
+}
+
+.logo-img{
+    width:45px;
+    height:45px;
+
+    overflow:hidden;
+
+    border-radius:14px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #fff,
+            #777
+        );
+
+    animation:
+        floatLogo 3.5s ease-in-out infinite;
+}
+
+.logo-img img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+@keyframes floatLogo{
+
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-4px);
+    }
+
+}
+
+.logo-text strong{
+    display:block;
+    font-size:15px;
+}
+
+.logo-text span{
+    display:block;
+
+    color:#555;
+
+    font-size:9px;
+
+    margin-top:4px;
+}
+
+.menu-title{
+    color:#444;
+
+    font-size:8px;
+
+    margin:
+        25px 8px 10px;
+}
+
+.menu{
+    display:grid;
+    gap:6px;
+}
+
+.menu a{
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    padding:12px;
+
+    border-radius:12px;
+
+    text-decoration:none;
+
+    color:#777;
+
+    font-size:11px;
+
+    transition:.3s;
+}
+
+.menu a:hover{
+    color:white;
+
+    background:
+        rgba(255,255,255,.045);
+}
+
+.menu a.active{
+    color:white;
+
+    background:
+        rgba(255,255,255,.07);
+
+    border:
+        1px solid
+        rgba(255,255,255,.06);
+}
+
+.menu-icon{
+    width:25px;
+    height:25px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:8px;
+
+    background:
+        rgba(255,255,255,.045);
+}
+
+
+/* =========================
+   CONTENT
+========================= */
+
+.content{
+    min-width:0;
+}
+
+.topbar{
+    min-height:70px;
+
+    padding:
+        12px 20px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:15px;
+
+    border-radius:20px;
+
+    background:
+        rgba(8,8,8,.84);
+
+    border:
+        1px solid
+        rgba(255,255,255,.08);
+
+    backdrop-filter:blur(20px);
+
+    margin-bottom:20px;
+}
+
+.topbar h1{
+    font-size:18px;
+}
+
+.topbar p{
+    color:#555;
+
+    font-size:9px;
+
+    margin-top:5px;
+}
+
+
+/* =========================
+   STATS
+========================= */
+
+.stats{
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:12px;
+
+    margin-bottom:18px;
+}
+
+.stat{
+    padding:18px;
+
+    border-radius:18px;
+
+    background:
+        rgba(255,255,255,.025);
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+}
+
+.stat-icon{
+    width:35px;
+    height:35px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:10px;
+
+    background:
+        rgba(255,255,255,.05);
+
+    color:#aaa;
+
+    margin-bottom:14px;
+
+    font-size:13px;
+}
+
+.stat-number{
+    font-size:22px;
+
+    font-weight:bold;
+
+    color:#ddd;
+}
+
+.stat-label{
+    color:#555;
+
+    font-size:8px;
+
+    margin-top:5px;
+}
+
+
+/* =========================
+   TOOLBAR
+========================= */
+
+.toolbar{
+    padding:17px;
+
+    border-radius:18px;
+
+    background:
+        rgba(255,255,255,.025);
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    margin-bottom:15px;
+
+    display:flex;
+
+    gap:10px;
+
+    align-items:center;
+}
+
+.search{
+    flex:1;
+
+    height:43px;
+
+    padding:0 14px;
+
+    color:white;
+
+    outline:none;
+
+    border-radius:11px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    background:
+        rgba(0,0,0,.25);
+
+    font-size:10px;
+}
+
+.search:focus{
+    border-color:
+        rgba(255,255,255,.2);
+}
+
+.filter{
+    height:43px;
+
+    padding:0 14px;
+
+    border-radius:11px;
+
+    color:#777;
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    background:
+        rgba(0,0,0,.25);
+
+    outline:none;
+
+    font-size:10px;
+}
+
+.filter option{
+    background:#111;
+    color:white;
+}
+
+
+/* =========================
+   STUDENTS
+========================= */
+
+.students-card{
+    padding:20px;
+
+    border-radius:20px;
+
+    background:
+        rgba(255,255,255,.025);
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+}
+
+.card-header{
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    margin-bottom:15px;
+}
+
+.card-header h2{
+    font-size:14px;
+}
+
+.card-header span{
+    color:#555;
+
+    font-size:9px;
+}
+
+
+/* =========================
+   TABLE
+========================= */
+
+.table-wrap{
+    width:100%;
+
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+
+    border-collapse:collapse;
+
+    min-width:700px;
+}
+
+th{
+    text-align:right;
+
+    color:#444;
+
+    font-size:8px;
+
+    font-weight:normal;
+
+    padding:
+        12px 10px;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.06);
+}
+
+td{
+    padding:
+        14px 10px;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.045);
+
+    color:#777;
+
+    font-size:9px;
+}
+
+tr:hover td{
+    background:
+        rgba(255,255,255,.018);
+}
+
+.student{
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+}
+
+.avatar{
+    width:34px;
+    height:34px;
+
+    flex-shrink:0;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:10px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #333,
+            #111
+        );
+
+    border:
+        1px solid
+        rgba(255,255,255,.08);
+
+    color:#aaa;
+
+    font-size:10px;
+
+    font-weight:bold;
+}
+
+.student-name{
+    color:#aaa;
+
+    font-size:9px;
+}
+
+.student-email{
+    color:#444;
+
+    font-size:7px;
+
+    margin-top:4px;
+}
+
+.status{
+    display:inline-block;
+
+    padding:
+        6px 9px;
+
+    border-radius:20px;
+
+    font-size:7px;
+
+    color:#888;
+
+    background:
+        rgba(255,255,255,.04);
+
+    border:
+        1px solid
+        rgba(255,255,255,.06);
+}
+
+.status.off{
+    color:#444;
+
+    background:
+        rgba(255,255,255,.015);
+}
+
+.action{
+    padding:
+        7px 10px;
+
+    border-radius:8px;
+
+    color:#666;
+
+    background:
+        rgba(255,255,255,.025);
+
+    border:
+        1px solid
+        rgba(255,255,255,.06);
+
+    cursor:pointer;
+
+    font-size:7px;
+}
+
+.action:hover{
+    color:white;
+}
+
+
+/* =========================
+   EMPTY
+========================= */
+
+.empty{
+    padding:65px 20px;
+
+    text-align:center;
+
+    border:
+        1px dashed
+        rgba(255,255,255,.08);
+
+    border-radius:18px;
+
+    color:#444;
+}
+
+.empty-icon{
+    width:60px;
+    height:60px;
+
+    margin:
+        0 auto 15px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:18px;
+
+    background:
+        rgba(255,255,255,.035);
+
+    color:#666;
+
+    font-size:20px;
+}
+
+.empty strong{
+    display:block;
+
+    color:#666;
+
+    font-size:12px;
+
+    margin-bottom:7px;
+}
+
+.empty span{
+    font-size:9px;
+}
+
+
+/* =========================
+   MODAL
+========================= */
+
+.modal{
+    position:fixed;
+
+    inset:0;
+
+    z-index:100;
+
+    display:none;
+
+    align-items:center;
+    justify-content:center;
+
+    padding:20px;
+
+    background:
+        rgba(0,0,0,.78);
+
+    backdrop-filter:blur(8px);
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-card{
+    width:min(
+        430px,
+        100%
+    );
+
+    padding:27px;
+
+    border-radius:23px;
+
+    background:#090909;
+
+    border:
+        1px solid
+        rgba(255,255,255,.1);
+
+    box-shadow:
+        0 30px 100px
+        rgba(0,0,0,.8);
+}
+
+.modal-card h2{
+    font-size:17px;
+
+    margin-bottom:10px;
+}
+
+.modal-card p{
+    color:#555;
+
+    font-size:10px;
+
+    line-height:1.8;
+
+    margin-bottom:22px;
+}
+
+.modal-actions{
+    display:flex;
+
+    gap:8px;
+}
+
+.modal-actions button{
+    flex:1;
+
+    padding:12px;
+
+    border-radius:11px;
+
+    font-size:10px;
+
+    cursor:pointer;
+}
+
+.confirm{
+    color:#050505;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fff,
+            #aaa
+        );
+
+    border:none;
+}
+
+.cancel{
+    color:#777;
+
+    background:
+        rgba(255,255,255,.04);
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:950px){
+
+    .layout{
+        grid-template-columns:1fr;
+    }
+
+    .sidebar{
+        position:relative;
+        top:auto;
+        min-height:auto;
+    }
+
+    .menu{
+        grid-template-columns:
+            repeat(3,1fr);
+    }
+
+}
+
+@media(max-width:650px){
+
+    .layout{
+        width:
+            calc(100% - 20px);
+
+        padding:10px 0;
+    }
+
+    .menu{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .menu a{
+        justify-content:center;
+
+        flex-direction:column;
+
+        gap:6px;
+
+        font-size:9px;
+    }
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .toolbar{
+        flex-direction:column;
+
+        align-items:stretch;
+    }
+
+    .topbar{
+        align-items:flex-start;
+
+        flex-direction:column;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="background">
+
+    <div class="grid"></div>
+
+    <div class="glow one"></div>
+
+    <div class="glow two"></div>
+
+</div>
+
+
+<div class="layout">
+
+
+<!-- =========================
+     SIDEBAR
+========================= -->
+
+<aside class="sidebar">
+
+    <a
+        href="index.html"
+        class="logo"
+    >
+
+        <div class="logo-img">
+
+            <img
+                src="../teacher.png"
+                alt="الخوارزمي"
+            >
+
+        </div>
+
+        <div class="logo-text">
+
+            <strong>
+                الخوارزمي
+            </strong>
+
+            <span>
+                لوحة الإدارة
+            </span>
+
+        </div>
+
+    </a>
+
+
+    <div class="menu-title">
+        الإدارة
+    </div>
+
+
+    <nav class="menu">
+
+        <a href="index.html">
+
+            <div class="menu-icon">
+                ◈
+            </div>
+
+            الرئيسية
+
+        </a>
+
+
+        <a href="add-exam.html">
+
+            <div class="menu-icon">
+                ＋
+            </div>
+
+            إضافة اختبار
+
+        </a>
+
+
+        <a href="exams.html">
+
+            <div class="menu-icon">
+                □
+            </div>
+
+            الاختبارات
+
+        </a>
+
+
+        <a href="questions.html">
+
+            <div class="menu-icon">
+                ?
+            </div>
+
+            الأسئلة
+
+        </a>
+
+
+        <a
+            href="students.html"
+            class="active"
+        >
+
+            <div class="menu-icon">
+                ◉
+            </div>
+
+            الطلاب
+
+        </a>
+
+    </nav>
+
+</aside>
+
+
+<!-- =========================
+     CONTENT
+========================= -->
+
+<section class="content">
+
+
+    <div class="topbar">
+
+        <div>
+
+            <h1>
+                إدارة الطلاب
+            </h1>
+
+            <p>
+                الطلاب المسجلون في المنصة
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         STATS
+    ========================= -->
+
+    <div class="stats">
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                ◉
+            </div>
+
+            <div
+                class="stat-number"
+                id="totalStudents"
+            >
+                0
+            </div>
+
+            <div class="stat-label">
+                إجمالي الطلاب
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                ✓
+            </div>
+
+            <div
+                class="stat-number"
+                id="activeStudents"
+            >
+                0
+            </div>
+
+            <div class="stat-label">
+                الحسابات النشطة
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                ★
+            </div>
+
+            <div
+                class="stat-number"
+                id="bestScore"
+            >
+                —
+            </div>
+
+            <div class="stat-label">
+                أعلى نتيجة
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- =========================
+         TOOLBAR
+    ========================= -->
+
+    <div class="toolbar">
+
+        <input
+            type="search"
+            class="search"
+            id="search"
+            placeholder="ابحث باسم الطالب أو البريد..."
+        >
+
+
+        <select
+            class="filter"
+            id="filter"
+        >
+
+            <option value="all">
+                كل الطلاب
+            </option>
+
+            <option value="active">
+                النشطون
+            </option>
+
+            <option value="inactive">
+                غير النشطين
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <!-- =========================
+         STUDENTS CARD
+    ========================= -->
+
+    <div class="students-card">
+
+        <div class="card-header">
+
+            <h2>
+                قائمة الطلاب
+            </h2>
+
+            <span id="visibleCount">
+                0 طالب
+            </span>
+
+        </div>
+
+
+        <div
+            class="table-wrap"
+            id="tableContainer"
+        ></div>
+
+    </div>
+
+
+</section>
+
+
+</div>
+
+
+<!-- =========================
+     DELETE MODAL
+========================= -->
+
+<div
+    class="modal"
+    id="modal"
+>
+
+    <div class="modal-card">
+
+        <h2>
+            حذف الحساب؟
+        </h2>
+
+        <p id="modalText">
+            هل أنت متأكد من حذف هذا الطالب؟
+        </p>
+
+        <div class="modal-actions">
+
+            <button
+                class="confirm"
+                id="confirmDelete"
+            >
+                نعم، حذف
+            </button>
+
+            <button
+                class="cancel"
+                onclick="closeModal()"
+            >
+                إلغاء
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   DATA
+========================= */
+
+let students = [];
+
+let deleteId = null;
+
+
+/* =========================
+   LOAD
+========================= */
+
+function loadStudents(){
+
+    try{
+
+        students =
+            JSON.parse(
+                localStorage.getItem(
+                    "users"
+                ) || "[]"
+            );
+
+    }catch{
+
+        students = [];
+
+    }
+
+
+    if(!Array.isArray(students)){
+
+        students = [];
+
+    }
+
+
+    updateStats();
+
+    renderStudents();
+
+}
+
+
+/* =========================
+   STATS
+========================= */
+
+function updateStats(){
+
+    const total =
+        students.length;
+
+
+    const active =
+        students.filter(
+            function(student){
+
+                return student.active !== false;
+
+            }
+        ).length;
+
+
+    document.getElementById(
+        "totalStudents"
+    ).textContent =
+        total;
+
+
+    document.getElementById(
+        "activeStudents"
+    ).textContent =
+        active;
+
+
+    let best = 0;
+
+    students.forEach(
+        function(student){
+
+            const score =
+                Number(
+                    student.bestScore ||
+                    student.score ||
+                    0
+                );
+
+            if(score > best){
+
+                best = score;
+
+            }
+
+        }
+    );
+
+
+    document.getElementById(
+        "bestScore"
+    ).textContent =
+        students.length
+        ? best + "%"
+        : "—";
+
+}
+
+
+/* =========================
+   RENDER
+========================= */
+
+function renderStudents(){
+
+    const search =
+        document
+            .getElementById(
+                "search"
+            )
+            .value
+            .trim()
+            .toLowerCase();
+
+
+    const filter =
+        document
+            .getElementById(
+                "filter"
+            )
+            .value;
+
+
+    const filtered =
+        students.filter(
+            function(student){
+
+                const name =
+                    String(
+                        student.name ||
+                        student.username ||
+                        ""
+                    )
+                    .toLowerCase();
+
+
+                const email =
+                    String(
+                        student.email ||
+                        ""
+                    )
+                    .toLowerCase();
+
+
+                const matchesSearch =
+                    !search ||
+                    name.includes(search) ||
+                    email.includes(search);
+
+
+                const matchesFilter =
+                    filter === "all"
+                    ||
+                    (
+                        filter === "active"
+                        &&
+                        student.active !== false
+                    )
+                    ||
+                    (
+                        filter === "inactive"
+                        &&
+                        student.active === false
+                    );
+
+
+                return (
+                    matchesSearch &&
+                    matchesFilter
+                );
+
+            }
+        );
+
+
+    document.getElementById(
+        "visibleCount"
+    ).textContent =
+        filtered.length +
+        (
+            filtered.length === 1
+            ? " طالب"
+            : " طلاب"
+        );
+
+
+    const container =
+        document.getElementById(
+            "tableContainer"
+        );
+
+
+    if(filtered.length === 0){
+
+        container.innerHTML = `
+
+            <div class="empty">
+
+                <div class="empty-icon">
+                    ◉
+                </div>
+
+                <strong>
+                    لا يوجد طلاب
+                </strong>
+
+                <span>
+                    ${
+                        students.length === 0
+                        ?
+                        "عندما يقوم الطلاب بإنشاء حساباتهم ستظهر هنا."
+                        :
+                        "لا توجد نتائج مطابقة للبحث."
+                    }
+                </span>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    let html = `
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        الطالب
+                    </th>
+
+                    <th>
+                        البريد الإلكتروني
+                    </th>
+
+                    <th>
+                        تاريخ التسجيل
+                    </th>
+
+                    <th>
+                        أفضل نتيجة
+                    </th>
+
+                    <th>
+                        الحالة
+                    </th>
+
+                    <th>
+                        إجراء
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+    `;
+
+
+    filtered.forEach(
+        function(student){
+
+            const name =
+                student.name ||
+                student.username ||
+                "طالب";
+
+
+            const email =
+                student.email ||
+                "—";
+
+
+            const score =
+                Number(
+                    student.bestScore ||
+                    student.score ||
+                    0
+                );
+
+
+            const date =
+                student.createdAt
+                ||
+                student.date
+                ||
+                "—";
+
+
+            const active =
+                student.active !== false;
+
+
+            const initial =
+                name
+                    .trim()
+                    .charAt(0)
+                    .toUpperCase();
+
+
+            html += `
+
+                <tr>
+
+                    <td>
+
+                        <div class="student">
+
+                            <div class="avatar">
+                                ${escapeHTML(
+                                    initial
+                                )}
+                            </div>
+
+                            <div>
+
+                                <div
+                                    class="student-name"
+                                >
+                                    ${escapeHTML(
+                                        name
+                                    )}
+                                </div>
+
+                                <div
+                                    class="student-email"
+                                >
+                                    طالب
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </td>
+
+
+                    <td>
+                        ${escapeHTML(
+                            email
+                        )}
+                    </td>
+
+
+                    <td>
+                        ${escapeHTML(
+                            formatDate(date)
+                        )}
+                    </td>
+
+
+                    <td>
+
+                        ${
+                            score > 0
+                            ?
+                            score + "%"
+                            :
+                            "—"
+                        }
+
+                    </td>
+
+
+                    <td>
+
+                        <span
+                            class="
+                            status
+                            ${active ? "" : "off"}
+                            "
+                        >
+
+                            ${
+                                active
+                                ?
+                                "نشط"
+                                :
+                                "غير نشط"
+                            }
+
+                        </span>
+
+                    </td>
+
+
+                    <td>
+
+                        <button
+                            class="action"
+                            onclick="
+                                askDelete(
+                                    '${escapeAttribute(
+                                        student.id
+                                        ||
+                                        student.email
+                                        ||
+                                        name
+                                    )}'
+                                )
+                            "
+                        >
+                            حذف
+                        </button>
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        }
+    );
+
+
+    html += `
+
+            </tbody>
+
+        </table>
+
+    `;
+
+
+    container.innerHTML =
+        html;
+
+}
+
+
+/* =========================
+   DELETE
+========================= */
+
+function askDelete(id){
+
+    const student =
+        students.find(
+            function(item){
+
+                return String(
+                    item.id ||
+                    item.email ||
+                    item.name
+                ) ===
+                String(id);
+
+            }
+        );
+
+
+    if(!student){
+        return;
+    }
+
+
+    deleteId = id;
+
+
+    document.getElementById(
+        "modalText"
+    ).textContent =
+        `هل أنت متأكد من حذف حساب "${student.name || student.username || "هذا الطالب"}"؟`;
+
+
+    document.getElementById(
+        "modal"
+    ).classList.add(
+        "show"
+    );
+
+}
+
+
+function closeModal(){
+
+    deleteId = null;
+
+    document.getElementById(
+        "modal"
+    ).classList.remove(
+        "show"
+    );
+
+}
+
+
+document.getElementById(
+    "confirmDelete"
+).addEventListener(
+    "click",
+    function(){
+
+        if(deleteId === null){
+            return;
+        }
+
+
+        students =
+            students.filter(
+                function(student){
+
+                    return String(
+                        student.id ||
+                        student.email ||
+                        student.name
+                    ) !==
+                    String(deleteId);
+
+                }
+            );
+
+
+        localStorage.setItem(
+            "users",
+            JSON.stringify(
+                students
+            )
+        );
+
+
+        closeModal();
+
+        updateStats();
+
+        renderStudents();
+
+    }
+);
+
+
+/* =========================
+   SEARCH
+========================= */
+
+document.getElementById(
+    "search"
+).addEventListener(
+    "input",
+    renderStudents
+);
+
+
+document.getElementById(
+    "filter"
+).addEventListener(
+    "change",
+    renderStudents
+);
+
+
+/* =========================
+   DATE
+========================= */
+
+function formatDate(value){
+
+    if(!value){
+        return "—";
+    }
+
+
+    const date =
+        new Date(value);
+
+
+    if(
+        Number.isNaN(
+            date.getTime()
+        )
+    ){
+
+        return String(value);
+
+    }
+
+
+    return date.toLocaleDateString(
+        "ar-EG",
+        {
+            year:"numeric",
+            month:"short",
+            day:"numeric"
+        }
+    );
+
+}
+
+
+/* =========================
+   ESCAPE
+========================= */
+
+function escapeHTML(value){
+
+    return String(value)
+        .replaceAll(
+            "&",
+            "&amp;"
+        )
+        .replaceAll(
+            "<",
+            "&lt;"
+        )
+        .replaceAll(
+            ">",
+            "&gt;"
+        )
+        .replaceAll(
+            '"',
+            "&quot;"
+        )
+        .replaceAll(
+            "'",
+            "&#039;"
+        );
+
+}
+
+
+function escapeAttribute(value){
+
+    return String(value)
+        .replaceAll(
+            "\\",
+            "\\\\"
+        )
+        .replaceAll(
+            "'",
+            "\\'"
+        );
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+loadStudents();
+
+</script>
+
+</body>
+
+</html>
