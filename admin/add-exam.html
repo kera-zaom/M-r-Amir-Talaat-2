@@ -2,10 +2,15 @@
 <html lang="ar" dir="rtl">
 
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>الخوارزمي | إضافة اختبار</title>
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>الخوارزمي | إنشاء اختبار</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 
@@ -13,471 +18,763 @@
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:Arial,Tahoma,sans-serif;
+    font-family:Tahoma,Arial,sans-serif;
 }
 
 body{
     min-height:100vh;
-    color:#fff;
     background:
-        radial-gradient(circle at 50% -20%,rgba(255,255,255,.08),transparent 35%),
+        radial-gradient(
+            circle at 80% -10%,
+            rgba(255,255,255,.08),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 10% 100%,
+            rgba(255,255,255,.035),
+            transparent 35%
+        ),
         #020202;
+    color:#fff;
     overflow-x:hidden;
 }
 
 .background{
     position:fixed;
     inset:0;
-    z-index:-5;
+    z-index:-10;
     pointer-events:none;
 }
 
 .grid{
     position:absolute;
     inset:0;
+
     background-image:
-        linear-gradient(rgba(255,255,255,.015) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(255,255,255,.015) 1px,transparent 1px);
+        linear-gradient(
+            rgba(255,255,255,.018) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.018) 1px,
+            transparent 1px
+        );
+
     background-size:55px 55px;
+
+    mask-image:
+        radial-gradient(
+            circle,
+            black,
+            transparent 90%
+        );
 }
 
 .glow{
     position:absolute;
-    width:430px;
-    height:430px;
+    width:450px;
+    height:450px;
     border-radius:50%;
     background:rgba(255,255,255,.035);
-    filter:blur(120px);
+    filter:blur(130px);
 }
 
 .glow.one{
-    top:-250px;
-    right:-170px;
+    top:-240px;
+    right:-160px;
 }
 
 .glow.two{
-    bottom:-250px;
-    left:-170px;
+    bottom:-260px;
+    left:-150px;
 }
 
-/* =========================
-   LAYOUT
-========================= */
 
-.layout{
-    width:min(1250px,calc(100% - 30px));
-    min-height:100vh;
-    margin:auto;
-    display:grid;
-    grid-template-columns:245px 1fr;
-    gap:20px;
-    padding:20px 0;
-}
-
-/* =========================
-   SIDEBAR
-========================= */
+/* SIDEBAR */
 
 .sidebar{
-    min-height:calc(100vh - 40px);
+    position:fixed;
+    top:0;
+    right:0;
+    width:255px;
+    height:100vh;
     padding:22px 16px;
-    border-radius:24px;
-    background:rgba(8,8,8,.84);
-    border:1px solid rgba(255,255,255,.08);
-    backdrop-filter:blur(20px);
-    position:sticky;
-    top:20px;
+
+    background:rgba(5,5,5,.88);
+
+    border-left:
+        1px solid
+        rgba(255,255,255,.07);
+
+    backdrop-filter:blur(22px);
+
+    z-index:100;
 }
 
-.logo{
+.sidebar-brand{
     display:flex;
     align-items:center;
     gap:11px;
-    padding:5px 7px 22px;
-    border-bottom:1px solid rgba(255,255,255,.06);
-    text-decoration:none;
-    color:white;
+
+    padding:
+        7px 5px 23px;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.06);
+
+    margin-bottom:20px;
 }
 
-.logo-img{
-    width:45px;
-    height:45px;
+.brand-logo{
+    width:44px;
+    height:44px;
+    border-radius:13px;
     overflow:hidden;
-    border-radius:14px;
-    background:linear-gradient(145deg,#fff,#777);
-    animation:floatLogo 3.5s ease-in-out infinite;
+
+    background:
+        linear-gradient(
+            145deg,
+            #fff,
+            #777
+        );
+
+    border:
+        1px solid
+        rgba(255,255,255,.14);
+
+    flex-shrink:0;
 }
 
-.logo-img img{
+.brand-logo img{
     width:100%;
     height:100%;
     object-fit:cover;
 }
 
-@keyframes floatLogo{
-    0%,100%{transform:translateY(0)}
-    50%{transform:translateY(-4px)}
+.brand-info h2{
+    font-size:14px;
+    margin-bottom:4px;
 }
 
-.logo-text strong{
-    display:block;
-    font-size:15px;
-}
-
-.logo-text span{
-    display:block;
+.brand-info span{
     color:#555;
-    font-size:9px;
-    margin-top:4px;
+    font-size:7px;
 }
 
-.menu-title{
+.nav-title{
     color:#444;
-    font-size:8px;
-    margin:25px 8px 10px;
+    font-size:7px;
+    padding:0 10px;
+    margin:17px 0 8px;
 }
 
-.menu{
-    display:grid;
-    gap:6px;
-}
+.nav-link{
+    width:100%;
+    min-height:44px;
 
-.menu a{
+    padding:0 12px;
+
     display:flex;
     align-items:center;
-    gap:12px;
-    padding:12px;
-    border-radius:12px;
+    gap:10px;
+
+    border-radius:11px;
+
+    color:#666;
     text-decoration:none;
-    color:#777;
-    font-size:11px;
-    transition:.3s;
+
+    font-size:9px;
+
+    transition:.25s;
+
+    margin-bottom:4px;
 }
 
-.menu a:hover{
-    color:white;
-    background:rgba(255,255,255,.045);
+.nav-link:hover{
+    color:#fff;
+    background:rgba(255,255,255,.04);
 }
 
-.menu a.active{
-    color:white;
-    background:rgba(255,255,255,.07);
-    border:1px solid rgba(255,255,255,.06);
+.nav-link.active{
+    color:#fff;
+
+    background:
+        rgba(255,255,255,.07);
+
+    border:
+        1px solid
+        rgba(255,255,255,.06);
 }
 
-.menu-icon{
-    width:25px;
-    height:25px;
+.nav-icon{
+    width:28px;
+    height:28px;
+
     display:flex;
     align-items:center;
     justify-content:center;
+
     border-radius:8px;
-    background:rgba(255,255,255,.045);
-}
 
-/* =========================
-   CONTENT
-========================= */
-
-.content{
-    min-width:0;
-}
-
-.topbar{
-    min-height:70px;
-    padding:0 20px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    border-radius:20px;
-    background:rgba(8,8,8,.84);
-    border:1px solid rgba(255,255,255,.08);
-    backdrop-filter:blur(20px);
-    margin-bottom:20px;
-}
-
-.topbar h1{
-    font-size:18px;
-}
-
-.topbar p{
-    color:#555;
-    font-size:9px;
-    margin-top:5px;
-}
-
-.back{
-    color:#777;
-    text-decoration:none;
-    font-size:10px;
-    padding:10px 13px;
-    border-radius:10px;
-    border:1px solid rgba(255,255,255,.07);
-    background:rgba(255,255,255,.025);
-}
-
-/* =========================
-   FORM CARD
-========================= */
-
-.card{
-    padding:28px;
-    border-radius:24px;
     background:
-        linear-gradient(
-            145deg,
-            rgba(255,255,255,.065),
-            rgba(255,255,255,.018)
-        );
-    border:1px solid rgba(255,255,255,.08);
-    margin-bottom:18px;
+        rgba(255,255,255,.035);
+
+    font-size:11px;
 }
 
-.card-title{
-    margin-bottom:22px;
+.sidebar-footer{
+    position:absolute;
+    bottom:20px;
+    right:16px;
+    left:16px;
 }
 
-.card-title h2{
-    font-size:16px;
-}
+.admin-box{
+    padding:12px;
+    border-radius:13px;
 
-.card-title p{
-    color:#555;
-    font-size:9px;
-    margin-top:6px;
-}
+    background:
+        rgba(255,255,255,.025);
 
-.form-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:16px;
-}
+    border:
+        1px solid
+        rgba(255,255,255,.06);
 
-.form-group{
-    margin-bottom:16px;
-}
-
-.form-group.full{
-    grid-column:1/-1;
-}
-
-label{
-    display:block;
-    color:#888;
-    font-size:10px;
     margin-bottom:8px;
 }
 
-input,
-textarea,
-select{
+.admin-label{
+    color:#444;
+    font-size:7px;
+    margin-bottom:5px;
+}
+
+.admin-email{
+    color:#888;
+    font-size:8px;
+
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+}
+
+.logout-btn{
     width:100%;
-    border:1px solid rgba(255,255,255,.08);
-    outline:none;
-    border-radius:13px;
-    color:white;
-    background:rgba(0,0,0,.3);
-    padding:13px;
+    height:39px;
+
+    border-radius:10px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.06);
+
+    background:
+        rgba(255,255,255,.025);
+
+    color:#666;
+
+    cursor:pointer;
+
+    font-size:8px;
+
+    transition:.25s;
+}
+
+.logout-btn:hover{
+    color:#fff;
+
+    border-color:
+        rgba(255,255,255,.15);
+}
+
+
+/* MAIN */
+
+.main{
+    width:calc(100% - 255px);
+    margin-right:255px;
+
+    min-height:100vh;
+
+    padding:
+        25px 30px 60px;
+}
+
+.topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:15px;
+
+    margin-bottom:25px;
+}
+
+.page-title h1{
+    font-size:
+        clamp(
+            22px,
+            4vw,
+            31px
+        );
+
+    margin-bottom:6px;
+}
+
+.page-title p{
+    color:#555;
+    font-size:8px;
+}
+
+.back-btn{
+    height:40px;
+    padding:0 15px;
+
+    display:flex;
+    align-items:center;
+
+    border-radius:10px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    background:
+        rgba(255,255,255,.025);
+
+    color:#777;
+
+    text-decoration:none;
+
+    font-size:8px;
+
+    transition:.25s;
+}
+
+.back-btn:hover{
+    color:#fff;
+}
+
+
+/* FORM */
+
+.content{
+    max-width:900px;
+    margin:auto;
+}
+
+.form-card{
+    padding:25px;
+
+    border-radius:20px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.045),
+            rgba(255,255,255,.012)
+        );
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+}
+
+.form-section{
+    margin-bottom:25px;
+}
+
+.section-title{
+    display:flex;
+    align-items:center;
+    gap:9px;
+
+    padding-bottom:13px;
+
+    margin-bottom:17px;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.05);
+}
+
+.section-number{
+    width:27px;
+    height:27px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:8px;
+
+    background:
+        rgba(255,255,255,.06);
+
+    color:#aaa;
+
+    font-size:8px;
+}
+
+.section-title h2{
     font-size:11px;
-    transition:.3s;
 }
 
-input{
-    height:48px;
+.section-title p{
+    color:#444;
+    font-size:7px;
+    margin-top:3px;
 }
 
-textarea{
-    min-height:110px;
+.fields{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+}
+
+.field.full{
+    grid-column:1 / -1;
+}
+
+.field label{
+    display:block;
+
+    color:#777;
+
+    font-size:8px;
+
+    margin-bottom:7px;
+}
+
+.input,
+.textarea,
+.select{
+
+    width:100%;
+
+    border-radius:11px;
+
+    outline:none;
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    background:
+        rgba(0,0,0,.35);
+
+    color:#fff;
+
+    font-size:9px;
+
+    transition:.25s;
+}
+
+.input,
+.select{
+    height:47px;
+    padding:0 13px;
+}
+
+.textarea{
+    min-height:105px;
+    padding:13px;
     resize:vertical;
     line-height:1.8;
 }
 
-select{
-    height:48px;
+.input::placeholder,
+.textarea::placeholder{
+    color:#333;
 }
 
-select option{
+.input:focus,
+.textarea:focus,
+.select:focus{
+
+    border-color:
+        rgba(255,255,255,.2);
+
+    background:
+        rgba(255,255,255,.025);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(255,255,255,.025);
+}
+
+.select option{
     background:#111;
     color:#fff;
 }
 
-input:focus,
-textarea:focus,
-select:focus{
-    border-color:rgba(255,255,255,.25);
-    background:rgba(255,255,255,.035);
-}
 
-/* =========================
-   OPTIONS
-========================= */
+/* SWITCH */
 
-.checkbox-row{
+.status-box{
     display:flex;
-    gap:10px;
-    flex-wrap:wrap;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:14px;
+
+    border-radius:12px;
+
+    background:
+        rgba(255,255,255,.018);
+
+    border:
+        1px solid
+        rgba(255,255,255,.055);
 }
 
-.check-box{
-    flex:1;
-    min-width:150px;
-    padding:15px;
-    border-radius:13px;
-    border:1px solid rgba(255,255,255,.07);
-    background:rgba(255,255,255,.025);
-    color:#777;
-    cursor:pointer;
-    transition:.3s;
-}
-
-.check-box:hover{
-    background:rgba(255,255,255,.05);
-}
-
-.check-box input{
-    display:none;
-}
-
-.check-box.selected{
-    color:white;
-    border-color:rgba(255,255,255,.2);
-    background:rgba(255,255,255,.06);
-}
-
-.check-box strong{
+.status-info strong{
     display:block;
-    font-size:11px;
+    font-size:9px;
     margin-bottom:5px;
 }
 
-.check-box span{
-    font-size:8px;
-    color:#555;
+.status-info span{
+    color:#444;
+    font-size:7px;
 }
 
-/* =========================
-   ACTIONS
-========================= */
+.switch{
+    position:relative;
+    width:46px;
+    height:25px;
+}
+
+.switch input{
+    opacity:0;
+    width:0;
+    height:0;
+}
+
+.slider{
+    position:absolute;
+    inset:0;
+
+    cursor:pointer;
+
+    border-radius:30px;
+
+    background:#181818;
+
+    border:
+        1px solid
+        rgba(255,255,255,.08);
+
+    transition:.25s;
+}
+
+.slider:before{
+    content:"";
+
+    position:absolute;
+
+    width:17px;
+    height:17px;
+
+    right:3px;
+    top:3px;
+
+    border-radius:50%;
+
+    background:#555;
+
+    transition:.25s;
+}
+
+.switch input:checked + .slider{
+    background:#eee;
+}
+
+.switch input:checked + .slider:before{
+    transform:translateX(-20px);
+    background:#111;
+}
+
+
+/* ACTIONS */
 
 .actions{
     display:flex;
-    justify-content:flex-start;
-    gap:10px;
-    flex-wrap:wrap;
+    gap:9px;
+
+    padding-top:5px;
 }
 
-button{
-    border:none;
+.btn{
+    height:47px;
+
+    padding:0 22px;
+
+    border-radius:11px;
+
     cursor:pointer;
+
+    font-size:8px;
+
+    transition:.25s;
 }
 
-.save-btn{
-    min-width:180px;
-    padding:14px 20px;
-    border-radius:13px;
+.btn-primary{
+
+    border:0;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fff,
+            #aaa
+        );
+
     color:#050505;
-    background:linear-gradient(135deg,#fff,#aaa);
-    font-size:11px;
+
     font-weight:bold;
-    transition:.3s;
+
+    flex:1;
 }
 
-.save-btn:hover{
+.btn-primary:hover{
     transform:translateY(-2px);
-    box-shadow:0 15px 35px rgba(255,255,255,.08);
+
+    box-shadow:
+        0 12px 30px
+        rgba(255,255,255,.08);
 }
 
-.cancel-btn{
-    min-width:120px;
-    padding:14px 20px;
-    border-radius:13px;
+.btn-primary:disabled{
+    opacity:.45;
+    cursor:not-allowed;
+    transform:none;
+}
+
+.btn-secondary{
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    background:
+        rgba(255,255,255,.025);
+
     color:#777;
-    background:rgba(255,255,255,.035);
-    border:1px solid rgba(255,255,255,.07);
-    text-decoration:none;
-    text-align:center;
-    font-size:11px;
 }
 
-/* =========================
-   MESSAGE
-========================= */
+.btn-secondary:hover{
+    color:#fff;
+}
+
+
+/* MESSAGE */
 
 .message{
     display:none;
-    margin-top:18px;
-    padding:13px;
-    border-radius:12px;
+
+    padding:12px;
+
+    margin-bottom:15px;
+
+    border-radius:10px;
+
     text-align:center;
-    font-size:10px;
+
+    font-size:8px;
+
+    line-height:1.8;
+
+    border:
+        1px solid
+        rgba(255,255,255,.06);
+
+    background:
+        rgba(255,255,255,.025);
+
+    color:#777;
 }
 
 .message.show{
     display:block;
 }
 
-.message.success{
-    color:#bbb;
-    background:rgba(255,255,255,.04);
-    border:1px solid rgba(255,255,255,.1);
+
+/* MOBILE */
+
+.mobile-menu{
+    display:none;
+
+    width:40px;
+    height:40px;
+
+    border-radius:10px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.08);
+
+    background:
+        rgba(255,255,255,.025);
+
+    color:#777;
+
+    cursor:pointer;
 }
 
-.message.error{
-    color:#999;
-    background:rgba(255,255,255,.025);
-    border:1px solid rgba(255,255,255,.07);
-}
 
-/* =========================
-   MOBILE
-========================= */
-
-@media(max-width:950px){
-
-    .layout{
-        grid-template-columns:1fr;
-    }
+@media(max-width:800px){
 
     .sidebar{
-        position:relative;
-        top:auto;
-        min-height:auto;
+        transform:translateX(100%);
+        transition:.3s ease;
     }
 
-    .menu{
-        grid-template-columns:repeat(3,1fr);
+    .sidebar.open{
+        transform:translateX(0);
+    }
+
+    .main{
+        width:100%;
+        margin-right:0;
+        padding:20px 15px 50px;
+    }
+
+    .mobile-menu{
+        display:block;
+    }
+
+    .topbar{
+        align-items:flex-start;
+    }
+
+    .page-title{
+        flex:1;
     }
 
 }
+
 
 @media(max-width:600px){
 
-    .layout{
-        width:calc(100% - 20px);
-        padding:10px 0;
-    }
-
-    .form-grid{
+    .fields{
         grid-template-columns:1fr;
     }
 
-    .form-group.full{
+    .field.full{
         grid-column:auto;
     }
 
-    .card{
-        padding:20px 16px;
+    .form-card{
+        padding:18px;
     }
 
-    .menu{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    .menu a{
-        justify-content:center;
+    .actions{
         flex-direction:column;
-        gap:6px;
-        font-size:9px;
+    }
+
+    .btn{
+        width:100%;
     }
 
 }
@@ -501,18 +798,16 @@ button{
 </div>
 
 
-<div class="layout">
+<!-- SIDEBAR -->
 
+<aside
+    id="sidebar"
+    class="sidebar"
+>
 
-<!-- =========================
-     SIDEBAR
-========================= -->
+    <div class="sidebar-brand">
 
-<aside class="sidebar">
-
-    <a href="index.html" class="logo">
-
-        <div class="logo-img">
+        <div class="brand-logo">
 
             <img
                 src="../teacher.png"
@@ -521,361 +816,499 @@ button{
 
         </div>
 
-        <div class="logo-text">
+        <div class="brand-info">
 
-            <strong>
+            <h2>
                 الخوارزمي
-            </strong>
+            </h2>
 
             <span>
-                لوحة الإدارة
+                لوحة إدارة الاختبارات
             </span>
 
         </div>
 
-    </a>
+    </div>
 
 
-    <div class="menu-title">
+    <div class="nav-title">
         الإدارة
     </div>
 
 
-    <nav class="menu">
+    <a
+        href="index.html"
+        class="nav-link"
+    >
 
-        <a href="index.html">
+        <span class="nav-icon">
+            ◈
+        </span>
 
-            <div class="menu-icon">
-                ◈
+        لوحة التحكم
+
+    </a>
+
+
+    <a
+        href="add-exam.html"
+        class="nav-link active"
+    >
+
+        <span class="nav-icon">
+            ＋
+        </span>
+
+        إنشاء اختبار
+
+    </a>
+
+
+    <a
+        href="exams.html"
+        class="nav-link"
+    >
+
+        <span class="nav-icon">
+            ▤
+        </span>
+
+        الاختبارات
+
+    </a>
+
+
+    <a
+        href="questions.html"
+        class="nav-link"
+    >
+
+        <span class="nav-icon">
+            ?
+        </span>
+
+        الأسئلة
+
+    </a>
+
+
+    <a
+        href="students.html"
+        class="nav-link"
+    >
+
+        <span class="nav-icon">
+            ♙
+        </span>
+
+        الطلاب
+
+    </a>
+
+
+    <div class="nav-title">
+        المنصة
+    </div>
+
+
+    <a
+        href="../home.html"
+        class="nav-link"
+    >
+
+        <span class="nav-icon">
+            ⌂
+        </span>
+
+        عرض المنصة
+
+    </a>
+
+
+    <div class="sidebar-footer">
+
+        <div class="admin-box">
+
+            <div class="admin-label">
+                حساب المسؤول
             </div>
 
-            الرئيسية
+            <div
+                id="adminEmail"
+                class="admin-email"
+            >
+                جاري التحميل...
+            </div>
 
-        </a>
+        </div>
 
 
-        <a
-            href="add-exam.html"
-            class="active"
+        <button
+            id="logoutBtn"
+            class="logout-btn"
         >
+            تسجيل الخروج
+        </button>
 
-            <div class="menu-icon">
-                ＋
-            </div>
-
-            إضافة اختبار
-
-        </a>
-
-
-        <a href="exams.html">
-
-            <div class="menu-icon">
-                □
-            </div>
-
-            الاختبارات
-
-        </a>
-
-
-        <a href="questions.html">
-
-            <div class="menu-icon">
-                ?
-            </div>
-
-            الأسئلة
-
-        </a>
-
-
-        <a href="students.html">
-
-            <div class="menu-icon">
-                ◉
-            </div>
-
-            الطلاب
-
-        </a>
-
-    </nav>
+    </div>
 
 </aside>
 
 
-<!-- =========================
-     CONTENT
-========================= -->
+<!-- MAIN -->
 
-<section class="content">
+<main class="main">
 
 
     <div class="topbar">
 
-        <div>
+        <button
+            id="mobileMenu"
+            class="mobile-menu"
+        >
+            ☰
+        </button>
+
+
+        <div class="page-title">
 
             <h1>
-                إنشاء اختبار جديد
+                إنشاء اختبار
             </h1>
 
             <p>
-                أضف بيانات الاختبار الأساسية
+                أنشئ اختبارًا جديدًا واحفظه في قاعدة البيانات.
             </p>
 
         </div>
 
+
         <a
             href="exams.html"
-            class="back"
+            class="back-btn"
         >
-            الاختبارات ←
+            ← الاختبارات
         </a>
 
     </div>
 
 
-    <form id="examForm">
+    <div class="content">
 
 
-        <!-- BASIC INFO -->
-
-        <section class="card">
-
-            <div class="card-title">
-
-                <h2>
-                    بيانات الاختبار
-                </h2>
-
-                <p>
-                    المعلومات التي ستظهر للطلاب.
-                </p>
-
-            </div>
+        <div
+            id="message"
+            class="message"
+        ></div>
 
 
-            <div class="form-grid">
+        <form
+            id="examForm"
+            class="form-card"
+        >
 
 
-                <div class="form-group full">
+            <!-- BASIC -->
 
-                    <label for="title">
-                        اسم الاختبار
-                    </label>
+            <section class="form-section">
 
-                    <input
-                        type="text"
-                        id="title"
-                        placeholder="مثال: اختبار الوحدة الأولى"
-                        required
-                    >
+                <div class="section-title">
 
-                </div>
+                    <div class="section-number">
+                        01
+                    </div>
 
+                    <div>
 
-                <div class="form-group full">
+                        <h2>
+                            معلومات الاختبار
+                        </h2>
 
-                    <label for="description">
-                        وصف الاختبار
-                    </label>
+                        <p>
+                            البيانات الأساسية للاختبار
+                        </p>
 
-                    <textarea
-                        id="description"
-                        placeholder="اكتب وصفًا مختصرًا للاختبار..."
-                    ></textarea>
+                    </div>
 
                 </div>
 
 
-                <div class="form-group">
+                <div class="fields">
 
-                    <label for="subject">
-                        المادة
-                    </label>
 
-                    <input
-                        type="text"
-                        id="subject"
-                        placeholder="اسم المادة"
-                    >
+                    <div class="field full">
+
+                        <label>
+                            اسم الاختبار *
+                        </label>
+
+                        <input
+                            id="title"
+                            class="input"
+                            type="text"
+                            placeholder="مثال: اختبار الرياضيات - الوحدة الأولى"
+                            maxlength="150"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="field full">
+
+                        <label>
+                            وصف الاختبار
+                        </label>
+
+                        <textarea
+                            id="description"
+                            class="textarea"
+                            placeholder="اكتب وصفًا مختصرًا للاختبار..."
+                            maxlength="1000"
+                        ></textarea>
+
+                    </div>
+
+
+                </div>
+
+            </section>
+
+
+            <!-- SETTINGS -->
+
+            <section class="form-section">
+
+                <div class="section-title">
+
+                    <div class="section-number">
+                        02
+                    </div>
+
+                    <div>
+
+                        <h2>
+                            إعدادات الاختبار
+                        </h2>
+
+                        <p>
+                            حدد الوقت والدرجة والحالة
+                        </p>
+
+                    </div>
 
                 </div>
 
 
-                <div class="form-group">
+                <div class="fields">
 
-                    <label for="grade">
-                        الصف / المرحلة
-                    </label>
 
-                    <input
-                        type="text"
-                        id="grade"
-                        placeholder="مثال: الصف الثالث"
-                    >
+                    <div class="field">
+
+                        <label>
+                            مدة الاختبار بالدقائق *
+                        </label>
+
+                        <input
+                            id="duration"
+                            class="input"
+                            type="number"
+                            min="1"
+                            max="600"
+                            value="30"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label>
+                            الدرجة النهائية *
+                        </label>
+
+                        <input
+                            id="totalMarks"
+                            class="input"
+                            type="number"
+                            min="1"
+                            max="10000"
+                            value="10"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="field full">
+
+                        <label>
+                            حالة الاختبار
+                        </label>
+
+
+                        <div class="status-box">
+
+                            <div class="status-info">
+
+                                <strong id="statusText">
+                                    مسودة
+                                </strong>
+
+                                <span>
+                                    يمكنك نشر الاختبار الآن أو إبقاؤه كمسودة.
+                                </span>
+
+                            </div>
+
+
+                            <label class="switch">
+
+                                <input
+                                    id="active"
+                                    type="checkbox"
+                                >
+
+                                <span class="slider"></span>
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
 
                 </div>
 
-
-                <div class="form-group">
-
-                    <label for="duration">
-                        مدة الاختبار بالدقائق
-                    </label>
-
-                    <input
-                        type="number"
-                        id="duration"
-                        min="0"
-                        placeholder="مثال: 30"
-                    >
-
-                </div>
+            </section>
 
 
-                <div class="form-group">
-
-                    <label for="pass">
-                        درجة النجاح %
-                    </label>
-
-                    <input
-                        type="number"
-                        id="pass"
-                        min="0"
-                        max="100"
-                        value="50"
-                        placeholder="50"
-                    >
-
-                </div>
-
-
-            </div>
-
-        </section>
-
-
-        <!-- SETTINGS -->
-
-        <section class="card">
-
-            <div class="card-title">
-
-                <h2>
-                    إعدادات الاختبار
-                </h2>
-
-                <p>
-                    اختر طريقة ظهور الاختبار للطلاب.
-                </p>
-
-            </div>
-
-
-            <div class="checkbox-row">
-
-
-                <label
-                    class="check-box selected"
-                    id="activeBox"
-                >
-
-                    <input
-                        type="checkbox"
-                        id="active"
-                        checked
-                    >
-
-                    <strong>
-                        نشر الاختبار
-                    </strong>
-
-                    <span>
-                        يظهر الاختبار للطلاب.
-                    </span>
-
-                </label>
-
-
-                <label
-                    class="check-box"
-                    id="shuffleBox"
-                >
-
-                    <input
-                        type="checkbox"
-                        id="shuffle"
-                    >
-
-                    <strong>
-                        ترتيب عشوائي
-                    </strong>
-
-                    <span>
-                        ترتيب الأسئلة بشكل عشوائي.
-                    </span>
-
-                </label>
-
-
-            </div>
-
-        </section>
-
-
-        <!-- ACTIONS -->
-
-        <section class="card">
+            <!-- ACTIONS -->
 
             <div class="actions">
 
+
+                <button
+                    type="button"
+                    id="cancelBtn"
+                    class="btn btn-secondary"
+                >
+                    إلغاء
+                </button>
+
+
                 <button
                     type="submit"
-                    class="save-btn"
+                    id="saveBtn"
+                    class="btn btn-primary"
                 >
                     إنشاء الاختبار
                 </button>
 
 
-                <a
-                    href="exams.html"
-                    class="cancel-btn"
-                >
-                    إلغاء
-                </a>
-
             </div>
 
 
-            <div
-                id="message"
-                class="message"
-            ></div>
-
-        </section>
+        </form>
 
 
-    </form>
+    </div>
 
 
-</section>
-
-
-</div>
+</main>
 
 
 <script>
 
-/* =========================
-   ELEMENTS
-========================= */
+/* =====================================================
+   SUPABASE
+===================================================== */
 
-const form =
+const SUPABASE_URL =
+    "https://cuygojzrgpposlcpthjw.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_ySp8SmV4CDZaOojNnkNMPA_5S5s_Ia5";
+
+const {
+    createClient
+} = window.supabase;
+
+const supabase =
+    createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const sidebar =
+    document.getElementById(
+        "sidebar"
+    );
+
+const mobileMenu =
+    document.getElementById(
+        "mobileMenu"
+    );
+
+const adminEmail =
+    document.getElementById(
+        "adminEmail"
+    );
+
+const logoutBtn =
+    document.getElementById(
+        "logoutBtn"
+    );
+
+const examForm =
     document.getElementById(
         "examForm"
+    );
+
+const titleInput =
+    document.getElementById(
+        "title"
+    );
+
+const descriptionInput =
+    document.getElementById(
+        "description"
+    );
+
+const durationInput =
+    document.getElementById(
+        "duration"
+    );
+
+const totalMarksInput =
+    document.getElementById(
+        "totalMarks"
+    );
+
+const activeInput =
+    document.getElementById(
+        "active"
+    );
+
+const statusText =
+    document.getElementById(
+        "statusText"
+    );
+
+const saveBtn =
+    document.getElementById(
+        "saveBtn"
+    );
+
+const cancelBtn =
+    document.getElementById(
+        "cancelBtn"
     );
 
 const message =
@@ -884,277 +1317,401 @@ const message =
     );
 
 
-/* =========================
-   CHECKBOX STYLE
-========================= */
+/* =====================================================
+   MOBILE
+===================================================== */
 
-const active =
-    document.getElementById(
-        "active"
-    );
+mobileMenu.addEventListener(
+    "click",
+    () => {
 
-const shuffle =
-    document.getElementById(
-        "shuffle"
-    );
+        sidebar.classList.toggle(
+            "open"
+        );
 
-const activeBox =
-    document.getElementById(
-        "activeBox"
-    );
-
-const shuffleBox =
-    document.getElementById(
-        "shuffleBox"
-    );
+    }
+);
 
 
-active.addEventListener(
+/* =====================================================
+   STATUS SWITCH
+===================================================== */
+
+activeInput.addEventListener(
     "change",
-    function(){
+    () => {
 
-        activeBox.classList.toggle(
-            "selected",
-            this.checked
-        );
-
-    }
-);
-
-
-shuffle.addEventListener(
-    "change",
-    function(){
-
-        shuffleBox.classList.toggle(
-            "selected",
-            this.checked
-        );
+        statusText.textContent =
+            activeInput.checked
+            ? "منشور"
+            : "مسودة";
 
     }
 );
 
 
-/* =========================
-   FORM
-========================= */
-
-form.addEventListener(
-    "submit",
-    function(event){
-
-        event.preventDefault();
-
-
-        const title =
-            document
-                .getElementById("title")
-                .value
-                .trim();
-
-
-        const description =
-            document
-                .getElementById("description")
-                .value
-                .trim();
-
-
-        const subject =
-            document
-                .getElementById("subject")
-                .value
-                .trim();
-
-
-        const grade =
-            document
-                .getElementById("grade")
-                .value
-                .trim();
-
-
-        const duration =
-            Number(
-                document
-                    .getElementById("duration")
-                    .value
-            ) || 0;
-
-
-        const pass =
-            Number(
-                document
-                    .getElementById("pass")
-                    .value
-            ) || 0;
-
-
-        /* =====================
-           VALIDATION
-        ===================== */
-
-        if(!title){
-
-            showMessage(
-                "من فضلك اكتب اسم الاختبار.",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        if(pass < 0 || pass > 100){
-
-            showMessage(
-                "درجة النجاح يجب أن تكون بين 0 و100.",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        /* =====================
-           LOAD OLD TESTS
-        ===================== */
-
-        let tests = [];
-
-        try{
-
-            tests =
-                JSON.parse(
-                    localStorage.getItem(
-                        "tests"
-                    ) || "[]"
-                );
-
-        }catch{
-
-            tests = [];
-
-        }
-
-
-        if(!Array.isArray(tests)){
-
-            tests = [];
-
-        }
-
-
-        /* =====================
-           CREATE TEST
-        ===================== */
-
-        const exam = {
-
-            id:
-                Date.now().toString(),
-
-            title:
-                title,
-
-            description:
-                description,
-
-            subject:
-                subject,
-
-            grade:
-                grade,
-
-            duration:
-                duration,
-
-            pass:
-                pass,
-
-            active:
-                active.checked,
-
-            shuffle:
-                shuffle.checked,
-
-            questions:
-                [],
-
-            createdAt:
-                new Date().toISOString()
-
-        };
-
-
-        /* =====================
-           SAVE
-        ===================== */
-
-        tests.push(
-            exam
-        );
-
-
-        localStorage.setItem(
-            "tests",
-            JSON.stringify(tests)
-        );
-
-
-        /* =====================
-           SUCCESS
-        ===================== */
-
-        showMessage(
-            "تم إنشاء الاختبار بنجاح.",
-            "success"
-        );
-
-
-        /*
-        الانتقال بعد لحظة
-        */
-
-        setTimeout(
-            function(){
-
-                window.location.href =
-                    "questions.html?exam=" +
-                    encodeURIComponent(
-                        exam.id
-                    );
-
-            },
-            900
-        );
-
-    }
-);
-
-
-/* =========================
+/* =====================================================
    MESSAGE
-========================= */
+===================================================== */
 
 function showMessage(
-    text,
-    type
+    text
 ){
 
     message.textContent =
         text;
 
-    message.className =
-        "message show " +
-        type;
+    message.classList.add(
+        "show"
+    );
 
 }
 
-</script>
 
+function hideMessage(){
+
+    message.textContent =
+        "";
+
+    message.classList.remove(
+        "show"
+    );
+
+}
+
+
+/* =====================================================
+   AUTH
+===================================================== */
+
+async function checkAdmin(){
+
+    const {
+        data,
+        error
+    } =
+        await supabase.auth
+        .getSession();
+
+
+    if(
+        error ||
+        !data ||
+        !data.session
+    ){
+
+        window.location.href =
+            "login.html";
+
+        return null;
+
+    }
+
+
+    const user =
+        data.session.user;
+
+
+    adminEmail.textContent =
+        user.email ||
+        user.phone ||
+        "حساب المسؤول";
+
+
+    return user;
+
+}
+
+
+/* =====================================================
+   CREATE EXAM
+===================================================== */
+
+examForm.addEventListener(
+    "submit",
+    async event => {
+
+        event.preventDefault();
+
+        hideMessage();
+
+
+        const title =
+            titleInput.value.trim();
+
+        const description =
+            descriptionInput.value.trim();
+
+        const duration =
+            Number(
+                durationInput.value
+            );
+
+        const totalMarks =
+            Number(
+                totalMarksInput.value
+            );
+
+        const active =
+            activeInput.checked;
+
+
+        /* validation */
+
+        if(!title){
+
+            showMessage(
+                "اكتب اسم الاختبار أولًا."
+            );
+
+            titleInput.focus();
+
+            return;
+
+        }
+
+
+        if(
+            !Number.isFinite(duration) ||
+            duration < 1
+        ){
+
+            showMessage(
+                "مدة الاختبار يجب أن تكون دقيقة واحدة على الأقل."
+            );
+
+            durationInput.focus();
+
+            return;
+
+        }
+
+
+        if(
+            !Number.isFinite(totalMarks) ||
+            totalMarks < 1
+        ){
+
+            showMessage(
+                "الدرجة النهائية يجب أن تكون أكبر من صفر."
+            );
+
+            totalMarksInput.focus();
+
+            return;
+
+        }
+
+
+        saveBtn.disabled =
+            true;
+
+        cancelBtn.disabled =
+            true;
+
+        saveBtn.textContent =
+            "جاري إنشاء الاختبار...";
+
+
+        /*
+         * البيانات التي سنرسلها
+         *
+         * ملاحظة:
+         * هذا الكود يفترض أن جدول exams
+         * يحتوي على:
+         *
+         * title
+         * description
+         * duration
+         * total_marks
+         * active
+         * created_by
+         */
+
+        const {
+            data:sessionData
+        } =
+            await supabase.auth
+            .getSession();
+
+
+        const user =
+            sessionData?.session?.user;
+
+
+        if(!user){
+
+            window.location.href =
+                "login.html";
+
+            return;
+
+        }
+
+
+        const {
+            data,
+            error
+        } =
+            await supabase
+            .from("exams")
+            .insert({
+
+                title:title,
+
+                description:
+                    description || null,
+
+                duration:duration,
+
+                total_marks:
+                    totalMarks,
+
+                active:active,
+
+                created_by:
+                    user.id
+
+            })
+            .select()
+            .single();
+
+
+        if(error){
+
+            console.error(
+                error
+            );
+
+
+            /*
+             * في حالة اختلاف أسماء
+             * الأعمدة، نظهر الرسالة
+             * بدل ما نخلي الصفحة تنهار.
+             */
+
+            showMessage(
+                "تعذر إنشاء الاختبار. تأكد أن جدول exams يحتوي على الأعمدة المطلوبة وأن صلاحيات Supabase تسمح بالإضافة."
+            );
+
+
+            saveBtn.disabled =
+                false;
+
+            cancelBtn.disabled =
+                false;
+
+            saveBtn.textContent =
+                "إنشاء الاختبار";
+
+            return;
+
+        }
+
+
+        /*
+         * نجاح
+         */
+
+        saveBtn.textContent =
+            "تم إنشاء الاختبار ✓";
+
+
+        showMessage(
+            "تم إنشاء الاختبار بنجاح. سيتم الانتقال إلى إدارة الاختبارات."
+        );
+
+
+        setTimeout(
+            () => {
+
+                window.location.href =
+                    "exams.html";
+
+            },
+            800
+        );
+
+    }
+);
+
+
+/* =====================================================
+   CANCEL
+===================================================== */
+
+cancelBtn.addEventListener(
+    "click",
+    () => {
+
+        window.location.href =
+            "index.html";
+
+    }
+);
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+logoutBtn.addEventListener(
+    "click",
+    async () => {
+
+        logoutBtn.disabled =
+            true;
+
+        logoutBtn.textContent =
+            "جاري تسجيل الخروج...";
+
+
+        await supabase.auth
+            .signOut();
+
+
+        window.location.href =
+            "login.html";
+
+    }
+);
+
+
+/* =====================================================
+   AUTH STATE
+===================================================== */
+
+supabase.auth.onAuthStateChange(
+    (
+        event,
+        session
+    ) => {
+
+        if(
+            event ===
+            "SIGNED_OUT"
+        ){
+
+            window.location.href =
+                "login.html";
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   START
+===================================================== */
+
+(async function(){
+
+    await checkAdmin();
+
+})();
+
+</script>
 
 </body>
 
