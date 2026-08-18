@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>الخوارزمي | تسجيل الدخول</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Tahoma, sans-serif;
+        }
+
+        :root {
+            --black: #020202;
+            --black2: #080808;
+            --black3: #111111;
+
+            --white: #ffffff;
+            --silver: #d8d8d8;
+            --gray: #888888;
+
+            --border: rgba(255,255,255,.10);
+        }
+
+        body {
+            min-height: 100vh;
+
+            background:
+                radial-gradient(
+                    circle at 50% -20%,
+                    rgba(255,255,255,.09),
+                    transparent 35%
+                ),
+                radial-gradient(
+                    circle at 0% 100%,
+                    rgba(255,255,255,.04),
+                    transparent 30%
+                ),
+                #020202;
+
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* =========================
+           BACKGROUND
+        ========================= */
+
+        .background {
+            position: fixed;
+            inset: 0;
+            z-index: -5;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .grid {
+            position: absolute;
+            inset: 0;
+
+            background-image:
+                linear-gradient(
+                    rgba(255,255,255,.018) 1px,
+                    transparent 1px
+                ),
+                linear-gradient(
+                    90deg,
+                    rgba(255,255,255,.018) 1px,
+                    transparent 1px
+                );
+
+            background-size: 55px 55px;
+
+            mask-image:
+                linear-gradient(
+                    to bottom,
+                    black,
+                    transparent
+                );
+        }
+
+        .glow {
+            position: absolute;
+
+            width: 450px;
+            height: 450px;
+
+            border-radius: 50%;
+
+            background: rgba(255,255,255,.035);
+
+            filter: blur(110px);
+        }
+
+        .glow.one {
+            top: -260px;
+            right: -150px;
+        }
+
+        .glow.two {
+            bottom: -300px;
+            left: -170px;
+        }
+
+        /* =========================
+           TOP BAR
+        ========================= */
+
+        .topbar {
+            width: min(
+                1180px,
+                calc(100% - 32px)
+            );
+
+            height: 75px;
+
+            margin: 18px auto 0;
+
+            padding: 0 20px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            border: 1px solid rgba(255,255,255,.09);
+
+            background:
+                rgba(10,10,10,.78);
+
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+
+            border-radius: 20px;
+
+            box-shadow:
+                0 20px 70px rgba(0,0,0,.5);
+        }
+
+        /* =========================
+           BRAND
+        ========================= */
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            text-decoration: none;
+            color: white;
+        }
+
+        .brand-icon {
+            width: 46px;
+            height: 46px;
+
+            border-radius: 14px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #ffffff,
+                    #888888
+                );
+
+            box-shadow:
+                0 10px 35px
+                rgba(255,255,255,.12);
+
+            animation:
+                logoFloat 3.5s ease-in-out infinite;
+        }
+
+        .brand-icon img {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+
+            display: block;
+        }
+
+        @keyframes logoFloat {
+
+            0%,
+            100% {
+                transform:
+                    translateY(0)
+                    rotate(0deg);
+            }
+
+            50% {
+                transform:
+                    translateY(-4px)
+                    rotate(2deg);
+            }
+        }
+
+        .brand-text strong {
+            display: block;
+            font-size: 17px;
+        }
+
+        .brand-text span {
+            display: block;
+
+            color: #707070;
+
+            font-size: 10px;
+
+            margin-top: 3px;
+        }
+
+        .back-home {
+            color: #999;
+
+            text-decoration: none;
+
+            font-size: 12px;
+
+            transition: .3s;
+        }
+
+        .back-home:hover {
+            color: white;
+        }
+
+        /* =========================
+           PAGE
+        ========================= */
+
+        .page {
+            width: min(
+                1100px,
+                calc(100% - 32px)
+            );
+
+            min-height:
+                calc(100vh - 130px);
+
+            margin: auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 50px 0;
+        }
+
+        /* =========================
+           AUTH CONTAINER
+        ========================= */
+
+        .auth-container {
+            width: 100%;
+            max-width: 940px;
+
+            min-height: 570px;
+
+            display: grid;
+
+            grid-template-columns:
+                .85fr 1.15fr;
+
+            border-radius: 30px;
+
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,.065),
+                    rgba(255,255,255,.018)
+                );
+
+            border:
+                1px solid
+                rgba(255,255,255,.11);
+
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+
+            box-shadow:
+                0 40px 120px
+                rgba(0,0,0,.65);
+
+            animation:
+                appear .8s ease forwards;
+        }
+
+        @keyframes appear {
+
+            from {
+                opacity: 0;
+
+                transform:
+                    translateY(25px)
+                    scale(.98);
+            }
+
+            to {
+                opacity: 1;
+
+                transform:
+                    translateY(0)
+                    scale(1);
+            }
+        }
+
+        /* =========================
+           INFO SIDE
+        ========================= */
+
+        .auth-info {
+            padding: 50px 40px;
+
+            background:
+                radial-gradient(
+                    circle at 50% 20%,
+                    rgba(255,255,255,.07),
+                    transparent 45%
+                ),
+                rgba(0,0,0,.25);
+
+            border-left:
+                1px solid
+                rgba(255,255,255,.07);
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+            align-items: center;
+
+            text-align: center;
+
+            position: relative;
+        }
+
+        /* صورة الماستر الكبيرة */
+
+        .teacher-logo {
+            width: 145px;
+            height: 145px;
+
+            border-radius: 38px;
+
+            overflow: hidden;
+
+            margin-bottom: 28px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #ffffff,
+                    #777777
+                );
+
+            border:
+                2px solid
+                rgba(255,255,255,.15);
+
+            box-shadow:
+                0 25px 80px
+                rgba(255,255,255,.10);
+
+            animation:
+                masterFloat 4s ease-in-out infinite;
+        }
+
+        .teacher-logo img {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+
+            display: block;
+        }
+
+        @keyframes masterFloat {
+
+            0%,
+            100% {
+                transform:
+                    translateY(0)
+                    rotate(-1deg);
+            }
+
+            50% {
+                transform:
+                    translateY(-10px)
+                    rotate(1deg);
+            }
+        }
+
+        .auth-info h1 {
+            font-size: 28px;
+
+            margin-bottom: 14px;
+        }
+
+        .auth-info p {
+            max-width: 300px;
+
+            color: #777;
+
+            font-size: 13px;
+
+            line-height: 2;
+        }
+
+        .line {
+            width: 80px;
+
+            height: 1px;
+
+            margin-top: 25px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    #aaa,
+                    transparent
+                );
+        }
+
+        /* =========================
+           AUTH SIDE
+        ========================= */
+
+        .auth-box {
+            padding: 50px;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+        }
+
+        .auth-title {
+            margin-bottom: 30px;
+        }
+
+        .auth-title h2 {
+            font-size: 28px;
+
+            margin-bottom: 9px;
+        }
+
+        .auth-title p {
+            color: #777;
+
+            font-size: 12px;
+        }
+
+        /* =========================
+           TABS
+        ========================= */
+
+        .tabs {
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 7px;
+
+            padding: 5px;
+
+            margin-bottom: 28px;
+
+            border-radius: 13px;
+
+            background:
+                rgba(255,255,255,.035);
+
+            border:
+                1px solid
+                rgba(255,255,255,.07);
+        }
+
+        .tab {
+            padding: 11px;
+
+            border: none;
+
+            border-radius: 9px;
+
+            background: transparent;
+
+            color: #666;
+
+            cursor: pointer;
+
+            font-size: 12px;
+
+            transition: .3s;
+        }
+
+        .tab.active {
+            color: #050505;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ffffff,
+                    #bdbdbd
+                );
+
+            font-weight: bold;
+        }
+
+        /* =========================
+           FORM
+        ========================= */
+
+        .field {
+            margin-bottom: 18px;
+        }
+
+        .field label {
+            display: block;
+
+            margin-bottom: 8px;
+
+            color: #a4a4a4;
+
+            font-size: 11px;
+        }
+
+        .field input {
+            width: 100%;
+
+            height: 48px;
+
+            padding: 0 15px;
+
+            border-radius: 12px;
+
+            outline: none;
+
+            border:
+                1px solid
+                rgba(255,255,255,.09);
+
+            background:
+                rgba(255,255,255,.035);
+
+            color: white;
+
+            font-size: 13px;
+
+            transition: .3s;
+        }
+
+        .field input::placeholder {
+            color: #4f4f4f;
+        }
+
+        .field input:focus {
+            border-color:
+                rgba(255,255,255,.3);
+
+            background:
+                rgba(255,255,255,.05);
+
+            box-shadow:
+                0 0 0 3px
+                rgba(255,255,255,.025);
+        }
+
+        .submit-btn {
+            width: 100%;
+
+            height: 50px;
+
+            border: none;
+
+            border-radius: 13px;
+
+            cursor: pointer;
+
+            margin-top: 5px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ffffff,
+                    #a5a5a5
+                );
+
+            color: #050505;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            transition: .3s;
+        }
+
+        .submit-btn:hover {
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 20px 45px
+                rgba(255,255,255,.13);
+        }
+
+        .form-message {
+            min-height: 20px;
+
+            margin-top: 15px;
+
+            text-align: center;
+
+            color: #aaa;
+
+            font-size: 11px;
+        }
+
+        .security {
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            gap: 7px;
+
+            margin-top: 20px;
+
+            color: #555;
+
+            font-size: 10px;
+        }
+
+        .security span {
+            color: #aaa;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 800px) {
+
+            .auth-container {
+                grid-template-columns: 1fr;
+
+                max-width: 560px;
+            }
+
+            .auth-info {
+                padding: 35px 25px;
+
+                border-left: none;
+
+                border-bottom:
+                    1px solid
+                    rgba(255,255,255,.07);
+            }
+
+            .teacher-logo {
+                width: 100px;
+                height: 100px;
+
+                border-radius: 28px;
+
+                margin-bottom: 20px;
+            }
+
+            .auth-info h1 {
+                font-size: 23px;
+            }
+
+            .auth-info p {
+                font-size: 12px;
+            }
+
+            .auth-box {
+                padding: 35px 25px;
+            }
+        }
+
+        @media (max-width: 480px) {
+
+            .topbar {
+                width:
+                    calc(100% - 20px);
+
+                height: 68px;
+
+                margin-top: 10px;
+            }
+
+            .brand-icon {
+                width: 40px;
+                height: 40px;
+            }
+
+            .brand-text strong {
+                font-size: 15px;
+            }
+
+            .back-home {
+                font-size: 10px;
+            }
+
+            .page {
+                width:
+                    calc(100% - 20px);
+
+                padding: 30px 0;
+            }
+
+            .auth-container {
+                border-radius: 23px;
+            }
+
+            .auth-title h2 {
+                font-size: 24px;
+            }
+
+            .teacher-logo {
+                width: 90px;
+                height: 90px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         BACKGROUND
+    ========================= -->
+
+    <div class="background">
+
+        <div class="glow one"></div>
+
+        <div class="glow two"></div>
+
+        <div class="grid"></div>
+
+    </div>
+
+
+    <!-- =========================
+         TOP BAR
+    ========================= -->
+
+    <header class="topbar">
+
+        <a
+            href="index.html"
+            class="brand"
+        >
+
+            <div class="brand-icon">
+
+                <img
+                    src="teacher.png"
+                    alt="الماستر"
+                >
+
+            </div>
+
+            <div class="brand-text">
+
+                <strong>
+                    الخوارزمي
+                </strong>
+
+                <span>
+                    منصة الاختبارات
+                </span>
+
+            </div>
+
+        </a>
+
+
+        <a
+            href="index.html"
+            class="back-home"
+        >
+            العودة للرئيسية
+        </a>
+
+    </header>
+
+
+    <!-- =========================
+         PAGE
+    ========================= -->
+
+    <main class="page">
+
+
+        <section class="auth-container">
+
+
+            <!-- =========================
+                 INFO
+            ========================= -->
+
+            <div class="auth-info">
+
+
+                <div class="teacher-logo">
+
+                    <img
+                        src="teacher.png"
+                        alt="صورة الماستر"
+                    >
+
+                </div>
+
+
+                <h1>
+                    أهلاً بك في الخوارزمي
+                </h1>
+
+
+                <p>
+                    سجّل دخولك للوصول إلى حسابك
+                    والاختبارات المتاحة لك.
+                </p>
+
+
+                <div class="line"></div>
+
+
+            </div>
+
+
+            <!-- =========================
+                 AUTH
+            ========================= -->
+
+            <div class="auth-box">
+
+
+                <div class="auth-title">
+
+                    <h2 id="authHeading">
+                        تسجيل الدخول
+                    </h2>
+
+                    <p id="authDescription">
+                        أدخل بيانات حسابك للمتابعة
+                    </p>
+
+                </div>
+
+
+                <!-- TABS -->
+
+                <div class="tabs">
+
+                    <button
+                        class="tab active"
+                        id="loginTab"
+                        type="button"
+                    >
+                        تسجيل الدخول
+                    </button>
+
+
+                    <button
+                        class="tab"
+                        id="registerTab"
+                        type="button"
+                    >
+                        إنشاء حساب
+                    </button>
+
+                </div>
+
+
+                <!-- LOGIN -->
+
+                <form id="loginForm">
+
+                    <div class="field">
+
+                        <label>
+                            البريد الإلكتروني
+                        </label>
+
+                        <input
+                            type="email"
+                            id="loginEmail"
+                            placeholder="example@email.com"
+                            autocomplete="email"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label>
+                            كلمة المرور
+                        </label>
+
+                        <input
+                            type="password"
+                            id="loginPassword"
+                            placeholder="أدخل كلمة المرور"
+                            autocomplete="current-password"
+                            required
+                        >
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="submit-btn"
+                    >
+                        دخول إلى الحساب
+                    </button>
+
+                </form>
+
+
+                <!-- REGISTER -->
+
+                <form
+                    id="registerForm"
+                    style="display:none;"
+                >
+
+                    <div class="field">
+
+                        <label>
+                            الاسم بالكامل
+                        </label>
+
+                        <input
+                            type="text"
+                            id="registerName"
+                            placeholder="اكتب اسمك بالكامل"
+                            autocomplete="name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label>
+                            البريد الإلكتروني
+                        </label>
+
+                        <input
+                            type="email"
+                            id="registerEmail"
+                            placeholder="example@email.com"
+                            autocomplete="email"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label>
+                            كلمة المرور
+                        </label>
+
+                        <input
+                            type="password"
+                            id="registerPassword"
+                            placeholder="اختر كلمة مرور"
+                            autocomplete="new-password"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label>
+                            تأكيد كلمة المرور
+                        </label>
+
+                        <input
+                            type="password"
+                            id="registerConfirm"
+                            placeholder="أعد كتابة كلمة المرور"
+                            autocomplete="new-password"
+                            required
+                        >
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="submit-btn"
+                    >
+                        إنشاء الحساب
+                    </button>
+
+                </form>
+
+
+                <div
+                    class="form-message"
+                    id="formMessage"
+                ></div>
+
+
+                <div class="security">
+
+                    <span>◆</span>
+
+                    بيانات الحساب يتم التعامل معها بأمان
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================= -->
+
+    <script>
+
+        const loginTab =
+            document.getElementById("loginTab");
+
+        const registerTab =
+            document.getElementById("registerTab");
+
+        const loginForm =
+            document.getElementById("loginForm");
+
+        const registerForm =
+            document.getElementById("registerForm");
+
+        const authHeading =
+            document.getElementById("authHeading");
+
+        const authDescription =
+            document.getElementById("authDescription");
+
+        const formMessage =
+            document.getElementById("formMessage");
+
+
+        function showLogin() {
+
+            loginTab.classList.add("active");
+
+            registerTab.classList.remove("active");
+
+            loginForm.style.display = "block";
+
+            registerForm.style.display = "none";
+
+            authHeading.textContent =
+                "تسجيل الدخول";
+
+            authDescription.textContent =
+                "أدخل بيانات حسابك للمتابعة";
+
+            formMessage.textContent = "";
+
+        }
+
+
+        function showRegister() {
+
+            registerTab.classList.add("active");
+
+            loginTab.classList.remove("active");
+
+            loginForm.style.display = "none";
+
+            registerForm.style.display = "block";
+
+            authHeading.textContent =
+                "إنشاء حساب";
+
+            authDescription.textContent =
+                "أنشئ حسابك للبدء في استخدام المنصة";
+
+            formMessage.textContent = "";
+
+        }
+
+
+        loginTab.addEventListener(
+            "click",
+            showLogin
+        );
+
+
+        registerTab.addEventListener(
+            "click",
+            showRegister
+        );
+
+
+        /* =========================
+           LOGIN
+        ========================= */
+
+        loginForm.addEventListener(
+            "submit",
+            function(event) {
+
+                event.preventDefault();
+
+                const email =
+                    document.getElementById(
+                        "loginEmail"
+                    ).value.trim();
+
+                const password =
+                    document.getElementById(
+                        "loginPassword"
+                    ).value;
+
+
+                if (!email || !password) {
+
+                    formMessage.textContent =
+                        "من فضلك أدخل جميع البيانات.";
+
+                    return;
+                }
+
+
+                /*
+                    الربط الحقيقي بقاعدة البيانات
+                    سيتم إضافته في مرحلة الربط.
+                */
+
+                window.location.href =
+                    "home.html";
+
+            }
+        );
+
+
+        /* =========================
+           REGISTER
+        ========================= */
+
+        registerForm.addEventListener(
+            "submit",
+            function(event) {
+
+                event.preventDefault();
+
+
+                const name =
+                    document.getElementById(
+                        "registerName"
+                    ).value.trim();
+
+                const email =
+                    document.getElementById(
+                        "registerEmail"
+                    ).value.trim();
+
+                const password =
+                    document.getElementById(
+                        "registerPassword"
+                    ).value;
+
+                const confirm =
+                    document.getElementById(
+                        "registerConfirm"
+                    ).value;
+
+
+                if (
+                    !name ||
+                    !email ||
+                    !password ||
+                    !confirm
+                ) {
+
+                    formMessage.textContent =
+                        "من فضلك أدخل جميع البيانات.";
+
+                    return;
+                }
+
+
+                if (password !== confirm) {
+
+                    formMessage.textContent =
+                        "كلمتا المرور غير متطابقتين.";
+
+                    return;
+                }
+
+
+                formMessage.textContent =
+                    "تم إنشاء الحساب بنجاح.";
+
+
+                setTimeout(
+                    function() {
+
+                        window.location.href =
+                            "home.html";
+
+                    },
+                    900
+                );
+
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>

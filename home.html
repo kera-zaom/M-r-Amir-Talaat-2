@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>الخوارزمي | الرئيسية</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Tahoma, sans-serif;
+        }
+
+        :root {
+            --black: #020202;
+            --black2: #080808;
+            --silver: #d8d8d8;
+            --gray: #777;
+            --border: rgba(255,255,255,.09);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            color: white;
+
+            background:
+                radial-gradient(
+                    circle at 50% -20%,
+                    rgba(255,255,255,.08),
+                    transparent 35%
+                ),
+                #020202;
+
+            overflow-x: hidden;
+        }
+
+        /* =========================
+           BACKGROUND
+        ========================= */
+
+        .background {
+            position: fixed;
+            inset: 0;
+            z-index: -5;
+            pointer-events: none;
+        }
+
+        .grid {
+            position: absolute;
+            inset: 0;
+
+            background-image:
+                linear-gradient(
+                    rgba(255,255,255,.015) 1px,
+                    transparent 1px
+                ),
+                linear-gradient(
+                    90deg,
+                    rgba(255,255,255,.015) 1px,
+                    transparent 1px
+                );
+
+            background-size: 55px 55px;
+        }
+
+        .glow {
+            position: absolute;
+
+            width: 420px;
+            height: 420px;
+
+            border-radius: 50%;
+
+            background: rgba(255,255,255,.035);
+
+            filter: blur(110px);
+        }
+
+        .glow.one {
+            top: -250px;
+            right: -150px;
+        }
+
+        .glow.two {
+            bottom: -250px;
+            left: -150px;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            width: min(
+                1180px,
+                calc(100% - 32px)
+            );
+
+            height: 76px;
+
+            margin: 18px auto;
+
+            padding: 0 20px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            background:
+                rgba(9,9,9,.82);
+
+            border:
+                1px solid var(--border);
+
+            border-radius: 20px;
+
+            backdrop-filter: blur(20px);
+
+            position: relative;
+            z-index: 10;
+        }
+
+        /* =========================
+           LOGO
+        ========================= */
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            text-decoration: none;
+            color: white;
+        }
+
+        .logo-icon {
+            width: 46px;
+            height: 46px;
+
+            overflow: hidden;
+
+            border-radius: 14px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    white,
+                    #888
+                );
+
+            animation:
+                floatLogo 3.5s ease-in-out infinite;
+        }
+
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+            display: block;
+        }
+
+        @keyframes floatLogo {
+
+            0%,
+            100% {
+                transform:
+                    translateY(0);
+            }
+
+            50% {
+                transform:
+                    translateY(-4px);
+            }
+        }
+
+        .logo-text strong {
+            display: block;
+            font-size: 17px;
+        }
+
+        .logo-text span {
+            display: block;
+
+            color: #666;
+
+            font-size: 10px;
+
+            margin-top: 3px;
+        }
+
+        /* =========================
+           NAV
+        ========================= */
+
+        nav {
+            display: flex;
+            gap: 28px;
+        }
+
+        nav a {
+            color: #777;
+
+            text-decoration: none;
+
+            font-size: 12px;
+
+            transition: .3s;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: white;
+        }
+
+        /* =========================
+           USER
+        ========================= */
+
+        .user-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .user-name {
+            color: #aaa;
+            font-size: 11px;
+        }
+
+        .logout {
+            padding: 10px 15px;
+
+            border-radius: 11px;
+
+            text-decoration: none;
+
+            color: #050505;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    white,
+                    #aaa
+                );
+
+            font-size: 11px;
+
+            font-weight: bold;
+        }
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        main {
+            width: min(
+                1180px,
+                calc(100% - 32px)
+            );
+
+            margin: auto;
+
+            padding: 45px 0 80px;
+        }
+
+        /* =========================
+           WELCOME
+        ========================= */
+
+        .welcome {
+            padding: 35px;
+
+            border-radius: 25px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(255,255,255,.07),
+                    rgba(255,255,255,.018)
+                );
+
+            border:
+                1px solid var(--border);
+
+            position: relative;
+
+            overflow: hidden;
+
+            margin-bottom: 30px;
+        }
+
+        .welcome::before {
+            content: "";
+
+            position: absolute;
+
+            width: 300px;
+            height: 300px;
+
+            left: -120px;
+            top: -170px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(255,255,255,.05);
+
+            filter: blur(60px);
+        }
+
+        .welcome small {
+            color: #777;
+            font-size: 11px;
+        }
+
+        .welcome h1 {
+            margin-top: 12px;
+
+            font-size:
+                clamp(28px, 5vw, 48px);
+        }
+
+        .welcome h1 span {
+            background:
+                linear-gradient(
+                    90deg,
+                    white,
+                    #888
+                );
+
+            -webkit-background-clip: text;
+            background-clip: text;
+
+            color: transparent;
+        }
+
+        .welcome p {
+            color: #777;
+
+            font-size: 13px;
+
+            margin-top: 13px;
+
+            line-height: 1.9;
+        }
+
+        /* =========================
+           SECTION TITLE
+        ========================= */
+
+        .section-title {
+            display: flex;
+
+            align-items: center;
+            justify-content: space-between;
+
+            margin: 35px 0 18px;
+        }
+
+        .section-title h2 {
+            font-size: 20px;
+        }
+
+        .section-title a {
+            color: #777;
+
+            text-decoration: none;
+
+            font-size: 11px;
+        }
+
+        .section-title a:hover {
+            color: white;
+        }
+
+        /* =========================
+           STATS
+        ========================= */
+
+        .stats {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 15px;
+        }
+
+        .stat {
+            padding: 24px;
+
+            border-radius: 20px;
+
+            background:
+                rgba(255,255,255,.035);
+
+            border:
+                1px solid var(--border);
+
+            transition: .3s;
+        }
+
+        .stat:hover {
+            transform:
+                translateY(-4px);
+
+            background:
+                rgba(255,255,255,.055);
+        }
+
+        .stat-icon {
+            width: 38px;
+            height: 38px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 11px;
+
+            background:
+                rgba(255,255,255,.08);
+
+            color: white;
+
+            margin-bottom: 17px;
+        }
+
+        .stat strong {
+            display: block;
+
+            font-size: 25px;
+        }
+
+        .stat span {
+            display: block;
+
+            color: #666;
+
+            font-size: 10px;
+
+            margin-top: 6px;
+        }
+
+        /* =========================
+           TEST CARDS
+        ========================= */
+
+        .tests {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 18px;
+        }
+
+        .test-card {
+            padding: 25px;
+
+            border-radius: 22px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,.065),
+                    rgba(255,255,255,.018)
+                );
+
+            border:
+                1px solid var(--border);
+
+            transition: .35s;
+
+            position: relative;
+
+            overflow: hidden;
+        }
+
+        .test-card:hover {
+            transform:
+                translateY(-6px);
+
+            border-color:
+                rgba(255,255,255,.18);
+
+            box-shadow:
+                0 25px 70px
+                rgba(0,0,0,.4);
+        }
+
+        .test-top {
+            display: flex;
+
+            align-items: center;
+            justify-content: space-between;
+
+            margin-bottom: 20px;
+        }
+
+        .test-icon {
+            width: 45px;
+            height: 45px;
+
+            border-radius: 14px;
+
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    white,
+                    #777
+                );
+        }
+
+        .test-icon img {
+            width: 100%;
+            height: 100%;
+
+            object-fit: cover;
+        }
+
+        .status {
+            color: #777;
+
+            font-size: 9px;
+
+            padding: 7px 10px;
+
+            border:
+                1px solid
+                rgba(255,255,255,.07);
+
+            border-radius: 20px;
+        }
+
+        .test-card h3 {
+            font-size: 17px;
+
+            margin-bottom: 10px;
+        }
+
+        .test-card p {
+            color: #666;
+
+            font-size: 11px;
+
+            line-height: 1.8;
+
+            min-height: 40px;
+        }
+
+        .test-info {
+            display: flex;
+
+            gap: 18px;
+
+            margin:
+                20px 0;
+
+            color: #777;
+
+            font-size: 10px;
+        }
+
+        .start-test {
+            width: 100%;
+
+            display: block;
+
+            text-align: center;
+
+            padding: 12px;
+
+            border-radius: 12px;
+
+            text-decoration: none;
+
+            color: #050505;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    white,
+                    #aaa
+                );
+
+            font-size: 11px;
+
+            font-weight: bold;
+
+            transition: .3s;
+        }
+
+        .start-test:hover {
+            transform:
+                translateY(-2px);
+        }
+
+        /* =========================
+           EMPTY
+        ========================= */
+
+        .empty {
+            padding: 45px 20px;
+
+            text-align: center;
+
+            border-radius: 20px;
+
+            border:
+                1px dashed
+                rgba(255,255,255,.09);
+
+            color: #555;
+
+            font-size: 12px;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            width: min(
+                1180px,
+                calc(100% - 32px)
+            );
+
+            margin: auto;
+
+            padding: 25px 0;
+
+            border-top:
+                1px solid
+                rgba(255,255,255,.06);
+
+            color: #555;
+
+            text-align: center;
+
+            font-size: 10px;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 850px) {
+
+            nav {
+                display: none;
+            }
+
+            .stats {
+                grid-template-columns:
+                    1fr;
+            }
+
+            .tests {
+                grid-template-columns:
+                    1fr;
+            }
+
+            .user-name {
+                display: none;
+            }
+
+            .welcome {
+                padding: 28px 22px;
+            }
+        }
+
+        @media (max-width: 480px) {
+
+            header {
+                width:
+                    calc(100% - 20px);
+
+                height: 68px;
+
+                margin-top: 10px;
+
+                padding: 0 13px;
+            }
+
+            .logo-icon {
+                width: 40px;
+                height: 40px;
+            }
+
+            .logo-text strong {
+                font-size: 15px;
+            }
+
+            .logout {
+                padding: 9px 11px;
+                font-size: 10px;
+            }
+
+            main {
+                width:
+                    calc(100% - 20px);
+
+                padding-top: 25px;
+            }
+
+            .welcome h1 {
+                font-size: 29px;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+<div class="background">
+
+    <div class="glow one"></div>
+
+    <div class="glow two"></div>
+
+    <div class="grid"></div>
+
+</div>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header>
+
+    <a href="home.html" class="logo">
+
+        <div class="logo-icon">
+
+            <img
+                src="teacher.png"
+                alt="الماستر"
+            >
+
+        </div>
+
+        <div class="logo-text">
+
+            <strong>
+                الخوارزمي
+            </strong>
+
+            <span>
+                منصة الاختبارات
+            </span>
+
+        </div>
+
+    </a>
+
+
+    <nav>
+
+        <a
+            href="home.html"
+            class="active"
+        >
+            الرئيسية
+        </a>
+
+        <a href="tests.html">
+            الاختبارات
+        </a>
+
+        <a href="#">
+            النتائج
+        </a>
+
+        <a href="#">
+            حسابي
+        </a>
+
+    </nav>
+
+
+    <div class="user-area">
+
+        <span
+            class="user-name"
+            id="userName"
+        >
+            الطالب
+        </span>
+
+        <a
+            href="index.html"
+            class="logout"
+            onclick="logout()"
+        >
+            خروج
+        </a>
+
+    </div>
+
+</header>
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main>
+
+
+    <!-- WELCOME -->
+
+    <section class="welcome">
+
+        <small>
+            لوحة الطالب
+        </small>
+
+        <h1>
+            أهلاً بك،
+            <span id="welcomeName">
+                في الخوارزمي
+            </span>
+        </h1>
+
+        <p>
+            من هنا يمكنك الوصول إلى الاختبارات
+            المتاحة ومتابعة تقدمك ونتائجك.
+        </p>
+
+    </section>
+
+
+    <!-- STATS -->
+
+    <div class="section-title">
+
+        <h2>
+            نظرة سريعة
+        </h2>
+
+    </div>
+
+
+    <section class="stats">
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                ◈
+            </div>
+
+            <strong id="availableTests">
+                0
+            </strong>
+
+            <span>
+                اختبارات متاحة
+            </span>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                ✓
+            </div>
+
+            <strong id="completedTests">
+                0
+            </strong>
+
+            <span>
+                اختبارات مكتملة
+            </span>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                ★
+            </div>
+
+            <strong id="averageScore">
+                0%
+            </strong>
+
+            <span>
+                متوسط النتائج
+            </span>
+
+        </div>
+
+    </section>
+
+
+    <!-- TESTS -->
+
+    <div class="section-title">
+
+        <h2>
+            الاختبارات المتاحة
+        </h2>
+
+        <a href="tests.html">
+            عرض الكل
+        </a>
+
+    </div>
+
+
+    <section
+        class="tests"
+        id="testsContainer"
+    >
+
+        <div class="empty">
+
+            لا توجد اختبارات متاحة حاليًا.
+
+            <br><br>
+
+            عندما يقوم المسؤول بإضافة
+            اختبار سيظهر هنا.
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+<footer>
+
+    © 2026 الخوارزمي | منصة الاختبارات
+
+</footer>
+
+
+<script>
+
+    /* =========================
+       USER DATA
+    ========================= */
+
+    const savedName =
+        localStorage.getItem("userName");
+
+
+    if (savedName) {
+
+        document.getElementById(
+            "userName"
+        ).textContent = savedName;
+
+
+        document.getElementById(
+            "welcomeName"
+        ).textContent = savedName;
+
+    }
+
+
+    /* =========================
+       LOGOUT
+    ========================= */
+
+    function logout() {
+
+        localStorage.removeItem("userName");
+
+    }
+
+
+    /* =========================
+       EMPTY TEST SYSTEM
+       لا توجد بيانات وهمية
+    ========================= */
+
+    const tests =
+        JSON.parse(
+            localStorage.getItem("tests") || "[]"
+        );
+
+
+    const container =
+        document.getElementById(
+            "testsContainer"
+        );
+
+
+    document.getElementById(
+        "availableTests"
+    ).textContent = tests.length;
+
+
+    if (tests.length > 0) {
+
+        container.innerHTML = "";
+
+
+        tests.slice(0, 6).forEach(
+            function(test) {
+
+                const card =
+                    document.createElement("article");
+
+                card.className =
+                    "test-card";
+
+
+                card.innerHTML = `
+
+                    <div class="test-top">
+
+                        <div class="test-icon">
+
+                            <img
+                                src="teacher.png"
+                                alt="الماستر"
+                            >
+
+                        </div>
+
+                        <span class="status">
+                            متاح
+                        </span>
+
+                    </div>
+
+                    <h3>
+                        ${test.title || "اختبار"}
+                    </h3>
+
+                    <p>
+                        ${test.description || "اختبار إلكتروني متاح للطلاب."}
+                    </p>
+
+                    <div class="test-info">
+
+                        <span>
+                            ${test.questions || 0} سؤال
+                        </span>
+
+                        <span>
+                            ${test.duration || 0} دقيقة
+                        </span>
+
+                    </div>
+
+                    <a
+                        href="exam.html?id=${test.id || ""}"
+                        class="start-test"
+                    >
+                        بدء الاختبار
+                    </a>
+
+                `;
+
+
+                container.appendChild(card);
+
+            }
+        );
+
+    }
+
+
+    /* =========================
+       RESULTS
+    ========================= */
+
+    const results =
+        JSON.parse(
+            localStorage.getItem("results") || "[]"
+        );
+
+
+    document.getElementById(
+        "completedTests"
+    ).textContent = results.length;
+
+
+    if (results.length > 0) {
+
+        const total =
+            results.reduce(
+                (sum, item) =>
+                    sum + Number(item.score || 0),
+                0
+            );
+
+
+        const average =
+            Math.round(
+                total / results.length
+            );
+
+
+        document.getElementById(
+            "averageScore"
+        ).textContent =
+            average + "%";
+
+    }
+
+</script>
+
+
+</body>
+</html>

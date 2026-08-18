@@ -1,0 +1,1417 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>الخوارزمي | منصة الاختبارات</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Tahoma, sans-serif;
+        }
+
+        :root {
+            --black: #020202;
+            --black-2: #080808;
+            --black-3: #111111;
+
+            --white: #ffffff;
+            --silver: #d8d8d8;
+            --gray: #858585;
+
+            --border: rgba(255,255,255,.10);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+
+            background:
+                radial-gradient(
+                    circle at 50% -20%,
+                    rgba(255,255,255,.08),
+                    transparent 35%
+                ),
+
+                radial-gradient(
+                    circle at 100% 100%,
+                    rgba(255,255,255,.035),
+                    transparent 30%
+                ),
+
+                #020202;
+
+            color: white;
+
+            overflow-x: hidden;
+        }
+
+        /* =========================
+           BACKGROUND
+        ========================= */
+
+        .background {
+            position: fixed;
+            inset: 0;
+
+            z-index: -10;
+
+            pointer-events: none;
+
+            overflow: hidden;
+        }
+
+        .grid {
+            position: absolute;
+            inset: 0;
+
+            background-image:
+
+                linear-gradient(
+                    rgba(255,255,255,.018) 1px,
+                    transparent 1px
+                ),
+
+                linear-gradient(
+                    90deg,
+                    rgba(255,255,255,.018) 1px,
+                    transparent 1px
+                );
+
+            background-size: 55px 55px;
+
+            mask-image:
+                linear-gradient(
+                    to bottom,
+                    black,
+                    transparent
+                );
+        }
+
+        .light {
+            position: absolute;
+
+            width: 450px;
+            height: 450px;
+
+            border-radius: 50%;
+
+            background:
+                rgba(255,255,255,.035);
+
+            filter: blur(110px);
+        }
+
+        .light.one {
+            top: -260px;
+            right: -150px;
+        }
+
+        .light.two {
+            bottom: -300px;
+            left: -180px;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        header {
+            width: min(
+                1180px,
+                calc(100% - 32px)
+            );
+
+            height: 78px;
+
+            margin: 18px auto 0;
+
+            padding: 0 20px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            background:
+                rgba(10,10,10,.82);
+
+            border:
+                1px solid
+                rgba(255,255,255,.09);
+
+            border-radius: 20px;
+
+            backdrop-filter: blur(20px);
+
+            -webkit-backdrop-filter: blur(20px);
+
+            box-shadow:
+                0 20px 70px
+                rgba(0,0,0,.55);
+
+            position: relative;
+
+            z-index: 10;
+        }
+
+        /* =========================
+           LOGO
+        ========================= */
+
+        .logo {
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            color: white;
+
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 46px;
+            height: 46px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 14px;
+
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #ffffff,
+                    #858585
+                );
+
+            border:
+                1px solid
+                rgba(255,255,255,.15);
+
+            box-shadow:
+                0 10px 35px
+                rgba(255,255,255,.10);
+
+            animation:
+                logoFloat 3.5s ease-in-out infinite;
+        }
+
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+
+            display: block;
+
+            object-fit: cover;
+        }
+
+        @keyframes logoFloat {
+
+            0%,
+            100% {
+                transform:
+                    translateY(0)
+                    rotate(0deg);
+            }
+
+            50% {
+                transform:
+                    translateY(-4px)
+                    rotate(2deg);
+            }
+        }
+
+        .logo-text strong {
+            display: block;
+
+            font-size: 18px;
+        }
+
+        .logo-text span {
+            display: block;
+
+            margin-top: 3px;
+
+            color: #707070;
+
+            font-size: 10px;
+        }
+
+        /* =========================
+           NAV
+        ========================= */
+
+        nav {
+            display: flex;
+
+            align-items: center;
+
+            gap: 30px;
+        }
+
+        nav a {
+            position: relative;
+
+            color: #969696;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            transition: .3s;
+        }
+
+        nav a:hover {
+            color: white;
+        }
+
+        nav a::after {
+            content: "";
+
+            position: absolute;
+
+            width: 0;
+            height: 1px;
+
+            right: 0;
+
+            bottom: -7px;
+
+            background: white;
+
+            transition: .3s;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* =========================
+           LOGIN BUTTON
+        ========================= */
+
+        .login-btn {
+            color: #050505;
+
+            text-decoration: none;
+
+            padding: 12px 21px;
+
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ffffff,
+                    #bdbdbd
+                );
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            transition: .3s;
+        }
+
+        .login-btn:hover {
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 15px 40px
+                rgba(255,255,255,.14);
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            width: min(
+                1180px,
+                calc(100% - 32px)
+            );
+
+            min-height:
+                calc(100vh - 96px);
+
+            margin: auto;
+
+            display: grid;
+
+            grid-template-columns:
+                1.1fr .9fr;
+
+            align-items: center;
+
+            gap: 60px;
+
+            padding: 70px 0;
+        }
+
+        .hero-content {
+            animation:
+                heroEnter 1s ease forwards;
+        }
+
+        @keyframes heroEnter {
+
+            from {
+                opacity: 0;
+
+                transform:
+                    translateY(25px);
+            }
+
+            to {
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+            }
+        }
+
+        /* =========================
+           BADGE
+        ========================= */
+
+        .badge {
+            width: fit-content;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 9px;
+
+            padding: 9px 14px;
+
+            margin-bottom: 25px;
+
+            border-radius: 50px;
+
+            background:
+                rgba(255,255,255,.035);
+
+            border:
+                1px solid
+                rgba(255,255,255,.10);
+
+            color: #bdbdbd;
+
+            font-size: 12px;
+        }
+
+        .badge-dot {
+            width: 7px;
+            height: 7px;
+
+            border-radius: 50%;
+
+            background: white;
+
+            box-shadow:
+                0 0 12px
+                rgba(255,255,255,.8);
+
+            animation:
+                pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: .4;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        /* =========================
+           TITLE
+        ========================= */
+
+        .hero h1 {
+            font-size:
+                clamp(44px, 6vw, 78px);
+
+            line-height: 1.08;
+
+            letter-spacing: -3px;
+
+            margin-bottom: 25px;
+
+            font-weight: 900;
+        }
+
+        .gradient {
+            background:
+                linear-gradient(
+                    90deg,
+                    #ffffff,
+                    #bdbdbd,
+                    #777777
+                );
+
+            -webkit-background-clip: text;
+
+            background-clip: text;
+
+            color: transparent;
+        }
+
+        .hero-description {
+            max-width: 620px;
+
+            color: #898989;
+
+            font-size: 16px;
+
+            line-height: 2;
+
+            margin-bottom: 32px;
+        }
+
+        /* =========================
+           BUTTONS
+        ========================= */
+
+        .actions {
+            display: flex;
+
+            align-items: center;
+
+            gap: 13px;
+
+            flex-wrap: wrap;
+        }
+
+        .primary-btn,
+        .secondary-btn {
+            min-width: 165px;
+
+            padding: 14px 22px;
+
+            display: inline-flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            border-radius: 13px;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            transition: .3s;
+        }
+
+        .primary-btn {
+            background:
+                linear-gradient(
+                    135deg,
+                    #ffffff,
+                    #a9a9a9
+                );
+
+            color: #050505;
+
+            font-weight: bold;
+
+            box-shadow:
+                0 15px 40px
+                rgba(255,255,255,.08);
+        }
+
+        .primary-btn:hover {
+            transform:
+                translateY(-3px);
+
+            box-shadow:
+                0 20px 50px
+                rgba(255,255,255,.15);
+        }
+
+        .secondary-btn {
+            color: #cfcfcf;
+
+            background:
+                rgba(255,255,255,.035);
+
+            border:
+                1px solid
+                rgba(255,255,255,.10);
+        }
+
+        .secondary-btn:hover {
+            color: white;
+
+            background:
+                rgba(255,255,255,.07);
+
+            transform:
+                translateY(-3px);
+        }
+
+        /* =========================
+           VISUAL
+        ========================= */
+
+        .visual {
+            height: 500px;
+
+            position: relative;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+        }
+
+        .ring {
+            position: absolute;
+
+            width: 390px;
+            height: 390px;
+
+            border-radius: 50%;
+
+            border:
+                1px solid
+                rgba(255,255,255,.06);
+
+            box-shadow:
+                0 0 100px
+                rgba(255,255,255,.035);
+
+            animation:
+                rotateRing 20s linear infinite;
+        }
+
+        .ring::before,
+        .ring::after {
+            content: "";
+
+            position: absolute;
+
+            border-radius: 50%;
+
+            border:
+                1px solid
+                rgba(255,255,255,.035);
+        }
+
+        .ring::before {
+            inset: 30px;
+        }
+
+        .ring::after {
+            inset: 65px;
+        }
+
+        @keyframes rotateRing {
+
+            from {
+                transform:
+                    rotate(0deg);
+            }
+
+            to {
+                transform:
+                    rotate(360deg);
+            }
+        }
+
+        /* =========================
+           MAIN CARD
+        ========================= */
+
+        .main-card {
+            width: 330px;
+            height: 390px;
+
+            position: relative;
+
+            border-radius: 30px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,.085),
+                    rgba(255,255,255,.018)
+                );
+
+            border:
+                1px solid
+                rgba(255,255,255,.12);
+
+            backdrop-filter:
+                blur(22px);
+
+            -webkit-backdrop-filter:
+                blur(22px);
+
+            box-shadow:
+                0 40px 100px
+                rgba(0,0,0,.75),
+
+                inset
+                0 1px
+                rgba(255,255,255,.08);
+
+            transform:
+                rotate(3deg);
+
+            animation:
+                cardFloat 5s ease-in-out infinite;
+        }
+
+        @keyframes cardFloat {
+
+            0%,
+            100% {
+                transform:
+                    translateY(0)
+                    rotate(3deg);
+            }
+
+            50% {
+                transform:
+                    translateY(-13px)
+                    rotate(1deg);
+            }
+        }
+
+        .card-top-line {
+            position: absolute;
+
+            top: 0;
+
+            left: 12%;
+
+            width: 76%;
+
+            height: 1px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(255,255,255,.65),
+                    transparent
+                );
+        }
+
+        .card-content {
+            height: 100%;
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            justify-content: center;
+
+            text-align: center;
+
+            padding: 30px;
+        }
+
+        /* صورة الماستر بدل حرف خ */
+
+        .symbol {
+            width: 125px;
+            height: 125px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            margin-bottom: 30px;
+
+            border-radius: 34px;
+
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #f4f4f4,
+                    #858585
+                );
+
+            border:
+                2px solid
+                rgba(255,255,255,.15);
+
+            box-shadow:
+                0 20px 60px
+                rgba(255,255,255,.08);
+
+            animation:
+                masterFloat 4s ease-in-out infinite;
+        }
+
+        .symbol img {
+            width: 100%;
+            height: 100%;
+
+            display: block;
+
+            object-fit: cover;
+        }
+
+        @keyframes masterFloat {
+
+            0%,
+            100% {
+                transform:
+                    translateY(0)
+                    rotate(-1deg);
+            }
+
+            50% {
+                transform:
+                    translateY(-8px)
+                    rotate(1deg);
+            }
+        }
+
+        .card-content h2 {
+            font-size: 25px;
+
+            margin-bottom: 10px;
+        }
+
+        .card-content p {
+            color: #777;
+
+            font-size: 12px;
+        }
+
+        /* =========================
+           MINI CARDS
+        ========================= */
+
+        .mini-card {
+            position: absolute;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            padding: 13px 16px;
+
+            border-radius: 14px;
+
+            background:
+                rgba(12,12,12,.88);
+
+            border:
+                1px solid
+                rgba(255,255,255,.10);
+
+            backdrop-filter:
+                blur(15px);
+
+            box-shadow:
+                0 20px 50px
+                rgba(0,0,0,.6);
+
+            color: #bcbcbc;
+
+            font-size: 11px;
+
+            z-index: 5;
+        }
+
+        .mini-icon {
+            width: 27px;
+            height: 27px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 9px;
+
+            background:
+                #eeeeee;
+
+            color:
+                #050505;
+
+            font-weight: bold;
+        }
+
+        .mini-one {
+            top: 80px;
+
+            right: -5px;
+
+            animation:
+                miniFloat 4s ease-in-out infinite;
+        }
+
+        .mini-two {
+            bottom: 70px;
+
+            left: -5px;
+
+            animation:
+                miniFloat 4.5s ease-in-out infinite reverse;
+        }
+
+        @keyframes miniFloat {
+
+            0%,
+            100% {
+                transform:
+                    translateY(0);
+            }
+
+            50% {
+                transform:
+                    translateY(-9px);
+            }
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            width: min(
+                1180px,
+                calc(100% - 32px)
+            );
+
+            margin: auto;
+
+            padding:
+                23px 0 28px;
+
+            border-top:
+                1px solid
+                rgba(255,255,255,.06);
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items:
+                center;
+
+            color: #5f5f5f;
+
+            font-size: 11px;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 850px) {
+
+            header {
+                height: 70px;
+            }
+
+            nav {
+                display: none;
+            }
+
+            .hero {
+                grid-template-columns: 1fr;
+
+                text-align: center;
+
+                padding-top: 55px;
+
+                gap: 20px;
+            }
+
+            .hero-content {
+                display: flex;
+
+                flex-direction: column;
+
+                align-items: center;
+            }
+
+            .hero-description {
+                font-size: 14px;
+            }
+
+            .actions {
+                justify-content: center;
+            }
+
+            .visual {
+                height: 420px;
+
+                margin-top: -10px;
+            }
+
+            .ring {
+                width: 330px;
+                height: 330px;
+            }
+
+            .main-card {
+                width: 285px;
+                height: 350px;
+            }
+
+            .symbol {
+                width: 105px;
+                height: 105px;
+
+                border-radius: 29px;
+            }
+
+            .mini-one {
+                right: 1%;
+            }
+
+            .mini-two {
+                left: 1%;
+            }
+
+            footer {
+                flex-direction: column;
+
+                gap: 9px;
+
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+
+            header {
+                width:
+                    calc(100% - 20px);
+
+                margin-top: 10px;
+
+                padding:
+                    0 13px;
+            }
+
+            .logo-icon {
+                width: 40px;
+                height: 40px;
+            }
+
+            .logo-text strong {
+                font-size: 15px;
+            }
+
+            .login-btn {
+                padding:
+                    10px 14px;
+
+                font-size: 11px;
+            }
+
+            .hero {
+                width:
+                    calc(100% - 24px);
+            }
+
+            .hero h1 {
+                font-size: 43px;
+
+                letter-spacing: -2px;
+            }
+
+            .hero-description {
+                font-size: 13px;
+
+                line-height: 1.9;
+            }
+
+            .actions {
+                width: 100%;
+            }
+
+            .primary-btn,
+            .secondary-btn {
+                width: 100%;
+            }
+
+            .visual {
+                height: 370px;
+            }
+
+            .ring {
+                width: 280px;
+                height: 280px;
+            }
+
+            .main-card {
+                width: 255px;
+                height: 315px;
+            }
+
+            .symbol {
+                width: 90px;
+                height: 90px;
+
+                border-radius: 25px;
+            }
+
+            .card-content h2 {
+                font-size: 22px;
+            }
+
+            .mini-card {
+                padding:
+                    9px 11px;
+
+                font-size: 9px;
+            }
+
+            .mini-icon {
+                width: 23px;
+                height: 23px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         BACKGROUND
+    ========================= -->
+
+    <div class="background">
+
+        <div class="light one"></div>
+
+        <div class="light two"></div>
+
+        <div class="grid"></div>
+
+    </div>
+
+
+    <!-- =========================
+         HEADER
+    ========================= -->
+
+    <header>
+
+
+        <a
+            href="index.html"
+            class="logo"
+        >
+
+            <div class="logo-icon">
+
+                <img
+                    src="teacher.png"
+                    alt="الماستر"
+                >
+
+            </div>
+
+
+            <div class="logo-text">
+
+                <strong>
+                    الخوارزمي
+                </strong>
+
+                <span>
+                    منصة الاختبارات
+                </span>
+
+            </div>
+
+        </a>
+
+
+        <nav>
+
+            <a href="#about">
+                عن المنصة
+            </a>
+
+            <a href="#features">
+                المميزات
+            </a>
+
+            <a href="tests.html">
+                الاختبارات
+            </a>
+
+        </nav>
+
+
+        <a
+            href="auth.html"
+            class="login-btn"
+        >
+            تسجيل الدخول
+        </a>
+
+
+    </header>
+
+
+    <!-- =========================
+         HERO
+    ========================= -->
+
+    <main class="hero">
+
+
+        <section class="hero-content">
+
+
+            <div class="badge">
+
+                <span class="badge-dot"></span>
+
+                منصة اختبارات إلكترونية
+
+            </div>
+
+
+            <h1>
+
+                اختبر نفسك
+
+                <br>
+
+                <span class="gradient">
+                    وطوّر مستواك
+                </span>
+
+            </h1>
+
+
+            <p class="hero-description">
+
+                منصة الخوارزمي للاختبارات الإلكترونية،
+                تجربة منظمة وسريعة لخوض اختباراتك
+                ومتابعة نتائجك من مكان واحد.
+
+            </p>
+
+
+            <div class="actions">
+
+
+                <a
+                    href="auth.html"
+                    class="primary-btn"
+                >
+                    ابدأ الآن
+                </a>
+
+
+                <a
+                    href="tests.html"
+                    class="secondary-btn"
+                >
+                    استكشف الاختبارات
+                </a>
+
+
+            </div>
+
+
+        </section>
+
+
+        <!-- =========================
+             VISUAL
+        ========================= -->
+
+        <section class="visual">
+
+
+            <div class="ring"></div>
+
+
+            <div class="main-card">
+
+
+                <div class="card-top-line"></div>
+
+
+                <div class="card-content">
+
+
+                    <div class="symbol">
+
+                        <img
+                            src="teacher.png"
+                            alt="الماستر"
+                        >
+
+                    </div>
+
+
+                    <h2>
+                        الخوارزمي
+                    </h2>
+
+
+                    <p>
+                        منصة الاختبارات الإلكترونية
+                    </p>
+
+
+                </div>
+
+
+            </div>
+
+
+            <div class="mini-card mini-one">
+
+                <div class="mini-icon">
+                    ✓
+                </div>
+
+                اختبارات إلكترونية
+
+            </div>
+
+
+            <div class="mini-card mini-two">
+
+                <div class="mini-icon">
+                    ◈
+                </div>
+
+                تجربة منظمة وسريعة
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+    <!-- =========================
+         FOOTER
+    ========================= -->
+
+    <footer>
+
+        <div>
+            © 2026 الخوارزمي | منصة الاختبارات
+        </div>
+
+        <div>
+            منصة مخصصة للاختبارات الإلكترونية
+        </div>
+
+    </footer>
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================= -->
+
+    <script>
+
+        const card =
+            document.querySelector(".main-card");
+
+
+        document.addEventListener(
+            "mousemove",
+            function(event) {
+
+                if (window.innerWidth <= 850) {
+                    return;
+                }
+
+
+                const x =
+                    (
+                        window.innerWidth / 2
+                        -
+                        event.clientX
+                    ) / 90;
+
+
+                const y =
+                    (
+                        window.innerHeight / 2
+                        -
+                        event.clientY
+                    ) / 90;
+
+
+                card.style.transform =
+                    `translate(${x}px, ${y}px) rotate(2deg)`;
+
+            }
+        );
+
+
+        document.addEventListener(
+            "mouseleave",
+            function() {
+
+                card.style.transform =
+                    "translate(0,0) rotate(3deg)";
+
+            }
+        );
+
+    </script>
+
+
+</body>
+
+</html>
