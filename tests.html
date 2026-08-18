@@ -3,791 +3,770 @@
 
 <head>
 
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>الخوارزمي | الاختبارات</title>
-
-    <style>
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, Tahoma, sans-serif;
-        }
-
-        body {
-            min-height: 100vh;
-            color: white;
-            background:
-                radial-gradient(
-                    circle at 50% -20%,
-                    rgba(255,255,255,.08),
-                    transparent 35%
-                ),
-                #020202;
-            overflow-x: hidden;
-        }
-
-        /* =========================
-           BACKGROUND
-        ========================= */
-
-        .background {
-            position: fixed;
-            inset: 0;
-            z-index: -5;
-            pointer-events: none;
-        }
-
-        .grid {
-            position: absolute;
-            inset: 0;
-
-            background-image:
-                linear-gradient(
-                    rgba(255,255,255,.015) 1px,
-                    transparent 1px
-                ),
-                linear-gradient(
-                    90deg,
-                    rgba(255,255,255,.015) 1px,
-                    transparent 1px
-                );
-
-            background-size: 55px 55px;
-        }
-
-        .glow {
-            position: absolute;
-
-            width: 420px;
-            height: 420px;
-
-            border-radius: 50%;
-
-            background:
-                rgba(255,255,255,.035);
-
-            filter: blur(110px);
-        }
-
-        .glow.one {
-            top: -250px;
-            right: -150px;
-        }
-
-        .glow.two {
-            bottom: -250px;
-            left: -150px;
-        }
-
-        /* =========================
-           HEADER
-        ========================= */
-
-        header {
-            width: min(
-                1180px,
-                calc(100% - 32px)
-            );
-
-            height: 76px;
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>الخوارزمي | الاختبارات</title>
 
-            margin: 18px auto;
-
-            padding: 0 20px;
-
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
 
-            background:
-                rgba(9,9,9,.84);
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Tahoma,Arial,sans-serif;
+}
 
-            border:
-                1px solid
-                rgba(255,255,255,.09);
+body{
+    min-height:100vh;
+    color:#fff;
 
-            border-radius: 20px;
+    background:
+        radial-gradient(
+            circle at 50% -10%,
+            rgba(255,255,255,.10),
+            transparent 35%
+        ),
+        #020202;
 
-            backdrop-filter: blur(20px);
+    overflow-x:hidden;
+}
+
 
-            position: relative;
-            z-index: 10;
-        }
+/* =========================
+   BACKGROUND
+========================= */
 
-        /* =========================
-           LOGO
-        ========================= */
+.background{
+    position:fixed;
+    inset:0;
+    z-index:-5;
+    pointer-events:none;
+}
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
+.grid{
+    position:absolute;
+    inset:0;
+
+    background-image:
+        linear-gradient(
+            rgba(255,255,255,.018) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.018) 1px,
+            transparent 1px
+        );
+
+    background-size:55px 55px;
+
+    mask-image:
+        radial-gradient(
+            circle,
+            black,
+            transparent 90%
+        );
+}
 
-            color: white;
-            text-decoration: none;
-        }
+.glow{
+    position:absolute;
 
-        .logo-icon {
-            width: 46px;
-            height: 46px;
+    width:420px;
+    height:420px;
 
-            overflow: hidden;
+    border-radius:50%;
 
-            border-radius: 14px;
+    background:
+        rgba(255,255,255,.035);
 
-            background:
-                linear-gradient(
-                    145deg,
-                    #fff,
-                    #888
-                );
+    filter:blur(130px);
+}
 
-            animation:
-                logoFloat 3.5s ease-in-out infinite;
-        }
+.glow.one{
+    top:-220px;
+    right:-120px;
+}
 
-        .logo-icon img {
-            width: 100%;
-            height: 100%;
+.glow.two{
+    bottom:-250px;
+    left:-140px;
+}
 
-            object-fit: cover;
-            display: block;
-        }
 
-        @keyframes logoFloat {
+/* =========================
+   HEADER
+========================= */
 
-            0%,
-            100% {
-                transform:
-                    translateY(0)
-                    rotate(0deg);
-            }
+header{
+    position:sticky;
+    top:0;
+    z-index:100;
 
-            50% {
-                transform:
-                    translateY(-4px)
-                    rotate(2deg);
-            }
+    width:100%;
 
-        }
+    padding:
+        17px 5%;
 
-        .logo-text strong {
-            display: block;
-            font-size: 17px;
-        }
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
 
-        .logo-text span {
-            display: block;
+    background:
+        rgba(2,2,2,.78);
 
-            color: #666;
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.06);
 
-            font-size: 10px;
+    backdrop-filter:blur(18px);
+}
 
-            margin-top: 3px;
-        }
+.brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
 
-        /* =========================
-           NAV
-        ========================= */
+.brand-logo{
+    width:43px;
+    height:43px;
 
-        nav {
-            display: flex;
-            gap: 28px;
-        }
+    border-radius:13px;
 
-        nav a {
-            color: #777;
+    overflow:hidden;
 
-            text-decoration: none;
+    background:
+        linear-gradient(
+            145deg,
+            #fff,
+            #777
+        );
 
-            font-size: 12px;
+    border:
+        1px solid
+        rgba(255,255,255,.15);
+}
 
-            transition: .3s;
-        }
+.brand-logo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
 
-        nav a:hover,
-        nav a.active {
-            color: white;
-        }
+.brand-text h2{
+    font-size:14px;
+}
 
-        /* =========================
-           USER
-        ========================= */
+.brand-text span{
+    display:block;
 
-        .user-area {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+    margin-top:3px;
 
-        .user-name {
-            color: #aaa;
-            font-size: 11px;
-        }
+    color:#555;
 
-        .logout {
-            padding: 10px 15px;
+    font-size:7px;
+}
 
-            border-radius: 11px;
+.header-actions{
+    display:flex;
+    gap:8px;
+}
 
-            text-decoration: none;
+.header-btn{
+    height:37px;
 
-            color: #050505;
+    padding:
+        0 13px;
 
-            background:
-                linear-gradient(
-                    135deg,
-                    white,
-                    #aaa
-                );
+    border-radius:10px;
 
-            font-size: 11px;
+    border:
+        1px solid
+        rgba(255,255,255,.08);
 
-            font-weight: bold;
-        }
+    background:
+        rgba(255,255,255,.025);
 
-        /* =========================
-           MAIN
-        ========================= */
+    color:#777;
 
-        main {
-            width: min(
-                1180px,
-                calc(100% - 32px)
-            );
+    cursor:pointer;
 
-            margin: auto;
+    font-size:8px;
 
-            padding: 50px 0 80px;
-        }
+    transition:.25s;
+}
 
-        /* =========================
-           PAGE TITLE
-        ========================= */
+.header-btn:hover{
+    color:#fff;
 
-        .page-title {
-            text-align: center;
+    border-color:
+        rgba(255,255,255,.18);
+}
 
-            margin-bottom: 40px;
-        }
 
-        .page-title .badge {
-            display: inline-block;
+/* =========================
+   MAIN
+========================= */
 
-            padding: 8px 14px;
+.container{
+    width:min(
+        1180px,
+        calc(100% - 30px)
+    );
 
-            margin-bottom: 15px;
+    margin:
+        35px auto 70px;
+}
 
-            border-radius: 50px;
 
-            color: #aaa;
+/* =========================
+   HERO
+========================= */
 
-            background:
-                rgba(255,255,255,.035);
+.hero{
 
-            border:
-                1px solid
-                rgba(255,255,255,.08);
+    padding:
+        30px;
 
-            font-size: 10px;
-        }
+    border-radius:25px;
 
-        .page-title h1 {
-            font-size:
-                clamp(32px, 5vw, 52px);
+    border:
+        1px solid
+        rgba(255,255,255,.08);
 
-            margin-bottom: 12px;
-        }
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.045),
+            rgba(255,255,255,.012)
+        );
 
-        .page-title h1 span {
-            background:
-                linear-gradient(
-                    90deg,
-                    white,
-                    #888
-                );
+    margin-bottom:20px;
+}
 
-            -webkit-background-clip: text;
-            background-clip: text;
+.hero-small{
+    color:#555;
+    font-size:9px;
+    margin-bottom:8px;
+}
 
-            color: transparent;
-        }
+.hero h1{
+    font-size:
+        clamp(
+            25px,
+            5vw,
+            38px
+        );
 
-        .page-title p {
-            color: #666;
+    margin-bottom:10px;
+}
 
-            font-size: 13px;
+.hero p{
+    color:#606060;
+    font-size:10px;
+}
 
-            line-height: 1.9;
-        }
 
-        /* =========================
-           FILTER BAR
-        ========================= */
+/* =========================
+   SEARCH
+========================= */
 
-        .toolbar {
-            display: flex;
+.tools{
 
-            justify-content: space-between;
+    display:flex;
 
-            align-items: center;
+    gap:10px;
 
-            gap: 15px;
+    margin-bottom:25px;
 
-            margin-bottom: 25px;
+}
 
-            padding: 15px;
+.search-box{
 
-            border-radius: 18px;
+    position:relative;
 
-            background:
-                rgba(255,255,255,.025);
+    flex:1;
+}
 
-            border:
-                1px solid
-                rgba(255,255,255,.07);
-        }
+.search-box input{
 
-        .search {
-            flex: 1;
+    width:100%;
 
-            max-width: 420px;
+    height:45px;
 
-            height: 43px;
+    padding:
+        0 15px;
 
-            padding: 0 15px;
+    border-radius:12px;
 
-            border-radius: 11px;
+    border:
+        1px solid
+        rgba(255,255,255,.07);
 
-            outline: none;
+    background:
+        rgba(255,255,255,.025);
 
-            border:
-                1px solid
-                rgba(255,255,255,.08);
+    color:#fff;
 
-            background:
-                rgba(255,255,255,.035);
+    outline:none;
 
-            color: white;
+    font-size:9px;
+}
 
-            font-size: 11px;
-        }
+.search-box input::placeholder{
+    color:#444;
+}
 
-        .search::placeholder {
-            color: #555;
-        }
+.search-box input:focus{
 
-        .count {
-            color: #777;
+    border-color:
+        rgba(255,255,255,.2);
+}
 
-            font-size: 10px;
+.refresh{
 
-            white-space: nowrap;
-        }
+    height:45px;
 
-        /* =========================
-           TESTS GRID
-        ========================= */
+    padding:
+        0 17px;
 
-        .tests-grid {
-            display: grid;
+    border-radius:12px;
 
-            grid-template-columns:
-                repeat(3, 1fr);
+    border:
+        1px solid
+        rgba(255,255,255,.07);
 
-            gap: 18px;
-        }
+    background:
+        rgba(255,255,255,.025);
 
-        /* =========================
-           TEST CARD
-        ========================= */
+    color:#777;
 
-        .test-card {
-            position: relative;
+    cursor:pointer;
 
-            padding: 25px;
+    font-size:9px;
 
-            border-radius: 22px;
+    transition:.25s;
+}
 
-            background:
-                linear-gradient(
-                    145deg,
-                    rgba(255,255,255,.065),
-                    rgba(255,255,255,.018)
-                );
+.refresh:hover{
+    color:#fff;
+}
 
-            border:
-                1px solid
-                rgba(255,255,255,.09);
 
-            transition: .35s;
+/* =========================
+   SECTION
+========================= */
 
-            overflow: hidden;
-        }
+.section-title{
 
-        .test-card::before {
-            content: "";
+    display:flex;
 
-            position: absolute;
+    align-items:center;
 
-            width: 180px;
-            height: 180px;
+    justify-content:space-between;
 
-            top: -100px;
-            left: -90px;
+    margin-bottom:15px;
+}
 
-            border-radius: 50%;
+.section-title h2{
+    font-size:16px;
+}
 
-            background:
-                rgba(255,255,255,.025);
+.count{
+    color:#4e4e4e;
+    font-size:8px;
+}
 
-            filter: blur(30px);
-        }
 
-        .test-card:hover {
-            transform:
-                translateY(-7px);
+/* =========================
+   EXAMS
+========================= */
 
-            border-color:
-                rgba(255,255,255,.18);
+.exams{
 
-            box-shadow:
-                0 25px 70px
-                rgba(0,0,0,.45);
-        }
+    display:grid;
 
-        .test-header {
-            display: flex;
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(
+                260px,
+                1fr
+            )
+        );
 
-            align-items: center;
-            justify-content: space-between;
+    gap:15px;
+}
 
-            margin-bottom: 22px;
-        }
+.exam-card{
 
-        .test-logo {
-            width: 48px;
-            height: 48px;
+    padding:21px;
 
-            border-radius: 14px;
+    border-radius:20px;
 
-            overflow: hidden;
+    border:
+        1px solid
+        rgba(255,255,255,.07);
 
-            background:
-                linear-gradient(
-                    145deg,
-                    white,
-                    #777
-                );
-        }
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.035),
+            rgba(255,255,255,.012)
+        );
 
-        .test-logo img {
-            width: 100%;
-            height: 100%;
+    transition:
+        .25s ease;
 
-            object-fit: cover;
-        }
+    animation:
+        cardIn .4s ease both;
+}
 
-        .status {
-            padding: 7px 10px;
+.exam-card:hover{
 
-            border-radius: 20px;
+    transform:
+        translateY(-4px);
 
-            border:
-                1px solid
-                rgba(255,255,255,.07);
+    border-color:
+        rgba(255,255,255,.14);
+}
 
-            color: #888;
+@keyframes cardIn{
 
-            font-size: 9px;
-        }
+    from{
+        opacity:0;
+        transform:
+            translateY(10px);
+    }
 
-        .test-card h2 {
-            font-size: 18px;
+    to{
+        opacity:1;
+        transform:
+            translateY(0);
+    }
 
-            margin-bottom: 10px;
-        }
+}
 
-        .test-description {
-            color: #666;
+.exam-top{
 
-            font-size: 11px;
+    display:flex;
 
-            line-height: 1.9;
+    justify-content:space-between;
 
-            min-height: 42px;
-        }
+    align-items:center;
 
-        .test-details {
-            display: grid;
+    margin-bottom:17px;
+}
 
-            grid-template-columns:
-                1fr 1fr;
+.exam-icon{
 
-            gap: 10px;
+    width:45px;
+    height:45px;
 
-            margin: 20px 0;
-        }
+    display:flex;
 
-        .detail {
-            padding: 11px;
+    align-items:center;
+    justify-content:center;
 
-            border-radius: 11px;
+    border-radius:14px;
 
-            background:
-                rgba(255,255,255,.025);
+    background:
+        rgba(255,255,255,.05);
 
-            border:
-                1px solid
-                rgba(255,255,255,.05);
+    border:
+        1px solid
+        rgba(255,255,255,.07);
 
-            text-align: center;
-        }
+    font-size:17px;
+}
 
-        .detail strong {
-            display: block;
+.status{
 
-            color: #bbb;
+    padding:
+        6px 9px;
 
-            font-size: 13px;
+    border-radius:8px;
 
-            margin-bottom: 4px;
-        }
+    color:#888;
 
-        .detail span {
-            color: #555;
+    background:
+        rgba(255,255,255,.035);
 
-            font-size: 8px;
-        }
+    font-size:7px;
+}
 
-        .start-btn {
-            width: 100%;
+.exam-card h3{
 
-            display: block;
+    font-size:13px;
 
-            padding: 13px;
+    margin-bottom:8px;
+}
 
-            text-align: center;
+.description{
 
-            text-decoration: none;
+    min-height:35px;
 
-            color: #050505;
+    color:#555;
 
-            background:
-                linear-gradient(
-                    135deg,
-                    white,
-                    #aaa
-                );
+    font-size:8px;
 
-            border-radius: 12px;
+    line-height:1.8;
 
-            font-size: 11px;
+    margin-bottom:17px;
+}
 
-            font-weight: bold;
+.info-row{
 
-            transition: .3s;
-        }
+    display:flex;
 
-        .start-btn:hover {
-            transform:
-                translateY(-2px);
+    flex-wrap:wrap;
 
-            box-shadow:
-                0 15px 35px
-                rgba(255,255,255,.1);
-        }
+    gap:7px;
 
-        /* =========================
-           EMPTY STATE
-        ========================= */
+    margin-bottom:18px;
+}
 
-        .empty {
-            grid-column: 1 / -1;
+.info{
 
-            min-height: 280px;
+    padding:
+        6px 8px;
 
-            display: flex;
+    border-radius:8px;
 
-            flex-direction: column;
+    background:
+        rgba(255,255,255,.025);
 
-            align-items: center;
-            justify-content: center;
+    color:#666;
 
-            text-align: center;
+    font-size:7px;
+}
 
-            padding: 40px;
+.start{
 
-            border-radius: 24px;
+    width:100%;
 
-            border:
-                1px dashed
-                rgba(255,255,255,.10);
+    height:41px;
 
-            background:
-                rgba(255,255,255,.018);
+    border:0;
 
-            color: #555;
-        }
+    border-radius:11px;
 
-        .empty-logo {
-            width: 70px;
-            height: 70px;
+    background:
+        linear-gradient(
+            135deg,
+            #fff,
+            #aaa
+        );
 
-            overflow: hidden;
+    color:#080808;
 
-            border-radius: 20px;
+    cursor:pointer;
 
-            margin-bottom: 18px;
+    font-size:9px;
 
-            opacity: .45;
+    font-weight:bold;
 
-            animation:
-                emptyFloat 3s ease-in-out infinite;
-        }
+    transition:.25s;
+}
 
-        .empty-logo img {
-            width: 100%;
-            height: 100%;
+.start:hover{
 
-            object-fit: cover;
-        }
+    transform:
+        translateY(-2px);
+}
 
-        @keyframes emptyFloat {
 
-            0%,
-            100% {
-                transform:
-                    translateY(0);
-            }
+/* =========================
+   EMPTY
+========================= */
 
-            50% {
-                transform:
-                    translateY(-7px);
-            }
+.empty{
 
-        }
+    grid-column:
+        1 / -1;
 
-        .empty strong {
-            color: #777;
+    padding:
+        65px 20px;
 
-            font-size: 14px;
+    text-align:center;
 
-            margin-bottom: 8px;
-        }
+    border-radius:20px;
 
-        .empty span {
-            font-size: 10px;
+    border:
+        1px dashed
+        rgba(255,255,255,.08);
 
-            color: #444;
+    background:
+        rgba(255,255,255,.012);
+}
 
-            line-height: 1.8;
-        }
+.empty-icon{
 
-        /* =========================
-           FOOTER
-        ========================= */
+    font-size:32px;
 
-        footer {
-            width: min(
-                1180px,
-                calc(100% - 32px)
-            );
+    opacity:.3;
 
-            margin: auto;
+    margin-bottom:12px;
+}
 
-            padding: 25px 0;
+.empty h3{
 
-            border-top:
-                1px solid
-                rgba(255,255,255,.06);
+    color:#777;
 
-            text-align: center;
+    font-size:12px;
 
-            color: #555;
+    margin-bottom:7px;
+}
 
-            font-size: 10px;
-        }
+.empty p{
 
-        /* =========================
-           MOBILE
-        ========================= */
+    color:#444;
 
-        @media (max-width: 900px) {
+    font-size:8px;
+}
 
-            nav {
-                display: none;
-            }
 
-            .tests-grid {
-                grid-template-columns:
-                    repeat(2, 1fr);
-            }
+/* =========================
+   LOADING
+========================= */
 
-        }
+.loading{
 
-        @media (max-width: 600px) {
+    grid-column:
+        1 / -1;
 
-            header {
-                width:
-                    calc(100% - 20px);
+    padding:60px;
 
-                margin-top: 10px;
+    text-align:center;
 
-                height: 68px;
+    color:#555;
 
-                padding: 0 13px;
-            }
+    font-size:9px;
+}
 
-            .logo-icon {
-                width: 40px;
-                height: 40px;
-            }
+.loader{
 
-            .logo-text strong {
-                font-size: 15px;
-            }
+    width:27px;
+    height:27px;
 
-            .user-name {
-                display: none;
-            }
+    margin:
+        0 auto 12px;
 
-            main {
-                width:
-                    calc(100% - 20px);
+    border-radius:50%;
 
-                padding-top: 30px;
-            }
+    border:
+        2px solid
+        rgba(255,255,255,.08);
 
-            .toolbar {
-                flex-direction: column;
-                align-items: stretch;
-            }
+    border-top-color:#aaa;
 
-            .search {
-                max-width: none;
-                width: 100%;
-            }
+    animation:
+        spin .8s linear infinite;
+}
 
-            .count {
-                text-align: center;
-            }
+@keyframes spin{
 
-            .tests-grid {
-                grid-template-columns: 1fr;
-            }
+    to{
+        transform:
+            rotate(360deg);
+    }
 
-        }
+}
 
-    </style>
+
+/* =========================
+   TOAST
+========================= */
+
+.toast{
+
+    position:fixed;
+
+    bottom:25px;
+
+    left:50%;
+
+    transform:
+        translateX(-50%)
+        translateY(100px);
+
+    opacity:0;
+
+    padding:
+        12px 18px;
+
+    border-radius:12px;
+
+    background:#111;
+
+    border:
+        1px solid
+        rgba(255,255,255,.1);
+
+    color:#aaa;
+
+    font-size:8px;
+
+    transition:.3s;
+
+    z-index:500;
+}
+
+.toast.show{
+
+    opacity:1;
+
+    transform:
+        translateX(-50%)
+        translateY(0);
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:650px){
+
+    header{
+        padding:
+            14px 15px;
+    }
+
+    .brand-text{
+        display:none;
+    }
+
+    .container{
+
+        width:
+            calc(100% - 20px);
+
+        margin-top:20px;
+    }
+
+    .hero{
+        padding:23px;
+    }
+
+    .tools{
+        flex-direction:column;
+    }
+
+    .refresh{
+        width:100%;
+    }
+
+}
+
+</style>
 
 </head>
 
@@ -795,46 +774,41 @@
 <body>
 
 
-<!-- =========================
-     BACKGROUND
-========================= -->
+<!-- BACKGROUND -->
 
 <div class="background">
+
+    <div class="grid"></div>
 
     <div class="glow one"></div>
 
     <div class="glow two"></div>
 
-    <div class="grid"></div>
-
 </div>
 
 
-<!-- =========================
-     HEADER
-========================= -->
+<!-- HEADER -->
 
 <header>
 
-    <a
-        href="home.html"
-        class="logo"
-    >
 
-        <div class="logo-icon">
+    <div class="brand">
+
+        <div class="brand-logo">
 
             <img
                 src="teacher.png"
-                alt="الماستر"
+                alt="الخوارزمي"
             >
 
         </div>
 
-        <div class="logo-text">
 
-            <strong>
+        <div class="brand-text">
+
+            <h2>
                 الخوارزمي
-            </strong>
+            </h2>
 
             <span>
                 منصة الاختبارات
@@ -842,418 +816,797 @@
 
         </div>
 
-    </a>
+    </div>
 
 
-    <nav>
+    <div class="header-actions">
 
-        <a href="home.html">
+        <button
+            class="header-btn"
+            onclick="
+                window.location.href='home.html'
+            "
+        >
             الرئيسية
-        </a>
-
-        <a
-            href="tests.html"
-            class="active"
-        >
-            الاختبارات
-        </a>
-
-        <a href="#">
-            النتائج
-        </a>
-
-        <a href="#">
-            حسابي
-        </a>
-
-    </nav>
-
-
-    <div class="user-area">
-
-        <span
-            class="user-name"
-            id="userName"
-        >
-            الطالب
-        </span>
-
-        <a
-            href="index.html"
-            class="logout"
-            onclick="logout()"
-        >
-            خروج
-        </a>
+        </button>
 
     </div>
+
 
 </header>
 
 
-<!-- =========================
-     MAIN
-========================= -->
+<!-- MAIN -->
 
-<main>
+<main class="container">
 
 
-    <!-- PAGE TITLE -->
+    <!-- HERO -->
 
-    <section class="page-title">
+    <section class="hero">
 
-        <div class="badge">
-            الاختبارات الإلكترونية
+        <div class="hero-small">
+            منصة الاختبارات
         </div>
 
         <h1>
-            اختبارات
-            <span>
-                الخوارزمي
-            </span>
+            اختر اختبارك
         </h1>
 
         <p>
-            اختر الاختبار المناسب لك وابدأ
-            تجربتك التعليمية.
+            جميع الاختبارات المنشورة متاحة هنا للبدء.
         </p>
 
     </section>
 
 
-    <!-- TOOLBAR -->
+    <!-- TOOLS -->
 
-    <div class="toolbar">
+    <div class="tools">
 
-        <input
-            type="search"
-            id="searchInput"
-            class="search"
-            placeholder="ابحث عن اختبار..."
+        <div class="search-box">
+
+            <input
+                id="searchInput"
+                type="search"
+                placeholder="ابحث عن اختبار..."
+                autocomplete="off"
+            >
+
+        </div>
+
+
+        <button
+            class="refresh"
+            id="refreshBtn"
         >
+            ↻ تحديث
+        </button>
 
-        <div class="count">
-            عدد الاختبارات:
-            <strong id="testCount">0</strong>
+    </div>
+
+
+    <!-- TITLE -->
+
+    <div class="section-title">
+
+        <h2>
+            الاختبارات المتاحة
+        </h2>
+
+        <span
+            class="count"
+            id="examCount"
+        >
+            —
+        </span>
+
+    </div>
+
+
+    <!-- EXAMS -->
+
+    <div
+        id="examsContainer"
+        class="exams"
+    >
+
+        <div class="loading">
+
+            <div class="loader"></div>
+
+            جاري تحميل الاختبارات...
+
         </div>
 
     </div>
 
 
-    <!-- TESTS -->
-
-    <section
-        class="tests-grid"
-        id="testsGrid"
-    >
-
-        <!-- يتم إنشاء الاختبارات هنا -->
-
-    </section>
-
-
 </main>
 
 
-<footer>
-
-    © 2026 الخوارزمي | منصة الاختبارات
-
-</footer>
+<div
+    id="toast"
+    class="toast"
+></div>
 
 
 <script>
 
-    /* =========================
-       USER
-    ========================= */
+/* =========================================
+   SUPABASE
+========================================= */
 
-    const userName =
-        localStorage.getItem("userName");
+const SUPABASE_URL =
+    "https://cuygojzrgpposlcpthjw.supabase.co";
 
-
-    if (userName) {
-
-        document.getElementById(
-            "userName"
-        ).textContent = userName;
-
-    }
+const SUPABASE_KEY =
+    "sb_publishable_ySp8SmV4CDZaOojNnkNMPA_5S5s_Ia5";
 
 
-    function logout() {
-
-        localStorage.removeItem(
-            "userName"
-        );
-
-    }
+const {
+    createClient
+} = window.supabase;
 
 
-    /* =========================
-       LOAD TESTS
-    ========================= */
+const supabase =
+    createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
 
-    let tests = [];
 
-    try {
+/* =========================================
+   ELEMENTS
+========================================= */
 
-        tests =
-            JSON.parse(
-                localStorage.getItem("tests") || "[]"
+const examsContainer =
+    document.getElementById(
+        "examsContainer"
+    );
+
+const searchInput =
+    document.getElementById(
+        "searchInput"
+    );
+
+const examCount =
+    document.getElementById(
+        "examCount"
+    );
+
+const refreshBtn =
+    document.getElementById(
+        "refreshBtn"
+    );
+
+const toast =
+    document.getElementById(
+        "toast"
+    );
+
+
+let allExams = [];
+
+
+/* =========================================
+   TOAST
+========================================= */
+
+function showToast(
+    text
+){
+
+    toast.textContent =
+        text;
+
+    toast.classList.add(
+        "show"
+    );
+
+    setTimeout(
+        () => {
+
+            toast.classList.remove(
+                "show"
             );
 
-    } catch {
+        },
+        2500
+    );
 
-        tests = [];
+}
+
+
+/* =========================================
+   ESCAPE HTML
+========================================= */
+
+function escapeHTML(
+    value
+){
+
+    return String(
+        value ?? ""
+    )
+    .replace(
+        /&/g,
+        "&amp;"
+    )
+    .replace(
+        /</g,
+        "&lt;"
+    )
+    .replace(
+        />/g,
+        "&gt;"
+    )
+    .replace(
+        /"/g,
+        "&quot;"
+    )
+    .replace(
+        /'/g,
+        "&#039;"
+    );
+
+}
+
+
+/* =========================================
+   DATE
+========================================= */
+
+function formatDate(
+    value
+){
+
+    if(!value){
+
+        return "";
 
     }
 
 
-    const grid =
-        document.getElementById(
-            "testsGrid"
+    try{
+
+        return new Date(
+            value
+        ).toLocaleDateString(
+            "ar-EG",
+            {
+                year:"numeric",
+                month:"short",
+                day:"numeric"
+            }
         );
 
-    const count =
-        document.getElementById(
-            "testCount"
+    }catch{
+
+        return "";
+
+    }
+
+}
+
+
+/* =========================================
+   CHECK SESSION
+========================================= */
+
+async function checkSession(){
+
+    const {
+        data,
+        error
+    } =
+        await supabase.auth
+        .getSession();
+
+
+    if(error){
+
+        console.error(
+            error
         );
 
-    const search =
-        document.getElementById(
-            "searchInput"
+        window.location.href =
+            "auth.html";
+
+        return false;
+
+    }
+
+
+    if(
+        !data ||
+        !data.session
+    ){
+
+        window.location.href =
+            "auth.html";
+
+        return false;
+
+    }
+
+
+    return true;
+
+}
+
+
+/* =========================================
+   LOAD EXAMS
+========================================= */
+
+async function loadExams(){
+
+    examsContainer.innerHTML = `
+
+        <div class="loading">
+
+            <div class="loader"></div>
+
+            جاري تحميل الاختبارات...
+
+        </div>
+
+    `;
+
+
+    const {
+        data,
+        error
+    } =
+        await supabase
+        .from("exams")
+        .select("*")
+        .eq(
+            "active",
+            true
+        )
+        .order(
+            "created_at",
+            {
+                ascending:false
+            }
         );
 
 
-    function renderTests(list) {
+    if(error){
 
-        grid.innerHTML = "";
+        console.error(
+            error
+        );
 
-        count.textContent =
-            list.length;
+        examsContainer.innerHTML = `
 
+            <div class="empty">
 
-        /* لا توجد اختبارات */
-
-        if (list.length === 0) {
-
-            grid.innerHTML = `
-
-                <div class="empty">
-
-                    <div class="empty-logo">
-
-                        <img
-                            src="teacher.png"
-                            alt="الماستر"
-                        >
-
-                    </div>
-
-                    <strong>
-                        لا توجد اختبارات متاحة حاليًا
-                    </strong>
-
-                    <span>
-                        سيتم عرض الاختبارات هنا
-                        عندما يقوم المسؤول بإضافتها.
-                    </span>
-
+                <div class="empty-icon">
+                    ⚠
                 </div>
 
-            `;
+                <h3>
+                    تعذر تحميل الاختبارات
+                </h3>
+
+                <p>
+                    حدث خطأ أثناء الاتصال بقاعدة البيانات.
+                </p>
+
+            </div>
+
+        `;
+
+        examCount.textContent =
+            "0 اختبار";
+
+        return;
+
+    }
+
+
+    allExams =
+        data || [];
+
+
+    renderExams(
+        allExams
+    );
+
+}
+
+
+/* =========================================
+   RENDER
+========================================= */
+
+function renderExams(
+    exams
+){
+
+    examCount.textContent =
+        exams.length +
+        (
+            exams.length === 1
+            ? " اختبار"
+            : " اختبارات"
+        );
+
+
+    if(
+        exams.length === 0
+    ){
+
+        examsContainer.innerHTML = `
+
+            <div class="empty">
+
+                <div class="empty-icon">
+                    ◌
+                </div>
+
+                <h3>
+                    لا توجد اختبارات
+                </h3>
+
+                <p>
+                    لا توجد اختبارات منشورة حاليًا.
+                </p>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    examsContainer.innerHTML =
+        exams
+        .map(
+            (
+                exam,
+                index
+            ) => {
+
+                return createExamCard(
+                    exam,
+                    index
+                );
+
+            }
+        )
+        .join("");
+
+}
+
+
+/* =========================================
+   CREATE CARD
+========================================= */
+
+function createExamCard(
+    exam,
+    index
+){
+
+    const title =
+        escapeHTML(
+            exam.title ||
+            "اختبار"
+        );
+
+
+    const description =
+        escapeHTML(
+            exam.description ||
+            "اختبار إلكتروني من منصة الخوارزمي."
+        );
+
+
+    const duration =
+        exam.duration ||
+        exam.time_limit ||
+        null;
+
+
+    const questions =
+        exam.questions_count ||
+        exam.question_count ||
+        null;
+
+
+    const date =
+        formatDate(
+            exam.created_at
+        );
+
+
+    return `
+
+        <article
+            class="exam-card"
+            style="
+                animation-delay:
+                ${index * 60}ms
+            "
+        >
+
+            <div class="exam-top">
+
+                <div class="exam-icon">
+                    📝
+                </div>
+
+                <div class="status">
+                    متاح الآن
+                </div>
+
+            </div>
+
+
+            <h3>
+                ${title}
+            </h3>
+
+
+            <div class="description">
+
+                ${description}
+
+            </div>
+
+
+            <div class="info-row">
+
+
+                ${
+                    duration
+                    ?
+                    `
+                    <div class="info">
+                        ⏱
+                        ${escapeHTML(duration)}
+                        دقيقة
+                    </div>
+                    `
+                    :
+                    `
+                    <div class="info">
+                        ⏱
+                        بدون وقت محدد
+                    </div>
+                    `
+                }
+
+
+                ${
+                    questions
+                    ?
+                    `
+                    <div class="info">
+                        ❓
+                        ${escapeHTML(questions)}
+                        سؤال
+                    </div>
+                    `
+                    :
+                    ""
+                }
+
+
+                ${
+                    date
+                    ?
+                    `
+                    <div class="info">
+                        📅
+                        ${date}
+                    </div>
+                    `
+                    :
+                    ""
+                }
+
+
+            </div>
+
+
+            <button
+                class="start"
+                onclick="
+                    startExam(
+                        '${exam.id}'
+                    )
+                "
+            >
+                بدء الاختبار
+            </button>
+
+
+        </article>
+
+    `;
+
+}
+
+
+/* =========================================
+   START EXAM
+========================================= */
+
+function startExam(
+    examId
+){
+
+    if(!examId){
+
+        showToast(
+            "معرف الاختبار غير موجود."
+        );
+
+        return;
+
+    }
+
+
+    window.location.href =
+        "exam.html?id=" +
+        encodeURIComponent(
+            examId
+        );
+
+}
+
+
+/* =========================================
+   SEARCH
+========================================= */
+
+searchInput.addEventListener(
+    "input",
+    function(){
+
+        const query =
+            this.value
+            .trim()
+            .toLowerCase();
+
+
+        if(!query){
+
+            renderExams(
+                allExams
+            );
 
             return;
 
         }
 
 
-        /* عرض الاختبارات */
+        const filtered =
+            allExams.filter(
+                exam => {
 
-        list.forEach(function(test, index) {
-
-            const id =
-                test.id ||
-                index + 1;
-
-
-            const title =
-                test.title ||
-                "اختبار";
+                    const title =
+                        String(
+                            exam.title ||
+                            ""
+                        )
+                        .toLowerCase();
 
 
-            const description =
-                test.description ||
-                "اختبار إلكتروني.";
+                    const description =
+                        String(
+                            exam.description ||
+                            ""
+                        )
+                        .toLowerCase();
 
 
-            const questions =
-                test.questions ||
-                0;
+                    return (
+                        title.includes(
+                            query
+                        )
+                        ||
+                        description.includes(
+                            query
+                        )
+                    );
+
+                }
+            );
 
 
-            const duration =
-                test.duration ||
-                0;
-
-
-            const card =
-                document.createElement(
-                    "article"
-                );
-
-
-            card.className =
-                "test-card";
-
-
-            card.innerHTML = `
-
-                <div class="test-header">
-
-                    <div class="test-logo">
-
-                        <img
-                            src="teacher.png"
-                            alt="الماستر"
-                        >
-
-                    </div>
-
-                    <span class="status">
-                        متاح
-                    </span>
-
-                </div>
-
-
-                <h2>
-                    ${escapeHTML(title)}
-                </h2>
-
-
-                <p class="test-description">
-                    ${escapeHTML(description)}
-                </p>
-
-
-                <div class="test-details">
-
-                    <div class="detail">
-
-                        <strong>
-                            ${questions}
-                        </strong>
-
-                        <span>
-                            سؤال
-                        </span>
-
-                    </div>
-
-
-                    <div class="detail">
-
-                        <strong>
-                            ${duration}
-                        </strong>
-
-                        <span>
-                            دقيقة
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-                <a
-                    class="start-btn"
-                    href="exam.html?id=${encodeURIComponent(id)}"
-                >
-                    بدء الاختبار
-                </a>
-
-            `;
-
-
-            grid.appendChild(card);
-
-        });
+        renderExams(
+            filtered
+        );
 
     }
+);
 
 
-    /* =========================
-       SEARCH
-    ========================= */
+/* =========================================
+   REFRESH
+========================================= */
 
-    search.addEventListener(
-        "input",
-        function() {
+refreshBtn.addEventListener(
+    "click",
+    async function(){
 
-            const value =
-                this.value
-                .trim()
-                .toLowerCase();
+        refreshBtn.disabled =
+            true;
 
-
-            if (!value) {
-
-                renderTests(tests);
-
-                return;
-
-            }
+        refreshBtn.textContent =
+            "جاري التحديث...";
 
 
-            const filtered =
-                tests.filter(
-                    function(test) {
-
-                        return (
-                            String(
-                                test.title || ""
-                            )
-                            .toLowerCase()
-                            .includes(value)
-                        );
-
-                    }
-                );
+        await loadExams();
 
 
-            renderTests(filtered);
+        refreshBtn.disabled =
+            false;
+
+        refreshBtn.textContent =
+            "↻ تحديث";
+
+        showToast(
+            "تم تحديث الاختبارات."
+        );
+
+    }
+);
+
+
+/* =========================================
+   AUTH STATE
+========================================= */
+
+supabase.auth.onAuthStateChange(
+    (
+        event,
+        session
+    ) => {
+
+        if(
+            event ===
+            "SIGNED_OUT"
+        ){
+
+            window.location.href =
+                "auth.html";
 
         }
-    );
+
+    }
+);
 
 
-    /* =========================
-       SECURITY
-    ========================= */
+/* =========================================
+   START
+========================================= */
 
-    function escapeHTML(value) {
+(async function(){
 
-        return String(value)
-            .replaceAll("&", "&amp;")
-            .replaceAll("<", "&lt;")
-            .replaceAll(">", "&gt;")
-            .replaceAll('"', "&quot;")
-            .replaceAll("'", "&#039;");
+    const logged =
+        await checkSession();
+
+
+    if(
+        logged
+    ){
+
+        await loadExams();
 
     }
 
-
-    /* =========================
-       INITIAL
-    ========================= */
-
-    renderTests(tests);
+})();
 
 </script>
-
 
 </body>
 
