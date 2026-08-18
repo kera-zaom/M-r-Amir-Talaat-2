@@ -1,0 +1,1628 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>الخوارزمي | إدارة الاختبارات</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,Tahoma,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    color:#fff;
+    background:
+        radial-gradient(
+            circle at 50% -20%,
+            rgba(255,255,255,.08),
+            transparent 35%
+        ),
+        #020202;
+    overflow-x:hidden;
+}
+
+.background{
+    position:fixed;
+    inset:0;
+    z-index:-5;
+    pointer-events:none;
+}
+
+.grid{
+    position:absolute;
+    inset:0;
+    background-image:
+        linear-gradient(
+            rgba(255,255,255,.015) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.015) 1px,
+            transparent 1px
+        );
+    background-size:55px 55px;
+}
+
+.glow{
+    position:absolute;
+    width:430px;
+    height:430px;
+    border-radius:50%;
+    background:rgba(255,255,255,.035);
+    filter:blur(120px);
+}
+
+.glow.one{
+    top:-250px;
+    right:-170px;
+}
+
+.glow.two{
+    bottom:-250px;
+    left:-170px;
+}
+
+
+/* =========================
+   LAYOUT
+========================= */
+
+.layout{
+    width:min(
+        1250px,
+        calc(100% - 30px)
+    );
+
+    min-height:100vh;
+
+    margin:auto;
+
+    display:grid;
+
+    grid-template-columns:
+        245px 1fr;
+
+    gap:20px;
+
+    padding:20px 0;
+}
+
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar{
+    min-height:
+        calc(100vh - 40px);
+
+    padding:22px 16px;
+
+    border-radius:24px;
+
+    background:
+        rgba(8,8,8,.84);
+
+    border:
+        1px solid
+        rgba(255,255,255,.08);
+
+    backdrop-filter:blur(20px);
+
+    position:sticky;
+
+    top:20px;
+}
+
+.logo{
+    display:flex;
+
+    align-items:center;
+
+    gap:11px;
+
+    padding:
+        5px 7px 22px;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.06);
+
+    text-decoration:none;
+
+    color:white;
+}
+
+.logo-img{
+    width:45px;
+    height:45px;
+
+    overflow:hidden;
+
+    border-radius:14px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #fff,
+            #777
+        );
+
+    animation:
+        floatLogo 3.5s ease-in-out infinite;
+}
+
+.logo-img img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+@keyframes floatLogo{
+
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-4px);
+    }
+
+}
+
+.logo-text strong{
+    display:block;
+    font-size:15px;
+}
+
+.logo-text span{
+    display:block;
+    color:#555;
+    font-size:9px;
+    margin-top:4px;
+}
+
+.menu-title{
+    color:#444;
+    font-size:8px;
+    margin:25px 8px 10px;
+}
+
+.menu{
+    display:grid;
+    gap:6px;
+}
+
+.menu a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px;
+    border-radius:12px;
+    text-decoration:none;
+    color:#777;
+    font-size:11px;
+    transition:.3s;
+}
+
+.menu a:hover{
+    color:white;
+    background:
+        rgba(255,255,255,.045);
+}
+
+.menu a.active{
+    color:white;
+    background:
+        rgba(255,255,255,.07);
+
+    border:
+        1px solid
+        rgba(255,255,255,.06);
+}
+
+.menu-icon{
+    width:25px;
+    height:25px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:8px;
+
+    background:
+        rgba(255,255,255,.045);
+}
+
+
+/* =========================
+   CONTENT
+========================= */
+
+.content{
+    min-width:0;
+}
+
+.topbar{
+    min-height:70px;
+
+    padding:0 20px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    border-radius:20px;
+
+    background:
+        rgba(8,8,8,.84);
+
+    border:
+        1px solid
+        rgba(255,255,255,.08);
+
+    backdrop-filter:blur(20px);
+
+    margin-bottom:20px;
+}
+
+.topbar h1{
+    font-size:18px;
+}
+
+.topbar p{
+    color:#555;
+    font-size:9px;
+    margin-top:5px;
+}
+
+.add-btn{
+    color:#050505;
+
+    text-decoration:none;
+
+    padding:11px 15px;
+
+    border-radius:11px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fff,
+            #aaa
+        );
+
+    font-size:10px;
+
+    font-weight:bold;
+}
+
+
+/* =========================
+   TOOLBAR
+========================= */
+
+.toolbar{
+    padding:17px;
+
+    border-radius:18px;
+
+    background:
+        rgba(255,255,255,.025);
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    margin-bottom:18px;
+
+    display:flex;
+
+    gap:10px;
+
+    align-items:center;
+}
+
+.search{
+    flex:1;
+
+    height:43px;
+
+    padding:0 14px;
+
+    color:white;
+
+    outline:none;
+
+    border-radius:11px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    background:
+        rgba(0,0,0,.25);
+
+    font-size:10px;
+}
+
+.search:focus{
+    border-color:
+        rgba(255,255,255,.2);
+}
+
+.filter{
+    height:43px;
+
+    padding:0 14px;
+
+    border-radius:11px;
+
+    color:#777;
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    background:
+        rgba(0,0,0,.25);
+
+    outline:none;
+
+    font-size:10px;
+}
+
+.filter option{
+    background:#111;
+    color:white;
+}
+
+
+/* =========================
+   COUNT
+========================= */
+
+.count{
+    color:#555;
+
+    font-size:9px;
+
+    margin:
+        0 3px 12px;
+}
+
+
+/* =========================
+   EXAMS
+========================= */
+
+.exam-list{
+    display:grid;
+
+    gap:13px;
+}
+
+.exam-card{
+    padding:20px;
+
+    border-radius:19px;
+
+    background:
+        rgba(255,255,255,.03);
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    transition:.3s;
+}
+
+.exam-card:hover{
+    background:
+        rgba(255,255,255,.05);
+
+    border-color:
+        rgba(255,255,255,.12);
+
+    transform:
+        translateY(-2px);
+}
+
+.exam-top{
+    display:flex;
+
+    align-items:flex-start;
+
+    justify-content:space-between;
+
+    gap:15px;
+}
+
+.exam-info{
+    min-width:0;
+}
+
+.exam-title{
+    font-size:14px;
+
+    margin-bottom:7px;
+
+    word-break:break-word;
+}
+
+.exam-description{
+    color:#555;
+
+    font-size:9px;
+
+    line-height:1.8;
+
+    max-width:650px;
+}
+
+.status{
+    flex-shrink:0;
+
+    padding:6px 9px;
+
+    border-radius:20px;
+
+    font-size:8px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+}
+
+.status.active{
+    color:#aaa;
+
+    background:
+        rgba(255,255,255,.045);
+}
+
+.status.inactive{
+    color:#444;
+
+    background:
+        rgba(255,255,255,.015);
+}
+
+
+/* =========================
+   META
+========================= */
+
+.meta{
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:8px;
+
+    margin-top:16px;
+
+    padding-top:15px;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,.05);
+}
+
+.meta-item{
+    padding:7px 10px;
+
+    border-radius:9px;
+
+    background:
+        rgba(255,255,255,.025);
+
+    color:#666;
+
+    font-size:8px;
+}
+
+.meta-item strong{
+    color:#aaa;
+}
+
+
+/* =========================
+   ACTIONS
+========================= */
+
+.exam-actions{
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:8px;
+
+    margin-top:15px;
+}
+
+.action-btn{
+    padding:9px 12px;
+
+    border-radius:9px;
+
+    color:#777;
+
+    text-decoration:none;
+
+    border:
+        1px solid
+        rgba(255,255,255,.06);
+
+    background:
+        rgba(255,255,255,.025);
+
+    font-size:8px;
+
+    cursor:pointer;
+
+    transition:.25s;
+}
+
+.action-btn:hover{
+    color:white;
+
+    background:
+        rgba(255,255,255,.06);
+}
+
+.action-btn.primary{
+    color:#050505;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fff,
+            #aaa
+        );
+
+    border:none;
+}
+
+.action-btn.danger:hover{
+    color:#ddd;
+    border-color:
+        rgba(255,255,255,.2);
+}
+
+
+/* =========================
+   EMPTY
+========================= */
+
+.empty{
+    padding:65px 20px;
+
+    text-align:center;
+
+    border-radius:22px;
+
+    border:
+        1px dashed
+        rgba(255,255,255,.09);
+
+    background:
+        rgba(255,255,255,.015);
+
+    color:#444;
+}
+
+.empty-icon{
+    width:60px;
+    height:60px;
+
+    margin:
+        0 auto 15px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:18px;
+
+    background:
+        rgba(255,255,255,.035);
+
+    color:#666;
+
+    font-size:20px;
+}
+
+.empty strong{
+    display:block;
+
+    color:#666;
+
+    font-size:12px;
+
+    margin-bottom:7px;
+}
+
+.empty span{
+    font-size:9px;
+}
+
+
+/* =========================
+   MODAL
+========================= */
+
+.modal{
+    position:fixed;
+
+    inset:0;
+
+    z-index:100;
+
+    display:none;
+
+    align-items:center;
+    justify-content:center;
+
+    padding:20px;
+
+    background:
+        rgba(0,0,0,.78);
+
+    backdrop-filter:blur(8px);
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-card{
+    width:min(
+        430px,
+        100%
+    );
+
+    padding:27px;
+
+    border-radius:23px;
+
+    background:
+        #090909;
+
+    border:
+        1px solid
+        rgba(255,255,255,.1);
+
+    box-shadow:
+        0 30px 100px
+        rgba(0,0,0,.8);
+
+    animation:
+        modalShow .25s ease;
+}
+
+@keyframes modalShow{
+
+    from{
+        opacity:0;
+        transform:scale(.96);
+    }
+
+    to{
+        opacity:1;
+        transform:scale(1);
+    }
+
+}
+
+.modal-card h2{
+    font-size:17px;
+
+    margin-bottom:10px;
+}
+
+.modal-card p{
+    color:#555;
+
+    font-size:10px;
+
+    line-height:1.8;
+
+    margin-bottom:22px;
+}
+
+.modal-actions{
+    display:flex;
+
+    gap:8px;
+}
+
+.modal-actions button{
+    flex:1;
+
+    padding:12px;
+
+    border-radius:11px;
+
+    font-size:10px;
+}
+
+.confirm-delete{
+    color:#050505;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fff,
+            #aaa
+        );
+}
+
+.cancel-delete{
+    color:#777;
+
+    background:
+        rgba(255,255,255,.04);
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:950px){
+
+    .layout{
+        grid-template-columns:1fr;
+    }
+
+    .sidebar{
+        position:relative;
+        top:auto;
+        min-height:auto;
+    }
+
+    .menu{
+        grid-template-columns:
+            repeat(3,1fr);
+    }
+
+}
+
+@media(max-width:600px){
+
+    .layout{
+        width:
+            calc(100% - 20px);
+
+        padding:10px 0;
+    }
+
+    .topbar{
+        padding:0 14px;
+    }
+
+    .topbar h1{
+        font-size:15px;
+    }
+
+    .add-btn{
+        padding:9px;
+        font-size:8px;
+    }
+
+    .menu{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    .menu a{
+        justify-content:center;
+        flex-direction:column;
+        gap:6px;
+        font-size:9px;
+    }
+
+    .toolbar{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .exam-top{
+        flex-direction:column;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="background">
+
+    <div class="grid"></div>
+
+    <div class="glow one"></div>
+
+    <div class="glow two"></div>
+
+</div>
+
+
+<div class="layout">
+
+
+<!-- =========================
+     SIDEBAR
+========================= -->
+
+<aside class="sidebar">
+
+    <a
+        href="index.html"
+        class="logo"
+    >
+
+        <div class="logo-img">
+
+            <img
+                src="../teacher.png"
+                alt="الخوارزمي"
+            >
+
+        </div>
+
+        <div class="logo-text">
+
+            <strong>
+                الخوارزمي
+            </strong>
+
+            <span>
+                لوحة الإدارة
+            </span>
+
+        </div>
+
+    </a>
+
+
+    <div class="menu-title">
+        الإدارة
+    </div>
+
+
+    <nav class="menu">
+
+        <a href="index.html">
+
+            <div class="menu-icon">
+                ◈
+            </div>
+
+            الرئيسية
+
+        </a>
+
+
+        <a href="add-exam.html">
+
+            <div class="menu-icon">
+                ＋
+            </div>
+
+            إضافة اختبار
+
+        </a>
+
+
+        <a
+            href="exams.html"
+            class="active"
+        >
+
+            <div class="menu-icon">
+                □
+            </div>
+
+            الاختبارات
+
+        </a>
+
+
+        <a href="questions.html">
+
+            <div class="menu-icon">
+                ?
+            </div>
+
+            الأسئلة
+
+        </a>
+
+
+        <a href="students.html">
+
+            <div class="menu-icon">
+                ◉
+            </div>
+
+            الطلاب
+
+        </a>
+
+    </nav>
+
+</aside>
+
+
+<!-- =========================
+     CONTENT
+========================= -->
+
+<section class="content">
+
+
+    <div class="topbar">
+
+        <div>
+
+            <h1>
+                إدارة الاختبارات
+            </h1>
+
+            <p>
+                جميع الاختبارات التي تم إنشاؤها
+            </p>
+
+        </div>
+
+
+        <a
+            href="add-exam.html"
+            class="add-btn"
+        >
+            ＋ اختبار جديد
+        </a>
+
+    </div>
+
+
+    <!-- TOOLBAR -->
+
+    <div class="toolbar">
+
+        <input
+            type="search"
+            id="search"
+            class="search"
+            placeholder="ابحث عن اختبار..."
+        >
+
+
+        <select
+            id="filter"
+            class="filter"
+        >
+
+            <option value="all">
+                الكل
+            </option>
+
+            <option value="active">
+                المنشورة
+            </option>
+
+            <option value="inactive">
+                غير المنشورة
+            </option>
+
+        </select>
+
+    </div>
+
+
+    <div
+        class="count"
+        id="count"
+    >
+        0 اختبار
+    </div>
+
+
+    <div
+        class="exam-list"
+        id="examList"
+    ></div>
+
+
+</section>
+
+
+</div>
+
+
+<!-- =========================
+     DELETE MODAL
+========================= -->
+
+<div
+    class="modal"
+    id="deleteModal"
+>
+
+    <div class="modal-card">
+
+        <h2>
+            حذف الاختبار؟
+        </h2>
+
+        <p id="deleteText">
+            هل أنت متأكد من حذف هذا الاختبار؟
+        </p>
+
+        <div class="modal-actions">
+
+            <button
+                class="confirm-delete"
+                id="confirmDelete"
+            >
+                نعم، حذف
+            </button>
+
+            <button
+                class="cancel-delete"
+                onclick="closeDelete()"
+            >
+                إلغاء
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   DATA
+========================= */
+
+let tests = [];
+
+let deleteId = null;
+
+
+/* =========================
+   LOAD TESTS
+========================= */
+
+function loadTests(){
+
+    try{
+
+        tests =
+            JSON.parse(
+                localStorage.getItem(
+                    "tests"
+                ) || "[]"
+            );
+
+    }catch{
+
+        tests = [];
+
+    }
+
+    if(!Array.isArray(tests)){
+        tests = [];
+    }
+
+    renderTests();
+
+}
+
+
+/* =========================
+   RENDER
+========================= */
+
+function renderTests(){
+
+    const list =
+        document.getElementById(
+            "examList"
+        );
+
+    const search =
+        document.getElementById(
+            "search"
+        )
+        .value
+        .trim()
+        .toLowerCase();
+
+
+    const filter =
+        document.getElementById(
+            "filter"
+        )
+        .value;
+
+
+    const filtered =
+        tests.filter(
+            function(test){
+
+                const title =
+                    String(
+                        test.title || ""
+                    )
+                    .toLowerCase();
+
+
+                const subject =
+                    String(
+                        test.subject || ""
+                    )
+                    .toLowerCase();
+
+
+                const matchesSearch =
+                    !search ||
+                    title.includes(search) ||
+                    subject.includes(search);
+
+
+                const matchesFilter =
+                    filter === "all"
+                    ||
+                    (
+                        filter === "active"
+                        &&
+                        test.active === true
+                    )
+                    ||
+                    (
+                        filter === "inactive"
+                        &&
+                        test.active !== true
+                    );
+
+
+                return (
+                    matchesSearch &&
+                    matchesFilter
+                );
+
+            }
+        );
+
+
+    document.getElementById(
+        "count"
+    ).textContent =
+        filtered.length +
+        (
+            filtered.length === 1
+            ? " اختبار"
+            : " اختبارات"
+        );
+
+
+    if(filtered.length === 0){
+
+        list.innerHTML = `
+
+            <div class="empty">
+
+                <div class="empty-icon">
+                    □
+                </div>
+
+                <strong>
+                    لا توجد اختبارات
+                </strong>
+
+                <span>
+                    لم يتم العثور على اختبارات مطابقة.
+                </span>
+
+            </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    list.innerHTML = "";
+
+
+    filtered
+        .slice()
+        .reverse()
+        .forEach(
+            function(test){
+
+                list.appendChild(
+                    createExamCard(test)
+                );
+
+            }
+        );
+
+}
+
+
+/* =========================
+   CREATE CARD
+========================= */
+
+function createExamCard(test){
+
+    const card =
+        document.createElement(
+            "article"
+        );
+
+    card.className =
+        "exam-card";
+
+
+    const questions =
+        Array.isArray(
+            test.questions
+        )
+        ? test.questions.length
+        : Array.isArray(
+            test.questionsList
+        )
+        ? test.questionsList.length
+        : 0;
+
+
+    const status =
+        test.active === true
+        ? `
+            <span class="status active">
+                منشور
+            </span>
+          `
+        : `
+            <span class="status inactive">
+                غير منشور
+            </span>
+          `;
+
+
+    card.innerHTML = `
+
+        <div class="exam-top">
+
+            <div class="exam-info">
+
+                <div class="exam-title">
+
+                    ${escapeHTML(
+                        test.title ||
+                        "اختبار بدون اسم"
+                    )}
+
+                </div>
+
+                <div class="exam-description">
+
+                    ${escapeHTML(
+                        test.description ||
+                        "لا يوجد وصف للاختبار."
+                    )}
+
+                </div>
+
+            </div>
+
+            ${status}
+
+        </div>
+
+
+        <div class="meta">
+
+            <div class="meta-item">
+                المادة:
+                <strong>
+                    ${escapeHTML(
+                        test.subject ||
+                        "غير محددة"
+                    )}
+                </strong>
+            </div>
+
+
+            <div class="meta-item">
+                الصف:
+                <strong>
+                    ${escapeHTML(
+                        test.grade ||
+                        "غير محدد"
+                    )}
+                </strong>
+            </div>
+
+
+            <div class="meta-item">
+                الأسئلة:
+                <strong>
+                    ${questions}
+                </strong>
+            </div>
+
+
+            <div class="meta-item">
+                المدة:
+                <strong>
+                    ${
+                        Number(test.duration || 0) > 0
+                        ? Number(test.duration) + " دقيقة"
+                        : "بدون مؤقت"
+                    }
+                </strong>
+            </div>
+
+
+            <div class="meta-item">
+                النجاح:
+                <strong>
+                    ${Number(test.pass || 0)}%
+                </strong>
+            </div>
+
+        </div>
+
+
+        <div class="exam-actions">
+
+            <a
+                class="action-btn primary"
+                href="questions.html?exam=${encodeURIComponent(test.id)}"
+            >
+                إدارة الأسئلة
+            </a>
+
+
+            <button
+                class="action-btn"
+                onclick="toggleActive('${escapeAttribute(test.id)}')"
+            >
+                ${
+                    test.active === true
+                    ? "إلغاء النشر"
+                    : "نشر الاختبار"
+                }
+            </button>
+
+
+            <button
+                class="action-btn danger"
+                onclick="askDelete('${escapeAttribute(test.id)}')"
+            >
+                حذف
+            </button>
+
+        </div>
+
+    `;
+
+
+    return card;
+
+}
+
+
+/* =========================
+   TOGGLE ACTIVE
+========================= */
+
+function toggleActive(id){
+
+    const index =
+        tests.findIndex(
+            function(test){
+
+                return String(test.id) ===
+                    String(id);
+
+            }
+        );
+
+
+    if(index === -1){
+        return;
+    }
+
+
+    tests[index].active =
+        tests[index].active !== true;
+
+
+    localStorage.setItem(
+        "tests",
+        JSON.stringify(tests)
+    );
+
+
+    renderTests();
+
+}
+
+
+/* =========================
+   DELETE
+========================= */
+
+function askDelete(id){
+
+    deleteId = id;
+
+
+    const test =
+        tests.find(
+            function(item){
+
+                return String(item.id) ===
+                    String(id);
+
+            }
+        );
+
+
+    if(!test){
+        return;
+    }
+
+
+    document.getElementById(
+        "deleteText"
+    ).textContent =
+        `هل أنت متأكد من حذف "${test.title || "هذا الاختبار"}"؟`;
+
+
+    document.getElementById(
+        "deleteModal"
+    ).classList.add(
+        "show"
+    );
+
+}
+
+
+function closeDelete(){
+
+    deleteId = null;
+
+    document.getElementById(
+        "deleteModal"
+    ).classList.remove(
+        "show"
+    );
+
+}
+
+
+document.getElementById(
+    "confirmDelete"
+).addEventListener(
+    "click",
+    function(){
+
+        if(deleteId === null){
+            return;
+        }
+
+
+        tests =
+            tests.filter(
+                function(test){
+
+                    return String(test.id) !==
+                        String(deleteId);
+
+                }
+            );
+
+
+        localStorage.setItem(
+            "tests",
+            JSON.stringify(tests)
+        );
+
+
+        closeDelete();
+
+        renderTests();
+
+    }
+);
+
+
+/* =========================
+   SEARCH
+========================= */
+
+document.getElementById(
+    "search"
+).addEventListener(
+    "input",
+    renderTests
+);
+
+
+document.getElementById(
+    "filter"
+).addEventListener(
+    "change",
+    renderTests
+);
+
+
+/* =========================
+   ESCAPE
+========================= */
+
+function escapeHTML(value){
+
+    return String(value)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+
+}
+
+
+function escapeAttribute(value){
+
+    return String(value)
+        .replaceAll("\\","\\\\")
+        .replaceAll("'","\\'");
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+loadTests();
+
+</script>
+
+
+</body>
+</html>
