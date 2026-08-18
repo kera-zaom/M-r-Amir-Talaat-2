@@ -1,0 +1,1507 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>الخوارزمي | لوحة الإدارة</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,Tahoma,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    color:#fff;
+
+    background:
+        radial-gradient(
+            circle at 50% -20%,
+            rgba(255,255,255,.08),
+            transparent 35%
+        ),
+        #020202;
+
+    overflow-x:hidden;
+}
+
+/* =========================
+   BACKGROUND
+========================= */
+
+.background{
+    position:fixed;
+    inset:0;
+    z-index:-5;
+    pointer-events:none;
+}
+
+.grid{
+    position:absolute;
+    inset:0;
+
+    background-image:
+        linear-gradient(
+            rgba(255,255,255,.015) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.015) 1px,
+            transparent 1px
+        );
+
+    background-size:55px 55px;
+}
+
+.glow{
+    position:absolute;
+
+    width:420px;
+    height:420px;
+
+    border-radius:50%;
+
+    background:
+        rgba(255,255,255,.035);
+
+    filter:blur(110px);
+}
+
+.glow.one{
+    top:-250px;
+    right:-150px;
+}
+
+.glow.two{
+    bottom:-250px;
+    left:-150px;
+}
+
+/* =========================
+   LAYOUT
+========================= */
+
+.layout{
+    width:min(
+        1250px,
+        calc(100% - 30px)
+    );
+
+    min-height:100vh;
+
+    margin:auto;
+
+    display:grid;
+
+    grid-template-columns:
+        245px 1fr;
+
+    gap:20px;
+
+    padding:20px 0;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar{
+    min-height:
+        calc(100vh - 40px);
+
+    padding:22px 16px;
+
+    border-radius:24px;
+
+    background:
+        rgba(8,8,8,.84);
+
+    border:
+        1px solid
+        rgba(255,255,255,.08);
+
+    backdrop-filter:blur(20px);
+
+    position:sticky;
+
+    top:20px;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+
+    gap:11px;
+
+    padding:
+        5px 7px 22px;
+
+    border-bottom:
+        1px solid
+        rgba(255,255,255,.06);
+
+    text-decoration:none;
+
+    color:white;
+}
+
+.logo-img{
+    width:45px;
+    height:45px;
+
+    overflow:hidden;
+
+    border-radius:14px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #fff,
+            #777
+        );
+
+    animation:
+        floatLogo 3.5s ease-in-out infinite;
+}
+
+.logo-img img{
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+}
+
+@keyframes floatLogo{
+
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-4px);
+    }
+
+}
+
+.logo-text strong{
+    display:block;
+
+    font-size:15px;
+}
+
+.logo-text span{
+    display:block;
+
+    color:#555;
+
+    font-size:9px;
+
+    margin-top:4px;
+}
+
+/* =========================
+   ADMIN PROFILE
+========================= */
+
+.admin-profile{
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    padding:18px 7px;
+}
+
+.admin-avatar{
+    width:38px;
+    height:38px;
+
+    border-radius:12px;
+
+    overflow:hidden;
+
+    opacity:.8;
+}
+
+.admin-avatar img{
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+}
+
+.admin-profile strong{
+    display:block;
+
+    font-size:11px;
+}
+
+.admin-profile span{
+    display:block;
+
+    color:#555;
+
+    font-size:8px;
+
+    margin-top:4px;
+}
+
+/* =========================
+   NAVIGATION
+========================= */
+
+.menu-title{
+    color:#444;
+
+    font-size:8px;
+
+    margin:
+        10px 8px;
+
+    text-transform:uppercase;
+}
+
+.menu{
+    display:grid;
+
+    gap:6px;
+}
+
+.menu a{
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    padding:12px;
+
+    border-radius:12px;
+
+    text-decoration:none;
+
+    color:#777;
+
+    font-size:11px;
+
+    transition:.3s;
+}
+
+.menu a:hover{
+    color:white;
+
+    background:
+        rgba(255,255,255,.045);
+}
+
+.menu a.active{
+    color:white;
+
+    background:
+        rgba(255,255,255,.07);
+
+    border:
+        1px solid
+        rgba(255,255,255,.06);
+}
+
+.menu-icon{
+    width:25px;
+    height:25px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:8px;
+
+    background:
+        rgba(255,255,255,.045);
+
+    font-size:11px;
+}
+
+/* =========================
+   LOGOUT
+========================= */
+
+.logout{
+    position:absolute;
+
+    bottom:18px;
+
+    right:16px;
+    left:16px;
+
+    display:block;
+
+    padding:12px;
+
+    text-align:center;
+
+    border-radius:12px;
+
+    text-decoration:none;
+
+    color:#777;
+
+    border:
+        1px solid
+        rgba(255,255,255,.06);
+
+    background:
+        rgba(255,255,255,.025);
+
+    font-size:10px;
+
+    transition:.3s;
+}
+
+.logout:hover{
+    color:white;
+
+    background:
+        rgba(255,255,255,.06);
+}
+
+/* =========================
+   CONTENT
+========================= */
+
+.content{
+    min-width:0;
+
+    padding:5px 0;
+}
+
+/* =========================
+   TOPBAR
+========================= */
+
+.topbar{
+    min-height:70px;
+
+    padding:
+        0 20px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    border-radius:20px;
+
+    background:
+        rgba(8,8,8,.84);
+
+    border:
+        1px solid
+        rgba(255,255,255,.08);
+
+    backdrop-filter:blur(20px);
+
+    margin-bottom:20px;
+}
+
+.topbar h1{
+    font-size:18px;
+}
+
+.topbar p{
+    color:#555;
+
+    font-size:9px;
+
+    margin-top:5px;
+}
+
+.admin-tag{
+    padding:9px 12px;
+
+    border-radius:10px;
+
+    background:
+        rgba(255,255,255,.045);
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    color:#888;
+
+    font-size:9px;
+}
+
+/* =========================
+   WELCOME
+========================= */
+
+.welcome{
+    padding:30px;
+
+    border-radius:24px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.075),
+            rgba(255,255,255,.018)
+        );
+
+    border:
+        1px solid
+        rgba(255,255,255,.09);
+
+    position:relative;
+
+    overflow:hidden;
+
+    margin-bottom:20px;
+}
+
+.welcome::before{
+    content:"";
+
+    position:absolute;
+
+    width:250px;
+    height:250px;
+
+    left:-100px;
+    top:-120px;
+
+    border-radius:50%;
+
+    background:
+        rgba(255,255,255,.04);
+
+    filter:blur(50px);
+}
+
+.welcome small{
+    color:#555;
+
+    font-size:9px;
+}
+
+.welcome h2{
+    font-size:
+        clamp(25px,4vw,38px);
+
+    margin:
+        10px 0;
+}
+
+.welcome h2 span{
+    background:
+        linear-gradient(
+            90deg,
+            white,
+            #777
+        );
+
+    -webkit-background-clip:text;
+
+    background-clip:text;
+
+    color:transparent;
+}
+
+.welcome p{
+    color:#666;
+
+    font-size:11px;
+
+    line-height:1.8;
+}
+
+/* =========================
+   STATS
+========================= */
+
+.stats{
+    display:grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap:14px;
+
+    margin-bottom:25px;
+}
+
+.stat{
+    padding:21px;
+
+    border-radius:19px;
+
+    background:
+        rgba(255,255,255,.035);
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    transition:.3s;
+}
+
+.stat:hover{
+    transform:translateY(-4px);
+
+    background:
+        rgba(255,255,255,.055);
+}
+
+.stat-icon{
+    width:35px;
+    height:35px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:10px;
+
+    background:
+        rgba(255,255,255,.055);
+
+    color:#aaa;
+
+    margin-bottom:15px;
+}
+
+.stat strong{
+    display:block;
+
+    font-size:24px;
+}
+
+.stat span{
+    display:block;
+
+    color:#555;
+
+    font-size:9px;
+
+    margin-top:5px;
+}
+
+/* =========================
+   SECTIONS
+========================= */
+
+.section{
+    padding:22px;
+
+    border-radius:21px;
+
+    background:
+        rgba(255,255,255,.025);
+
+    border:
+        1px solid
+        rgba(255,255,255,.07);
+
+    margin-bottom:18px;
+}
+
+.section-head{
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    margin-bottom:18px;
+}
+
+.section-head h3{
+    font-size:14px;
+}
+
+.section-head a{
+    color:#777;
+
+    font-size:9px;
+
+    text-decoration:none;
+}
+
+.section-head a:hover{
+    color:white;
+}
+
+/* =========================
+   QUICK ACTIONS
+========================= */
+
+.actions{
+    display:grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap:12px;
+}
+
+.action{
+    padding:20px;
+
+    border-radius:16px;
+
+    text-decoration:none;
+
+    color:white;
+
+    border:
+        1px solid
+        rgba(255,255,255,.06);
+
+    background:
+        rgba(255,255,255,.025);
+
+    transition:.3s;
+}
+
+.action:hover{
+    transform:translateY(-4px);
+
+    background:
+        rgba(255,255,255,.055);
+}
+
+.action-icon{
+    width:37px;
+    height:37px;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    border-radius:11px;
+
+    background:
+        rgba(255,255,255,.06);
+
+    margin-bottom:14px;
+}
+
+.action strong{
+    display:block;
+
+    font-size:11px;
+
+    margin-bottom:5px;
+}
+
+.action span{
+    display:block;
+
+    color:#555;
+
+    font-size:8px;
+
+    line-height:1.7;
+}
+
+/* =========================
+   EMPTY
+========================= */
+
+.empty{
+    padding:45px 20px;
+
+    text-align:center;
+
+    border:
+        1px dashed
+        rgba(255,255,255,.08);
+
+    border-radius:15px;
+
+    color:#444;
+
+    font-size:10px;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer{
+    padding:15px 5px;
+
+    text-align:center;
+
+    color:#444;
+
+    font-size:8px;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:950px){
+
+    .layout{
+        grid-template-columns:1fr;
+    }
+
+    .sidebar{
+        position:relative;
+
+        top:auto;
+
+        min-height:auto;
+    }
+
+    .menu{
+        grid-template-columns:
+            repeat(3,1fr);
+    }
+
+    .menu-title,
+    .logout{
+        display:none;
+    }
+
+    .admin-profile{
+        display:none;
+    }
+
+    .stats{
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:600px){
+
+    .layout{
+        width:
+            calc(100% - 20px);
+
+        padding:10px 0;
+    }
+
+    .sidebar{
+        padding:13px;
+
+        border-radius:18px;
+    }
+
+    .logo{
+        border-bottom:0;
+
+        padding:3px;
+    }
+
+    .menu{
+        grid-template-columns:
+            repeat(2,1fr);
+
+        margin-top:10px;
+    }
+
+    .menu a{
+        justify-content:center;
+
+        flex-direction:column;
+
+        gap:6px;
+
+        padding:10px;
+
+        font-size:9px;
+    }
+
+    .topbar{
+        padding:0 15px;
+    }
+
+    .stats{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .stat{
+        padding:17px;
+    }
+
+    .actions{
+        grid-template-columns:1fr;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     BACKGROUND
+========================= -->
+
+<div class="background">
+
+    <div class="glow one"></div>
+
+    <div class="glow two"></div>
+
+    <div class="grid"></div>
+
+</div>
+
+
+<div class="layout">
+
+
+<!-- =========================
+     SIDEBAR
+========================= -->
+
+<aside class="sidebar">
+
+
+    <a
+        href="index.html"
+        class="logo"
+    >
+
+        <div class="logo-img">
+
+            <img
+                src="../teacher.png"
+                alt="الماستر"
+            >
+
+        </div>
+
+        <div class="logo-text">
+
+            <strong>
+                الخوارزمي
+            </strong>
+
+            <span>
+                لوحة الإدارة
+            </span>
+
+        </div>
+
+    </a>
+
+
+    <div class="admin-profile">
+
+        <div class="admin-avatar">
+
+            <img
+                src="../teacher.png"
+                alt="Admin"
+            >
+
+        </div>
+
+        <div>
+
+            <strong id="adminName">
+                المسؤول
+            </strong>
+
+            <span>
+                مدير المنصة
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="menu-title">
+        الإدارة
+    </div>
+
+
+    <nav class="menu">
+
+        <a
+            href="index.html"
+            class="active"
+        >
+
+            <div class="menu-icon">
+                ◈
+            </div>
+
+            الرئيسية
+
+        </a>
+
+
+        <a href="add-exam.html">
+
+            <div class="menu-icon">
+                ＋
+            </div>
+
+            إضافة اختبار
+
+        </a>
+
+
+        <a href="exams.html">
+
+            <div class="menu-icon">
+                □
+            </div>
+
+            الاختبارات
+
+        </a>
+
+
+        <a href="questions.html">
+
+            <div class="menu-icon">
+                ?
+            </div>
+
+            الأسئلة
+
+        </a>
+
+
+        <a href="students.html">
+
+            <div class="menu-icon">
+                ◉
+            </div>
+
+            الطلاب
+
+        </a>
+
+    </nav>
+
+
+    <a
+        href="../index.html"
+        class="logout"
+        onclick="logout()"
+    >
+        تسجيل الخروج
+    </a>
+
+
+</aside>
+
+
+<!-- =========================
+     CONTENT
+========================= -->
+
+<section class="content">
+
+
+    <!-- TOPBAR -->
+
+    <div class="topbar">
+
+        <div>
+
+            <h1>
+                لوحة التحكم
+            </h1>
+
+            <p>
+                إدارة منصة الاختبارات
+            </p>
+
+        </div>
+
+
+        <div class="admin-tag">
+            ADMIN
+        </div>
+
+    </div>
+
+
+    <!-- WELCOME -->
+
+    <section class="welcome">
+
+        <small>
+            مركز الإدارة
+        </small>
+
+        <h2>
+            أهلاً بك في
+            <span>
+                الخوارزمي
+            </span>
+        </h2>
+
+        <p>
+            من هنا يمكنك إدارة الاختبارات
+            والأسئلة والطلاب من مكان واحد.
+        </p>
+
+    </section>
+
+
+    <!-- STATS -->
+
+    <section class="stats">
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                □
+            </div>
+
+            <strong id="testsCount">
+                0
+            </strong>
+
+            <span>
+                إجمالي الاختبارات
+            </span>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                ?
+            </div>
+
+            <strong id="questionsCount">
+                0
+            </strong>
+
+            <span>
+                إجمالي الأسئلة
+            </span>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                ◉
+            </div>
+
+            <strong id="studentsCount">
+                0
+            </strong>
+
+            <span>
+                إجمالي الطلاب
+            </span>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div class="stat-icon">
+                ✓
+            </div>
+
+            <strong id="resultsCount">
+                0
+            </strong>
+
+            <span>
+                الاختبارات المنجزة
+            </span>
+
+        </div>
+
+
+    </section>
+
+
+    <!-- QUICK ACTIONS -->
+
+    <section class="section">
+
+        <div class="section-head">
+
+            <h3>
+                الوصول السريع
+            </h3>
+
+        </div>
+
+
+        <div class="actions">
+
+
+            <a
+                href="add-exam.html"
+                class="action"
+            >
+
+                <div class="action-icon">
+                    ＋
+                </div>
+
+                <strong>
+                    إنشاء اختبار
+                </strong>
+
+                <span>
+                    إنشاء اختبار جديد وإضافة بياناته.
+                </span>
+
+            </a>
+
+
+            <a
+                href="exams.html"
+                class="action"
+            >
+
+                <div class="action-icon">
+                    □
+                </div>
+
+                <strong>
+                    إدارة الاختبارات
+                </strong>
+
+                <span>
+                    عرض وتعديل الاختبارات الموجودة.
+                </span>
+
+            </a>
+
+
+            <a
+                href="students.html"
+                class="action"
+            >
+
+                <div class="action-icon">
+                    ◉
+                </div>
+
+                <strong>
+                    إدارة الطلاب
+                </strong>
+
+                <span>
+                    متابعة حسابات الطلاب المسجلة.
+                </span>
+
+            </a>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- RECENT RESULTS -->
+
+    <section class="section">
+
+        <div class="section-head">
+
+            <h3>
+                آخر النتائج
+            </h3>
+
+        </div>
+
+
+        <div
+            class="empty"
+            id="recentResults"
+        >
+            لا توجد نتائج مسجلة حتى الآن.
+        </div>
+
+    </section>
+
+
+    <div class="footer">
+
+        © 2026 الخوارزمي | لوحة الإدارة
+
+    </div>
+
+
+</section>
+
+
+</div>
+
+
+<script>
+
+/* =========================
+   ADMIN NAME
+========================= */
+
+const adminName =
+    localStorage.getItem(
+        "adminName"
+    );
+
+
+if(adminName){
+
+    document.getElementById(
+        "adminName"
+    ).textContent =
+        adminName;
+
+}
+
+
+/* =========================
+   TESTS
+========================= */
+
+let tests = [];
+
+try{
+
+    tests =
+        JSON.parse(
+            localStorage.getItem(
+                "tests"
+            ) || "[]"
+        );
+
+}catch{
+
+    tests = [];
+
+}
+
+
+document.getElementById(
+    "testsCount"
+).textContent =
+    tests.length;
+
+
+/* =========================
+   QUESTIONS
+========================= */
+
+let questionsCount = 0;
+
+
+tests.forEach(
+    function(test){
+
+        const questions =
+            Array.isArray(
+                test.questionsList
+            )
+            ? test.questionsList
+            : Array.isArray(
+                test.questions
+            )
+            ? test.questions
+            : [];
+
+        questionsCount +=
+            questions.length;
+
+    }
+);
+
+
+document.getElementById(
+    "questionsCount"
+).textContent =
+    questionsCount;
+
+
+/* =========================
+   STUDENTS
+========================= */
+
+let students = [];
+
+try{
+
+    students =
+        JSON.parse(
+            localStorage.getItem(
+                "students"
+            ) || "[]"
+        );
+
+}catch{
+
+    students = [];
+
+}
+
+
+document.getElementById(
+    "studentsCount"
+).textContent =
+    students.length;
+
+
+/* =========================
+   RESULTS
+========================= */
+
+let results = [];
+
+try{
+
+    results =
+        JSON.parse(
+            localStorage.getItem(
+                "results"
+            ) || "[]"
+        );
+
+}catch{
+
+    results = [];
+
+}
+
+
+document.getElementById(
+    "resultsCount"
+).textContent =
+    results.length;
+
+
+/* =========================
+   RECENT RESULTS
+========================= */
+
+const recent =
+    document.getElementById(
+        "recentResults"
+    );
+
+
+if(results.length > 0){
+
+    recent.innerHTML = "";
+
+    results
+        .slice(-5)
+        .reverse()
+        .forEach(
+            function(result){
+
+                const row =
+                    document.createElement(
+                        "div"
+                    );
+
+                row.style.cssText = `
+                    padding:12px;
+                    margin-bottom:8px;
+                    border-radius:11px;
+                    background:rgba(255,255,255,.025);
+                    border:1px solid rgba(255,255,255,.05);
+                    color:#777;
+                    font-size:10px;
+                `;
+
+                row.innerHTML = `
+                    <strong style="color:#aaa">
+                        ${
+                            escapeHTML(
+                                result.user ||
+                                "الطالب"
+                            )
+                        }
+                    </strong>
+
+                    — 
+
+                    ${
+                        escapeHTML(
+                            result.examTitle ||
+                            "اختبار"
+                        )
+                    }
+
+                    — 
+
+                    <span style="color:#fff">
+                        ${
+                            Number(
+                                result.score || 0
+                            )
+                        }%
+                    </span>
+                `;
+
+                recent.appendChild(row);
+
+            }
+        );
+
+}
+
+
+function logout(){
+
+    localStorage.removeItem(
+        "adminName"
+    );
+
+}
+
+
+function escapeHTML(value){
+
+    return String(value)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+
+}
+
+</script>
+
+
+</body>
+
+</html>
