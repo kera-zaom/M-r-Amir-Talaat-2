@@ -2,24 +2,14 @@
 <html lang="ar" dir="rtl">
 
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>الخوارزمي | الحساب</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-
-/* =====================================================
-   RESET
-===================================================== */
-
 *{
     margin:0;
     padding:0;
@@ -27,27 +17,17 @@
     font-family:Tahoma,Arial,sans-serif;
 }
 
-
-/* =====================================================
-   BODY
-===================================================== */
-
-html,
-body{
+html,body{
     width:100%;
     min-height:100%;
 }
 
 body{
-
     min-height:100vh;
-
     display:flex;
-    align-items:center;
     justify-content:center;
-
+    align-items:center;
     padding:20px;
-
     color:#fff;
 
     background:
@@ -65,11 +45,6 @@ body{
 
     overflow-x:hidden;
 }
-
-
-/* =====================================================
-   BACKGROUND
-===================================================== */
 
 .background{
     position:fixed;
@@ -96,15 +71,8 @@ body{
     background-size:55px 55px;
 }
 
-
-/* =====================================================
-   CARD
-===================================================== */
-
 .card{
-
     width:min(470px,100%);
-
     padding:30px 24px;
 
     border-radius:30px;
@@ -116,8 +84,7 @@ body{
             rgba(5,5,5,.97)
         );
 
-    border:1px solid
-        rgba(255,255,255,.09);
+    border:1px solid rgba(255,255,255,.09);
 
     box-shadow:
         0 35px 120px rgba(0,0,0,.85),
@@ -131,7 +98,6 @@ body{
 }
 
 @keyframes cardIn{
-
     from{
         opacity:0;
         transform:translateY(20px) scale(.97);
@@ -141,16 +107,9 @@ body{
         opacity:1;
         transform:translateY(0) scale(1);
     }
-
 }
 
-
-/* =====================================================
-   LOGO
-===================================================== */
-
 .logo{
-
     width:76px;
     height:76px;
 
@@ -162,89 +121,60 @@ body{
 
     background:#fff;
 
-    border:1px solid
-        rgba(255,255,255,.15);
+    border:1px solid rgba(255,255,255,.15);
 
     animation:floating 3.5s ease-in-out infinite;
 }
 
 .logo img{
-
     width:100%;
     height:100%;
-
     object-fit:cover;
 }
 
 @keyframes floating{
-
-    0%,
-    100%{
+    0%,100%{
         transform:translateY(0);
     }
 
     50%{
         transform:translateY(-6px);
     }
-
 }
 
-
-/* =====================================================
-   TITLE
-===================================================== */
-
 h1{
-
     text-align:center;
-
     font-size:23px;
-
     margin-bottom:7px;
 }
 
 .subtitle{
-
     text-align:center;
-
     color:#606060;
-
     font-size:9px;
-
     margin-bottom:25px;
 }
 
-
-/* =====================================================
-   TABS
-===================================================== */
-
 .tabs{
-
     display:grid;
-
     grid-template-columns:1fr 1fr;
 
     gap:5px;
 
     padding:4px;
-
     margin-bottom:23px;
 
     border-radius:14px;
 
     background:#101010;
 
-    border:1px solid
-        rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.04);
 }
 
 .tab{
-
     height:43px;
 
     border:0;
-
     border-radius:10px;
 
     background:transparent;
@@ -259,13 +189,10 @@ h1{
 }
 
 .tab:hover{
-
     color:#aaa;
-
 }
 
 .tab.active{
-
     color:#080808;
 
     background:
@@ -276,26 +203,16 @@ h1{
         );
 
     box-shadow:
-        0 6px 20px
-        rgba(255,255,255,.06);
+        0 6px 20px rgba(255,255,255,.06);
 }
 
-
-/* =====================================================
-   FORMS
-===================================================== */
-
 .form{
-
     width:100%;
-
     display:none;
-
     opacity:0;
 }
 
 .form.active{
-
     display:block;
 
     animation:
@@ -306,7 +223,6 @@ h1{
 }
 
 @keyframes showForm{
-
     from{
         opacity:0;
         transform:
@@ -322,39 +238,26 @@ h1{
     }
 }
 
-
-/* =====================================================
-   FIELD
-===================================================== */
-
 .field{
-
     margin-bottom:13px;
 }
 
 label{
-
     display:block;
-
     color:#707070;
-
     font-size:9px;
-
     margin-bottom:7px;
 }
 
 input{
-
     width:100%;
-
     height:47px;
 
     padding:0 14px;
 
     border-radius:13px;
 
-    border:1px solid
-        rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.08);
 
     background:#0d0d0d;
 
@@ -368,14 +271,11 @@ input{
 }
 
 input::placeholder{
-
     color:#3f3f3f;
 }
 
 input:focus{
-
-    border-color:
-        rgba(255,255,255,.28);
+    border-color:rgba(255,255,255,.28);
 
     background:#111;
 
@@ -384,23 +284,15 @@ input:focus{
         rgba(255,255,255,.025);
 }
 
-
-/* =====================================================
-   PASSWORD
-===================================================== */
-
 .password-box{
-
     position:relative;
 }
 
 .password-box input{
-
     padding-left:48px;
 }
 
 .password-toggle{
-
     position:absolute;
 
     left:12px;
@@ -420,19 +312,11 @@ input:focus{
 }
 
 .password-toggle:hover{
-
     color:#aaa;
 }
 
-
-/* =====================================================
-   MAIN BUTTON
-===================================================== */
-
 .main-btn{
-
     width:100%;
-
     height:49px;
 
     margin-top:5px;
@@ -464,7 +348,6 @@ input:focus{
 }
 
 .main-btn:hover{
-
     transform:translateY(-2px);
 
     box-shadow:
@@ -473,26 +356,16 @@ input:focus{
 }
 
 .main-btn:active{
-
     transform:translateY(0);
 }
 
 .main-btn:disabled{
-
     opacity:.45;
-
     cursor:not-allowed;
-
     transform:none;
 }
 
-
-/* =====================================================
-   MESSAGE
-===================================================== */
-
 .message{
-
     min-height:22px;
 
     margin-top:13px;
@@ -505,73 +378,14 @@ input:focus{
 }
 
 .message.success{
-
     color:#cfcfcf;
 }
 
 .message.error{
-
-    color:#ff8b8b;
+    color:#ff8585;
 }
-
-
-/* =====================================================
-   AFTER REGISTER
-===================================================== */
-
-.after-register{
-
-    display:none;
-
-    margin-top:12px;
-}
-
-.after-register.show{
-
-    display:block;
-
-    animation:
-        showForm
-        .35s
-        ease;
-}
-
-.after-register button{
-
-    width:100%;
-
-    height:43px;
-
-    border-radius:13px;
-
-    border:1px solid
-        rgba(255,255,255,.1);
-
-    background:#111;
-
-    color:#ddd;
-
-    cursor:pointer;
-
-    font-size:10px;
-
-    transition:.2s;
-}
-
-.after-register button:hover{
-
-    background:#181818;
-
-    color:#fff;
-}
-
-
-/* =====================================================
-   FOOTER
-===================================================== */
 
 .note{
-
     text-align:center;
 
     color:#414141;
@@ -584,7 +398,6 @@ input:focus{
 }
 
 .back{
-
     display:block;
 
     margin-top:15px;
@@ -601,87 +414,56 @@ input:focus{
 }
 
 .back:hover{
-
     color:#aaa;
 }
-
-
-/* =====================================================
-   MOBILE
-===================================================== */
 
 @media(max-width:480px){
 
     body{
-
         align-items:flex-start;
-
         padding-top:25px;
     }
 
     .card{
-
         padding:25px 17px;
-
         border-radius:25px;
     }
 
     h1{
-
         font-size:21px;
     }
 
     .logo{
-
         width:70px;
         height:70px;
     }
-
 }
-
 </style>
 
 </head>
 
-
 <body>
 
-
 <div class="background">
-
     <div class="grid"></div>
-
 </div>
-
 
 <div class="card">
 
-
-    <!-- LOGO -->
-
     <div class="logo">
-
         <img
             src="teacher.png"
             alt="الخوارزمي"
         >
-
     </div>
 
-
-    <h1>
-        الخوارزمي
-    </h1>
-
+    <h1>الخوارزمي</h1>
 
     <div class="subtitle">
         منصة الاختبارات الإلكترونية
     </div>
 
-
-    <!-- =================================================
-         TABS
-    ================================================== -->
+    <!-- TABS -->
 
     <div class="tabs">
 
@@ -692,7 +474,6 @@ input:focus{
         >
             إنشاء حساب
         </button>
-
 
         <button
             type="button"
@@ -705,22 +486,18 @@ input:focus{
     </div>
 
 
-    <!-- =================================================
-         REGISTER FORM
-    ================================================== -->
+    <!-- =========================
+         REGISTER
+    ========================== -->
 
     <form
         id="registerForm"
         class="form active"
-        autocomplete="on"
     >
-
 
         <div class="field">
 
-            <label>
-                الاسم الكامل
-            </label>
+            <label>الاسم الكامل</label>
 
             <input
                 id="registerName"
@@ -735,9 +512,7 @@ input:focus{
 
         <div class="field">
 
-            <label>
-                البريد الإلكتروني
-            </label>
+            <label>البريد الإلكتروني</label>
 
             <input
                 id="registerEmail"
@@ -752,9 +527,7 @@ input:focus{
 
         <div class="field">
 
-            <label>
-                رقم الهاتف
-            </label>
+            <label>رقم الهاتف</label>
 
             <input
                 id="registerPhone"
@@ -770,16 +543,13 @@ input:focus{
 
         <div class="field">
 
-            <label>
-                رقم هاتف ولي الأمر
-            </label>
+            <label>رقم هاتف ولي الأمر</label>
 
             <input
                 id="parentPhone"
                 type="tel"
                 inputmode="tel"
                 placeholder="01xxxxxxxxx"
-                autocomplete="tel"
                 required
             >
 
@@ -788,9 +558,7 @@ input:focus{
 
         <div class="field">
 
-            <label>
-                كلمة المرور
-            </label>
+            <label>كلمة المرور</label>
 
             <div class="password-box">
 
@@ -799,14 +567,13 @@ input:focus{
                     type="password"
                     placeholder="6 أحرف أو أكثر"
                     autocomplete="new-password"
-                    minlength="6"
                     required
                 >
 
                 <button
                     type="button"
                     class="password-toggle"
-                    data-target="registerPassword"
+                    onclick="togglePassword('registerPassword',this)"
                 >
                     ◉
                 </button>
@@ -818,9 +585,7 @@ input:focus{
 
         <div class="field">
 
-            <label>
-                تأكيد كلمة المرور
-            </label>
+            <label>تأكيد كلمة المرور</label>
 
             <div class="password-box">
 
@@ -829,14 +594,13 @@ input:focus{
                     type="password"
                     placeholder="أعد كتابة كلمة المرور"
                     autocomplete="new-password"
-                    minlength="6"
                     required
                 >
 
                 <button
                     type="button"
                     class="password-toggle"
-                    data-target="confirmPassword"
+                    onclick="togglePassword('confirmPassword',this)"
                 >
                     ◉
                 </button>
@@ -860,41 +624,21 @@ input:focus{
             class="message"
         ></div>
 
-
-        <div
-            id="afterRegister"
-            class="after-register"
-        >
-
-            <button
-                type="button"
-                id="goToLogin"
-            >
-                تم إنشاء الحساب — تسجيل الدخول
-            </button>
-
-        </div>
-
-
     </form>
 
 
-    <!-- =================================================
-         LOGIN FORM
-    ================================================== -->
+    <!-- =========================
+         LOGIN
+    ========================== -->
 
     <form
         id="loginForm"
         class="form"
-        autocomplete="on"
     >
-
 
         <div class="field">
 
-            <label>
-                البريد الإلكتروني
-            </label>
+            <label>البريد الإلكتروني</label>
 
             <input
                 id="loginEmail"
@@ -909,9 +653,7 @@ input:focus{
 
         <div class="field">
 
-            <label>
-                كلمة المرور
-            </label>
+            <label>كلمة المرور</label>
 
             <div class="password-box">
 
@@ -926,7 +668,7 @@ input:focus{
                 <button
                     type="button"
                     class="password-toggle"
-                    data-target="loginPassword"
+                    onclick="togglePassword('loginPassword',this)"
                 >
                     ◉
                 </button>
@@ -950,20 +692,11 @@ input:focus{
             class="message"
         ></div>
 
-
     </form>
 
 
     <div class="note">
-
-        البريد وكلمة المرور محفوظان في
-        Supabase Authentication
-
-        <br>
-
-        بيانات الهاتف وولي الأمر محفوظة في
-        profiles
-
+        الهاتف وبيانات ولي الأمر محفوظة في قاعدة بيانات المنصة
     </div>
 
 
@@ -974,14 +707,13 @@ input:focus{
         ← العودة للرئيسية
     </a>
 
-
 </div>
 
 
 <script>
 
 /* =====================================================
-   SUPABASE CONFIG
+   SUPABASE
 ===================================================== */
 
 const SUPABASE_URL =
@@ -990,12 +722,7 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
     "sb_publishable_ySp8SmV4CDZaOojNnkNMPA_5S5s_Ia5";
 
-
-/* =====================================================
-   CREATE CLIENT
-===================================================== */
-
-const supabaseClient =
+const supabase =
     window.supabase.createClient(
         SUPABASE_URL,
         SUPABASE_KEY
@@ -1007,24 +734,16 @@ const supabaseClient =
 ===================================================== */
 
 const registerTab =
-    document.getElementById(
-        "registerTab"
-    );
+    document.getElementById("registerTab");
 
 const loginTab =
-    document.getElementById(
-        "loginTab"
-    );
+    document.getElementById("loginTab");
 
 const registerForm =
-    document.getElementById(
-        "registerForm"
-    );
+    document.getElementById("registerForm");
 
 const loginForm =
-    document.getElementById(
-        "loginForm"
-    );
+    document.getElementById("loginForm");
 
 
 /* =====================================================
@@ -1033,51 +752,19 @@ const loginForm =
 
 function showRegister(){
 
-    loginForm.classList.remove(
-        "active"
-    );
+    loginForm.classList.remove("active");
 
-    registerForm.classList.remove(
-        "active"
-    );
+    registerForm.classList.remove("active");
 
     void registerForm.offsetWidth;
 
-    registerForm.classList.add(
-        "active"
-    );
+    registerForm.classList.add("active");
 
+    registerTab.classList.add("active");
 
-    registerTab.classList.add(
-        "active"
-    );
-
-    loginTab.classList.remove(
-        "active"
-    );
-
+    loginTab.classList.remove("active");
 
     clearMessages();
-
-
-    setTimeout(
-        function(){
-
-            const nameInput =
-                document.getElementById(
-                    "registerName"
-                );
-
-            if(nameInput){
-
-                nameInput.focus();
-
-            }
-
-        },
-        350
-    );
-
 }
 
 
@@ -1087,155 +774,93 @@ function showRegister(){
 
 function showLogin(){
 
-    registerForm.classList.remove(
-        "active"
-    );
+    registerForm.classList.remove("active");
 
-    loginForm.classList.remove(
-        "active"
-    );
+    loginForm.classList.remove("active");
 
     void loginForm.offsetWidth;
 
-    loginForm.classList.add(
-        "active"
-    );
+    loginForm.classList.add("active");
 
+    loginTab.classList.add("active");
 
-    loginTab.classList.add(
-        "active"
-    );
-
-    registerTab.classList.remove(
-        "active"
-    );
-
+    registerTab.classList.remove("active");
 
     clearMessages();
 
+    setTimeout(function(){
 
-    setTimeout(
-        function(){
+        const email =
+            document.getElementById("loginEmail");
 
-            const emailInput =
-                document.getElementById(
-                    "loginEmail"
-                );
+        if(email){
+            email.focus();
+        }
 
-            if(emailInput){
-
-                emailInput.focus();
-
-            }
-
-        },
-        350
-    );
-
+    },350);
 }
 
 
 /* =====================================================
-   TAB EVENTS
+   TAB BUTTONS
 ===================================================== */
 
 registerTab.addEventListener(
     "click",
-    function(event){
-
-        event.preventDefault();
-
-        showRegister();
-
-    }
+    showRegister
 );
-
 
 loginTab.addEventListener(
     "click",
-    function(event){
-
-        event.preventDefault();
-
-        showLogin();
-
-    }
+    showLogin
 );
 
 
-document
-    .getElementById("goToLogin")
-    .addEventListener(
-        "click",
-        function(){
+/* =====================================================
+   PASSWORD
+===================================================== */
 
-            showLogin();
+function togglePassword(
+    inputId,
+    button
+){
 
-        }
-    );
+    const input =
+        document.getElementById(inputId);
+
+    if(input.type === "password"){
+
+        input.type = "text";
+        button.textContent = "◌";
+
+    }else{
+
+        input.type = "password";
+        button.textContent = "◉";
+
+    }
+}
 
 
 /* =====================================================
-   PASSWORD TOGGLE
+   MESSAGES
 ===================================================== */
 
-document
-    .querySelectorAll(
-        ".password-toggle"
-    )
-    .forEach(
-        function(button){
+function clearMessages(){
 
-            button.addEventListener(
-                "click",
-                function(){
+    const registerMessage =
+        document.getElementById("registerMessage");
 
-                    const input =
-                        document.getElementById(
-                            button.dataset.target
-                        );
+    const loginMessage =
+        document.getElementById("loginMessage");
 
-                    if(
-                        !input
-                    ){
+    registerMessage.textContent = "";
+    registerMessage.className = "message";
 
-                        return;
+    loginMessage.textContent = "";
+    loginMessage.className = "message";
+}
 
-                    }
-
-
-                    if(
-                        input.type ===
-                        "password"
-                    ){
-
-                        input.type =
-                            "text";
-
-                        button.textContent =
-                            "◌";
-
-                    }
-                    else{
-
-                        input.type =
-                            "password";
-
-                        button.textContent =
-                            "◉";
-
-                    }
-
-                }
-            );
-
-        }
-    );
-
-
-/* =====================================================
-   MESSAGE
-===================================================== */
 
 function showMessage(
     element,
@@ -1243,41 +868,8 @@ function showMessage(
     type
 ){
 
-    element.textContent =
-        text;
-
-    element.className =
-        "message " + type;
-
-}
-
-
-function clearMessages(){
-
-    const registerMessage =
-        document.getElementById(
-            "registerMessage"
-        );
-
-    const loginMessage =
-        document.getElementById(
-            "loginMessage"
-        );
-
-
-    registerMessage.textContent =
-        "";
-
-    registerMessage.className =
-        "message";
-
-
-    loginMessage.textContent =
-        "";
-
-    loginMessage.className =
-        "message";
-
+    element.textContent = text;
+    element.className = "message " + type;
 }
 
 
@@ -1285,22 +877,14 @@ function clearMessages(){
    PHONE NORMALIZATION
 ===================================================== */
 
-function normalizePhone(
-    phone
-){
+function normalizePhone(phone){
 
     let value =
         String(phone)
             .trim()
-            .replace(
-                /[\s\-()]/g,
-                ""
-            );
+            .replace(/[\s\-()]/g,"");
 
-
-    if(
-        value.startsWith("+20")
-    ){
+    if(value.startsWith("+20")){
 
         value =
             "0" +
@@ -1308,9 +892,7 @@ function normalizePhone(
 
     }
 
-
     return value;
-
 }
 
 
@@ -1324,75 +906,53 @@ registerForm.addEventListener(
 
         event.preventDefault();
 
-
         const button =
-            document.getElementById(
-                "registerButton"
-            );
+            document.getElementById("registerButton");
 
         const message =
-            document.getElementById(
-                "registerMessage"
-            );
-
-        const afterRegister =
-            document.getElementById(
-                "afterRegister"
-            );
+            document.getElementById("registerMessage");
 
 
         const name =
-            document.getElementById(
-                "registerName"
-            )
-            .value
-            .trim();
+            document.getElementById("registerName")
+                .value
+                .trim();
 
 
         const email =
-            document.getElementById(
-                "registerEmail"
-            )
-            .value
-            .trim()
-            .toLowerCase();
+            document.getElementById("registerEmail")
+                .value
+                .trim()
+                .toLowerCase();
 
 
         const phone =
             normalizePhone(
-                document.getElementById(
-                    "registerPhone"
-                ).value
+                document.getElementById("registerPhone")
+                    .value
             );
 
 
         const parentPhone =
             normalizePhone(
-                document.getElementById(
-                    "parentPhone"
-                ).value
+                document.getElementById("parentPhone")
+                    .value
             );
 
 
         const password =
-            document.getElementById(
-                "registerPassword"
-            ).value;
+            document.getElementById("registerPassword")
+                .value;
 
 
         const confirmPassword =
-            document.getElementById(
-                "confirmPassword"
-            ).value;
+            document.getElementById("confirmPassword")
+                .value;
 
 
-        /* =============================================
-           VALIDATION
-        ============================================= */
+        /* VALIDATION */
 
-        if(
-            name.length < 3
-        ){
+        if(name.length < 3){
 
             showMessage(
                 message,
@@ -1401,13 +961,11 @@ registerForm.addEventListener(
             );
 
             return;
-
         }
 
 
         if(
-            !/^[^\s@]+@[^\s@]+\.[^\s@]+$/
-                .test(email)
+            !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
         ){
 
             showMessage(
@@ -1417,15 +975,10 @@ registerForm.addEventListener(
             );
 
             return;
-
         }
 
 
-        if(
-            !/^01[0-9]{9}$/.test(
-                phone
-            )
-        ){
+        if(!/^01[0-9]{9}$/.test(phone)){
 
             showMessage(
                 message,
@@ -1434,45 +987,34 @@ registerForm.addEventListener(
             );
 
             return;
-
         }
 
 
-        if(
-            !/^01[0-9]{9}$/.test(
-                parentPhone
-            )
-        ){
+        if(!/^01[0-9]{9}$/.test(parentPhone)){
 
             showMessage(
                 message,
-                "رقم هاتف ولي الأمر غير صحيح.",
+                "رقم ولي الأمر غير صحيح.",
                 "error"
             );
 
             return;
-
         }
 
 
-        if(
-            phone === parentPhone
-        ){
+        if(phone === parentPhone){
 
             showMessage(
                 message,
-                "رقم الطالب ورقم ولي الأمر يجب أن يكونا مختلفين.",
+                "رقم الطالب وولي الأمر يجب أن يكونا مختلفين.",
                 "error"
             );
 
             return;
-
         }
 
 
-        if(
-            password.length < 6
-        ){
+        if(password.length < 6){
 
             showMessage(
                 message,
@@ -1481,13 +1023,10 @@ registerForm.addEventListener(
             );
 
             return;
-
         }
 
 
-        if(
-            password !== confirmPassword
-        ){
+        if(password !== confirmPassword){
 
             showMessage(
                 message,
@@ -1496,54 +1035,39 @@ registerForm.addEventListener(
             );
 
             return;
-
         }
 
 
-        /* =============================================
-           LOADING
-        ============================================= */
-
-        button.disabled =
-            true;
-
-        button.textContent =
-            "جاري إنشاء الحساب...";
-
-
-        afterRegister.classList.remove(
-            "show"
-        );
+        button.disabled = true;
+        button.textContent = "جاري إنشاء الحساب...";
 
 
         try{
 
-
-            /* =========================================
-               SUPABASE AUTH
-               EMAIL + PASSWORD ONLY
-            ========================================= */
+            /*
+             * 1
+             * إنشاء حساب Supabase بالبريد وكلمة المرور
+             */
 
             const {
                 data,
                 error
             } =
-                await supabaseClient.auth.signUp({
+                await supabase.auth.signUp({
 
-                    email:email,
+                    email: email,
 
-                    password:password,
+                    password: password,
 
-                    options:{
+                    options: {
 
-                        data:{
+                        data: {
 
-                            name:name,
+                            name: name,
 
-                            phone:phone,
+                            phone: phone,
 
-                            parent_phone:
-                                parentPhone
+                            parent_phone: parentPhone
 
                         }
 
@@ -1553,9 +1077,7 @@ registerForm.addEventListener(
 
 
             if(error){
-
                 throw error;
-
             }
 
 
@@ -1567,47 +1089,49 @@ registerForm.addEventListener(
                 throw new Error(
                     "لم يتم إنشاء الحساب."
                 );
-
             }
 
 
-            const userId =
-                data.user.id;
+            /*
+             * لازم يكون عند المستخدم Session
+             * حتى يسمح RLS بإضافة profiles
+             */
+
+            if(!data.session){
+
+                throw new Error(
+                    "تأكيد البريد الإلكتروني ما زال مفعّلًا في Supabase. عطّل Confirm email ثم جرّب مرة أخرى."
+                );
+            }
 
 
-            /* =========================================
-               SAVE PROFILE
-            ========================================= */
+            /*
+             * 2
+             * حفظ بيانات المستخدم في profiles
+             */
 
             const {
-                error:
-                profileError
+                error: profileError
             } =
-                await supabaseClient
+                await supabase
                     .from("profiles")
-                    .upsert(
-                        {
+                    .upsert({
 
-                            id:userId,
+                        id: data.user.id,
 
-                            name:name,
+                        name: name,
 
-                            email:email,
+                        email: email,
 
-                            phone:phone,
+                        phone: phone,
 
-                            parent_phone:
-                                parentPhone,
+                        parent_phone: parentPhone,
 
-                            role:"student",
+                        role: "student",
 
-                            active:true
+                        active: true
 
-                        },
-                        {
-                            onConflict:"id"
-                        }
-                    );
+                    });
 
 
             if(profileError){
@@ -1618,45 +1142,38 @@ registerForm.addEventListener(
                 );
 
                 throw new Error(
-                    "تم إنشاء حساب الدخول، لكن لم يتم حفظ بيانات الملف الشخصي: " +
+                    "تم إنشاء الحساب لكن لم يتم حفظ بيانات الملف الشخصي: " +
                     profileError.message
                 );
-
             }
 
 
-            /* =========================================
-               SUCCESS
-            ========================================= */
+            /*
+             * 3
+             * نجاح كامل
+             */
 
-            afterRegister.classList.add(
-                "show"
+            showMessage(
+                message,
+                "تم إنشاء الحساب بنجاح. جاري الدخول...",
+                "success"
             );
 
 
-            if(
-                data.session
-            ){
+            /*
+             * 4
+             * دخول مباشر
+             */
 
-                showMessage(
-                    message,
-                    "تم إنشاء الحساب وحفظ بياناتك بنجاح. يمكنك تسجيل الدخول الآن.",
-                    "success"
-                );
+            setTimeout(function(){
 
-            }
-            else{
+                window.location.href =
+                    "home.html";
 
-                showMessage(
-                    message,
-                    "تم إنشاء الحساب وحفظ بياناتك. افتح بريدك الإلكتروني لتأكيد الحساب، ثم سجل الدخول.",
-                    "success"
-                );
+            },800);
 
-            }
 
-        }
-        catch(error){
+        }catch(error){
 
             console.error(
                 "REGISTER ERROR:",
@@ -1669,34 +1186,26 @@ registerForm.addEventListener(
                 "حدث خطأ أثناء إنشاء الحساب.";
 
 
-            const lower =
-                text.toLowerCase();
-
-
             if(
-                lower.includes(
+                text.toLowerCase().includes(
                     "already registered"
-                )
-                ||
-                lower.includes(
-                    "user already registered"
                 )
             ){
 
                 text =
-                    "هذا البريد الإلكتروني مسجل بالفعل.";
+                    "هذا البريد الإلكتروني مسجل بالفعل. استخدم تسجيل الدخول.";
 
             }
 
 
             if(
-                lower.includes(
-                    "duplicate"
+                text.toLowerCase().includes(
+                    "rate limit"
                 )
             ){
 
                 text =
-                    "هذه البيانات موجودة بالفعل.";
+                    "تم تجاوز حد إرسال البريد مؤقتًا. انتظر قليلًا ثم جرّب مرة أخرى.";
 
             }
 
@@ -1707,11 +1216,10 @@ registerForm.addEventListener(
                 "error"
             );
 
-        }
-        finally{
 
-            button.disabled =
-                false;
+        }finally{
+
+            button.disabled = false;
 
             button.textContent =
                 "إنشاء الحساب";
@@ -1734,39 +1242,25 @@ loginForm.addEventListener(
 
 
         const button =
-            document.getElementById(
-                "loginButton"
-            );
+            document.getElementById("loginButton");
 
         const message =
-            document.getElementById(
-                "loginMessage"
-            );
+            document.getElementById("loginMessage");
 
 
         const email =
-            document.getElementById(
-                "loginEmail"
-            )
-            .value
-            .trim()
-            .toLowerCase();
+            document.getElementById("loginEmail")
+                .value
+                .trim()
+                .toLowerCase();
 
 
         const password =
-            document.getElementById(
-                "loginPassword"
-            ).value;
+            document.getElementById("loginPassword")
+                .value;
 
 
-        /* =============================================
-           VALIDATION
-        ============================================= */
-
-        if(
-            !email ||
-            !password
-        ){
+        if(!email || !password){
 
             showMessage(
                 message,
@@ -1775,63 +1269,35 @@ loginForm.addEventListener(
             );
 
             return;
-
         }
 
 
-        if(
-            !/^[^\s@]+@[^\s@]+\.[^\s@]+$/
-                .test(email)
-        ){
-
-            showMessage(
-                message,
-                "أدخل بريدًا إلكترونيًا صحيحًا.",
-                "error"
-            );
-
-            return;
-
-        }
-
-
-        /* =============================================
-           LOADING
-        ============================================= */
-
-        button.disabled =
-            true;
-
-        button.textContent =
-            "جاري تسجيل الدخول...";
+        button.disabled = true;
+        button.textContent = "جاري تسجيل الدخول...";
 
 
         try{
 
-
-            /* =========================================
-               SIGN IN
-               EMAIL + PASSWORD ONLY
-            ========================================= */
+            /*
+             * تسجيل الدخول بالبريد فقط
+             */
 
             const {
                 data,
                 error
             } =
-                await supabaseClient.auth
+                await supabase.auth
                     .signInWithPassword({
 
-                        email:email,
+                        email: email,
 
-                        password:password
+                        password: password
 
                     });
 
 
             if(error){
-
                 throw error;
-
             }
 
 
@@ -1843,21 +1309,18 @@ loginForm.addEventListener(
                 throw new Error(
                     "تعذر تسجيل الدخول."
                 );
-
             }
 
 
-            /* =========================================
-               GET PROFILE
-            ========================================= */
+            /*
+             * جلب الملف الشخصي
+             */
 
             const {
-                data:
-                profile,
-                error:
-                profileError
+                data: profile,
+                error: profileError
             } =
-                await supabaseClient
+                await supabase
                     .from("profiles")
                     .select(
                         "name,role,active"
@@ -1871,35 +1334,29 @@ loginForm.addEventListener(
 
             if(profileError){
 
-                throw new Error(
-                    "تم تسجيل الدخول، ولكن تعذر قراءة بيانات الحساب: " +
-                    profileError.message
+                console.error(
+                    "PROFILE LOGIN ERROR:",
+                    profileError
                 );
-
             }
 
 
-            /* =========================================
-               ACTIVE CHECK
-            ========================================= */
+            /*
+             * الحساب غير نشط
+             */
 
             if(
                 profile &&
                 profile.active === false
             ){
 
-                await supabaseClient.auth.signOut();
+                await supabase.auth.signOut();
 
                 throw new Error(
                     "هذا الحساب غير نشط."
                 );
-
             }
 
-
-            /* =========================================
-               SUCCESS
-            ========================================= */
 
             showMessage(
                 message,
@@ -1908,46 +1365,39 @@ loginForm.addEventListener(
             );
 
 
-            /* =========================================
-               ADMIN
-            ========================================= */
+            /*
+             * ADMIN
+             */
 
             if(
                 profile &&
                 profile.role === "admin"
             ){
 
-                setTimeout(
-                    function(){
+                setTimeout(function(){
 
-                        window.location.href =
-                            "admin/index.html";
+                    window.location.href =
+                        "admin/index.html";
 
-                    },
-                    700
-                );
+                },700);
 
                 return;
-
             }
 
 
-            /* =========================================
-               STUDENT
-            ========================================= */
+            /*
+             * STUDENT
+             */
 
-            setTimeout(
-                function(){
+            setTimeout(function(){
 
-                    window.location.href =
-                        "home.html";
+                window.location.href =
+                    "home.html";
 
-                },
-                700
-            );
+            },700);
 
-        }
-        catch(error){
+
+        }catch(error){
 
             console.error(
                 "LOGIN ERROR:",
@@ -1957,46 +1407,28 @@ loginForm.addEventListener(
 
             let text =
                 error?.message ||
-                "بيانات تسجيل الدخول غير صحيحة.";
-
-
-            const lower =
-                text.toLowerCase();
+                "البريد الإلكتروني أو كلمة المرور غير صحيحة.";
 
 
             if(
-                lower.includes(
-                    "invalid login credentials"
+                text.includes(
+                    "Invalid login credentials"
                 )
             ){
 
                 text =
                     "البريد الإلكتروني أو كلمة المرور غير صحيحة.";
-
             }
 
 
             if(
-                lower.includes(
-                    "email not confirmed"
+                text.includes(
+                    "Email not confirmed"
                 )
             ){
 
                 text =
-                    "يجب تأكيد البريد الإلكتروني أولًا. افتح رسالة التأكيد التي أرسلها Supabase.";
-
-            }
-
-
-            if(
-                lower.includes(
-                    "too many requests"
-                )
-            ){
-
-                text =
-                    "تم إجراء محاولات كثيرة. حاول مرة أخرى بعد قليل.";
-
+                    "تأكيد البريد الإلكتروني ما زال مفعّلًا في Supabase.";
             }
 
 
@@ -2006,11 +1438,10 @@ loginForm.addEventListener(
                 "error"
             );
 
-        }
-        finally{
 
-            button.disabled =
-                false;
+        }finally{
+
+            button.disabled = false;
 
             button.textContent =
                 "تسجيل الدخول";
@@ -2022,60 +1453,8 @@ loginForm.addEventListener(
 
 
 /* =====================================================
-   CHECK SESSION
-===================================================== */
-
-(async function(){
-
-    try{
-
-        const {
-            data,
-            error
-        } =
-            await supabaseClient.auth
-                .getSession();
-
-
-        if(error){
-
-            console.error(
-                "SESSION ERROR:",
-                error
-            );
-
-            return;
-
-        }
-
-
-        if(
-            data &&
-            data.session
-        ){
-
-            console.log(
-                "Supabase session active."
-            );
-
-        }
-
-    }
-    catch(error){
-
-        console.error(
-            "SESSION CHECK ERROR:",
-            error
-        );
-
-    }
-
-})();
-
-
-/* =====================================================
-   DEFAULT SCREEN
-   إنشاء الحساب يظهر أولًا
+   START
+   إنشاء الحساب هو الصفحة الأولى
 ===================================================== */
 
 showRegister();
@@ -2083,5 +1462,4 @@ showRegister();
 </script>
 
 </body>
-
 </html>
