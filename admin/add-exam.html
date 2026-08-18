@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>الخوارزمي | إضافة اختبار</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,Tahoma,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    color:#fff;
+    background:
+        radial-gradient(circle at 50% -20%,rgba(255,255,255,.08),transparent 35%),
+        #020202;
+    overflow-x:hidden;
+}
+
+.background{
+    position:fixed;
+    inset:0;
+    z-index:-5;
+    pointer-events:none;
+}
+
+.grid{
+    position:absolute;
+    inset:0;
+    background-image:
+        linear-gradient(rgba(255,255,255,.015) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.015) 1px,transparent 1px);
+    background-size:55px 55px;
+}
+
+.glow{
+    position:absolute;
+    width:430px;
+    height:430px;
+    border-radius:50%;
+    background:rgba(255,255,255,.035);
+    filter:blur(120px);
+}
+
+.glow.one{
+    top:-250px;
+    right:-170px;
+}
+
+.glow.two{
+    bottom:-250px;
+    left:-170px;
+}
+
+/* =========================
+   LAYOUT
+========================= */
+
+.layout{
+    width:min(1250px,calc(100% - 30px));
+    min-height:100vh;
+    margin:auto;
+    display:grid;
+    grid-template-columns:245px 1fr;
+    gap:20px;
+    padding:20px 0;
+}
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar{
+    min-height:calc(100vh - 40px);
+    padding:22px 16px;
+    border-radius:24px;
+    background:rgba(8,8,8,.84);
+    border:1px solid rgba(255,255,255,.08);
+    backdrop-filter:blur(20px);
+    position:sticky;
+    top:20px;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:11px;
+    padding:5px 7px 22px;
+    border-bottom:1px solid rgba(255,255,255,.06);
+    text-decoration:none;
+    color:white;
+}
+
+.logo-img{
+    width:45px;
+    height:45px;
+    overflow:hidden;
+    border-radius:14px;
+    background:linear-gradient(145deg,#fff,#777);
+    animation:floatLogo 3.5s ease-in-out infinite;
+}
+
+.logo-img img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+@keyframes floatLogo{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-4px)}
+}
+
+.logo-text strong{
+    display:block;
+    font-size:15px;
+}
+
+.logo-text span{
+    display:block;
+    color:#555;
+    font-size:9px;
+    margin-top:4px;
+}
+
+.menu-title{
+    color:#444;
+    font-size:8px;
+    margin:25px 8px 10px;
+}
+
+.menu{
+    display:grid;
+    gap:6px;
+}
+
+.menu a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:12px;
+    border-radius:12px;
+    text-decoration:none;
+    color:#777;
+    font-size:11px;
+    transition:.3s;
+}
+
+.menu a:hover{
+    color:white;
+    background:rgba(255,255,255,.045);
+}
+
+.menu a.active{
+    color:white;
+    background:rgba(255,255,255,.07);
+    border:1px solid rgba(255,255,255,.06);
+}
+
+.menu-icon{
+    width:25px;
+    height:25px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:8px;
+    background:rgba(255,255,255,.045);
+}
+
+/* =========================
+   CONTENT
+========================= */
+
+.content{
+    min-width:0;
+}
+
+.topbar{
+    min-height:70px;
+    padding:0 20px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border-radius:20px;
+    background:rgba(8,8,8,.84);
+    border:1px solid rgba(255,255,255,.08);
+    backdrop-filter:blur(20px);
+    margin-bottom:20px;
+}
+
+.topbar h1{
+    font-size:18px;
+}
+
+.topbar p{
+    color:#555;
+    font-size:9px;
+    margin-top:5px;
+}
+
+.back{
+    color:#777;
+    text-decoration:none;
+    font-size:10px;
+    padding:10px 13px;
+    border-radius:10px;
+    border:1px solid rgba(255,255,255,.07);
+    background:rgba(255,255,255,.025);
+}
+
+/* =========================
+   FORM CARD
+========================= */
+
+.card{
+    padding:28px;
+    border-radius:24px;
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.065),
+            rgba(255,255,255,.018)
+        );
+    border:1px solid rgba(255,255,255,.08);
+    margin-bottom:18px;
+}
+
+.card-title{
+    margin-bottom:22px;
+}
+
+.card-title h2{
+    font-size:16px;
+}
+
+.card-title p{
+    color:#555;
+    font-size:9px;
+    margin-top:6px;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+}
+
+.form-group{
+    margin-bottom:16px;
+}
+
+.form-group.full{
+    grid-column:1/-1;
+}
+
+label{
+    display:block;
+    color:#888;
+    font-size:10px;
+    margin-bottom:8px;
+}
+
+input,
+textarea,
+select{
+    width:100%;
+    border:1px solid rgba(255,255,255,.08);
+    outline:none;
+    border-radius:13px;
+    color:white;
+    background:rgba(0,0,0,.3);
+    padding:13px;
+    font-size:11px;
+    transition:.3s;
+}
+
+input{
+    height:48px;
+}
+
+textarea{
+    min-height:110px;
+    resize:vertical;
+    line-height:1.8;
+}
+
+select{
+    height:48px;
+}
+
+select option{
+    background:#111;
+    color:#fff;
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+    border-color:rgba(255,255,255,.25);
+    background:rgba(255,255,255,.035);
+}
+
+/* =========================
+   OPTIONS
+========================= */
+
+.checkbox-row{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.check-box{
+    flex:1;
+    min-width:150px;
+    padding:15px;
+    border-radius:13px;
+    border:1px solid rgba(255,255,255,.07);
+    background:rgba(255,255,255,.025);
+    color:#777;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.check-box:hover{
+    background:rgba(255,255,255,.05);
+}
+
+.check-box input{
+    display:none;
+}
+
+.check-box.selected{
+    color:white;
+    border-color:rgba(255,255,255,.2);
+    background:rgba(255,255,255,.06);
+}
+
+.check-box strong{
+    display:block;
+    font-size:11px;
+    margin-bottom:5px;
+}
+
+.check-box span{
+    font-size:8px;
+    color:#555;
+}
+
+/* =========================
+   ACTIONS
+========================= */
+
+.actions{
+    display:flex;
+    justify-content:flex-start;
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+button{
+    border:none;
+    cursor:pointer;
+}
+
+.save-btn{
+    min-width:180px;
+    padding:14px 20px;
+    border-radius:13px;
+    color:#050505;
+    background:linear-gradient(135deg,#fff,#aaa);
+    font-size:11px;
+    font-weight:bold;
+    transition:.3s;
+}
+
+.save-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 15px 35px rgba(255,255,255,.08);
+}
+
+.cancel-btn{
+    min-width:120px;
+    padding:14px 20px;
+    border-radius:13px;
+    color:#777;
+    background:rgba(255,255,255,.035);
+    border:1px solid rgba(255,255,255,.07);
+    text-decoration:none;
+    text-align:center;
+    font-size:11px;
+}
+
+/* =========================
+   MESSAGE
+========================= */
+
+.message{
+    display:none;
+    margin-top:18px;
+    padding:13px;
+    border-radius:12px;
+    text-align:center;
+    font-size:10px;
+}
+
+.message.show{
+    display:block;
+}
+
+.message.success{
+    color:#bbb;
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.1);
+}
+
+.message.error{
+    color:#999;
+    background:rgba(255,255,255,.025);
+    border:1px solid rgba(255,255,255,.07);
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:950px){
+
+    .layout{
+        grid-template-columns:1fr;
+    }
+
+    .sidebar{
+        position:relative;
+        top:auto;
+        min-height:auto;
+    }
+
+    .menu{
+        grid-template-columns:repeat(3,1fr);
+    }
+
+}
+
+@media(max-width:600px){
+
+    .layout{
+        width:calc(100% - 20px);
+        padding:10px 0;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .form-group.full{
+        grid-column:auto;
+    }
+
+    .card{
+        padding:20px 16px;
+    }
+
+    .menu{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .menu a{
+        justify-content:center;
+        flex-direction:column;
+        gap:6px;
+        font-size:9px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="background">
+
+    <div class="grid"></div>
+
+    <div class="glow one"></div>
+
+    <div class="glow two"></div>
+
+</div>
+
+
+<div class="layout">
+
+
+<!-- =========================
+     SIDEBAR
+========================= -->
+
+<aside class="sidebar">
+
+    <a href="index.html" class="logo">
+
+        <div class="logo-img">
+
+            <img
+                src="../teacher.png"
+                alt="الخوارزمي"
+            >
+
+        </div>
+
+        <div class="logo-text">
+
+            <strong>
+                الخوارزمي
+            </strong>
+
+            <span>
+                لوحة الإدارة
+            </span>
+
+        </div>
+
+    </a>
+
+
+    <div class="menu-title">
+        الإدارة
+    </div>
+
+
+    <nav class="menu">
+
+        <a href="index.html">
+
+            <div class="menu-icon">
+                ◈
+            </div>
+
+            الرئيسية
+
+        </a>
+
+
+        <a
+            href="add-exam.html"
+            class="active"
+        >
+
+            <div class="menu-icon">
+                ＋
+            </div>
+
+            إضافة اختبار
+
+        </a>
+
+
+        <a href="exams.html">
+
+            <div class="menu-icon">
+                □
+            </div>
+
+            الاختبارات
+
+        </a>
+
+
+        <a href="questions.html">
+
+            <div class="menu-icon">
+                ?
+            </div>
+
+            الأسئلة
+
+        </a>
+
+
+        <a href="students.html">
+
+            <div class="menu-icon">
+                ◉
+            </div>
+
+            الطلاب
+
+        </a>
+
+    </nav>
+
+</aside>
+
+
+<!-- =========================
+     CONTENT
+========================= -->
+
+<section class="content">
+
+
+    <div class="topbar">
+
+        <div>
+
+            <h1>
+                إنشاء اختبار جديد
+            </h1>
+
+            <p>
+                أضف بيانات الاختبار الأساسية
+            </p>
+
+        </div>
+
+        <a
+            href="exams.html"
+            class="back"
+        >
+            الاختبارات ←
+        </a>
+
+    </div>
+
+
+    <form id="examForm">
+
+
+        <!-- BASIC INFO -->
+
+        <section class="card">
+
+            <div class="card-title">
+
+                <h2>
+                    بيانات الاختبار
+                </h2>
+
+                <p>
+                    المعلومات التي ستظهر للطلاب.
+                </p>
+
+            </div>
+
+
+            <div class="form-grid">
+
+
+                <div class="form-group full">
+
+                    <label for="title">
+                        اسم الاختبار
+                    </label>
+
+                    <input
+                        type="text"
+                        id="title"
+                        placeholder="مثال: اختبار الوحدة الأولى"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group full">
+
+                    <label for="description">
+                        وصف الاختبار
+                    </label>
+
+                    <textarea
+                        id="description"
+                        placeholder="اكتب وصفًا مختصرًا للاختبار..."
+                    ></textarea>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="subject">
+                        المادة
+                    </label>
+
+                    <input
+                        type="text"
+                        id="subject"
+                        placeholder="اسم المادة"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="grade">
+                        الصف / المرحلة
+                    </label>
+
+                    <input
+                        type="text"
+                        id="grade"
+                        placeholder="مثال: الصف الثالث"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="duration">
+                        مدة الاختبار بالدقائق
+                    </label>
+
+                    <input
+                        type="number"
+                        id="duration"
+                        min="0"
+                        placeholder="مثال: 30"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="pass">
+                        درجة النجاح %
+                    </label>
+
+                    <input
+                        type="number"
+                        id="pass"
+                        min="0"
+                        max="100"
+                        value="50"
+                        placeholder="50"
+                    >
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+        <!-- SETTINGS -->
+
+        <section class="card">
+
+            <div class="card-title">
+
+                <h2>
+                    إعدادات الاختبار
+                </h2>
+
+                <p>
+                    اختر طريقة ظهور الاختبار للطلاب.
+                </p>
+
+            </div>
+
+
+            <div class="checkbox-row">
+
+
+                <label
+                    class="check-box selected"
+                    id="activeBox"
+                >
+
+                    <input
+                        type="checkbox"
+                        id="active"
+                        checked
+                    >
+
+                    <strong>
+                        نشر الاختبار
+                    </strong>
+
+                    <span>
+                        يظهر الاختبار للطلاب.
+                    </span>
+
+                </label>
+
+
+                <label
+                    class="check-box"
+                    id="shuffleBox"
+                >
+
+                    <input
+                        type="checkbox"
+                        id="shuffle"
+                    >
+
+                    <strong>
+                        ترتيب عشوائي
+                    </strong>
+
+                    <span>
+                        ترتيب الأسئلة بشكل عشوائي.
+                    </span>
+
+                </label>
+
+
+            </div>
+
+        </section>
+
+
+        <!-- ACTIONS -->
+
+        <section class="card">
+
+            <div class="actions">
+
+                <button
+                    type="submit"
+                    class="save-btn"
+                >
+                    إنشاء الاختبار
+                </button>
+
+
+                <a
+                    href="exams.html"
+                    class="cancel-btn"
+                >
+                    إلغاء
+                </a>
+
+            </div>
+
+
+            <div
+                id="message"
+                class="message"
+            ></div>
+
+        </section>
+
+
+    </form>
+
+
+</section>
+
+
+</div>
+
+
+<script>
+
+/* =========================
+   ELEMENTS
+========================= */
+
+const form =
+    document.getElementById(
+        "examForm"
+    );
+
+const message =
+    document.getElementById(
+        "message"
+    );
+
+
+/* =========================
+   CHECKBOX STYLE
+========================= */
+
+const active =
+    document.getElementById(
+        "active"
+    );
+
+const shuffle =
+    document.getElementById(
+        "shuffle"
+    );
+
+const activeBox =
+    document.getElementById(
+        "activeBox"
+    );
+
+const shuffleBox =
+    document.getElementById(
+        "shuffleBox"
+    );
+
+
+active.addEventListener(
+    "change",
+    function(){
+
+        activeBox.classList.toggle(
+            "selected",
+            this.checked
+        );
+
+    }
+);
+
+
+shuffle.addEventListener(
+    "change",
+    function(){
+
+        shuffleBox.classList.toggle(
+            "selected",
+            this.checked
+        );
+
+    }
+);
+
+
+/* =========================
+   FORM
+========================= */
+
+form.addEventListener(
+    "submit",
+    function(event){
+
+        event.preventDefault();
+
+
+        const title =
+            document
+                .getElementById("title")
+                .value
+                .trim();
+
+
+        const description =
+            document
+                .getElementById("description")
+                .value
+                .trim();
+
+
+        const subject =
+            document
+                .getElementById("subject")
+                .value
+                .trim();
+
+
+        const grade =
+            document
+                .getElementById("grade")
+                .value
+                .trim();
+
+
+        const duration =
+            Number(
+                document
+                    .getElementById("duration")
+                    .value
+            ) || 0;
+
+
+        const pass =
+            Number(
+                document
+                    .getElementById("pass")
+                    .value
+            ) || 0;
+
+
+        /* =====================
+           VALIDATION
+        ===================== */
+
+        if(!title){
+
+            showMessage(
+                "من فضلك اكتب اسم الاختبار.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        if(pass < 0 || pass > 100){
+
+            showMessage(
+                "درجة النجاح يجب أن تكون بين 0 و100.",
+                "error"
+            );
+
+            return;
+
+        }
+
+
+        /* =====================
+           LOAD OLD TESTS
+        ===================== */
+
+        let tests = [];
+
+        try{
+
+            tests =
+                JSON.parse(
+                    localStorage.getItem(
+                        "tests"
+                    ) || "[]"
+                );
+
+        }catch{
+
+            tests = [];
+
+        }
+
+
+        if(!Array.isArray(tests)){
+
+            tests = [];
+
+        }
+
+
+        /* =====================
+           CREATE TEST
+        ===================== */
+
+        const exam = {
+
+            id:
+                Date.now().toString(),
+
+            title:
+                title,
+
+            description:
+                description,
+
+            subject:
+                subject,
+
+            grade:
+                grade,
+
+            duration:
+                duration,
+
+            pass:
+                pass,
+
+            active:
+                active.checked,
+
+            shuffle:
+                shuffle.checked,
+
+            questions:
+                [],
+
+            createdAt:
+                new Date().toISOString()
+
+        };
+
+
+        /* =====================
+           SAVE
+        ===================== */
+
+        tests.push(
+            exam
+        );
+
+
+        localStorage.setItem(
+            "tests",
+            JSON.stringify(tests)
+        );
+
+
+        /* =====================
+           SUCCESS
+        ===================== */
+
+        showMessage(
+            "تم إنشاء الاختبار بنجاح.",
+            "success"
+        );
+
+
+        /*
+        الانتقال بعد لحظة
+        */
+
+        setTimeout(
+            function(){
+
+                window.location.href =
+                    "questions.html?exam=" +
+                    encodeURIComponent(
+                        exam.id
+                    );
+
+            },
+            900
+        );
+
+    }
+);
+
+
+/* =========================
+   MESSAGE
+========================= */
+
+function showMessage(
+    text,
+    type
+){
+
+    message.textContent =
+        text;
+
+    message.className =
+        "message show " +
+        type;
+
+}
+
+</script>
+
+
+</body>
+
+</html>
